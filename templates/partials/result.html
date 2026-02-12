@@ -1,0 +1,50 @@
+{% load i18n %}
+
+{% if prompt.status == 'pending' %}
+    <div hx-get="{% url 'prompt_detail' prompt.id %}" 
+         hx-trigger="load delay:2s" 
+         hx-swap="outerHTML"
+         class="flex flex-col items-center justify-center p-8 mt-6">
+        <svg class="animate-spin h-10 w-10 text-indigo-600 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <h3 class="text-gray-800 font-medium text-lg mb-1">{% trans "Обработка..." %}</h3>
+        <p class="text-gray-500 text-sm">{% trans "ИИ анализирует ваш запрос" %}</p>
+    </div>
+{% else %}
+<div class="space-y-8 animate-fade-in" id="result-container">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-bold text-gray-900">{{ prompt.text }}</h2>
+        <div class="flex gap-2">
+            <!-- Actions can go here -->
+        </div>
+    </div>
+
+    {% if prompt.status == 'failed' %}
+        <div class="p-4 bg-red-50 text-red-700 rounded-xl border border-red-100">
+            <p>{% trans "Произошла ошибка при генерации. Пожалуйста, попробуйте еще раз." %}</p>
+        </div>
+    {% else %}
+        <!-- Sections Loop -->
+        <div class="grid gap-6">
+            {% for section in sections %}
+            {% include "partials/section.html" with section=section prompt=prompt %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="text-center pt-8">
+        <button onclick="window.location.reload();"
+            class="text-gray-500 hover:text-indigo-600 transition-colors">
+            {% trans "Спросить что-то другое" %}
+        </button>
+    </div>
+
+    <!-- Initialize Icons for new content -->
+    <script>
+        lucide.createIcons();
+    </script>
+</div>
+{% endif %}

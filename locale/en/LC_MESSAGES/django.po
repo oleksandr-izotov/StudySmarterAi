@@ -1,0 +1,1031 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: StudyAssistant\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-09 22:02+0000\n"
+"PO-Revision-Date: 2026-02-07 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/prompts/models.py:8 templates/partials/settings_form.html:27
+msgid "Русский"
+msgstr "Russian"
+
+#: apps/prompts/models.py:9 config/settings.py:142
+msgid "English"
+msgstr "English"
+
+#: apps/prompts/models.py:10
+msgid "Deutsch"
+msgstr "German"
+
+#: apps/prompts/models.py:13
+msgid "Строгий"
+msgstr "Strict"
+
+#: apps/prompts/models.py:14 templates/partials/settings_form.html:81
+msgid "Дружелюбный"
+msgstr "Friendly"
+
+#: apps/prompts/models.py:17 templates/partials/settings_form.html:121
+msgid "Кратко"
+msgstr "Brief"
+
+#: apps/prompts/models.py:18 templates/partials/settings_form.html:135
+msgid "Подробно"
+msgstr "Detailed"
+
+#: apps/prompts/models.py:21
+msgid "Список"
+msgstr "List"
+
+#: apps/prompts/models.py:22
+msgid "Параграфы"
+msgstr "Paragraphs"
+
+#: apps/prompts/models.py:25
+msgid "Экзамен"
+msgstr "Exam"
+
+#: apps/prompts/models.py:26
+#, fuzzy
+#| msgid "Разбей задание на шаги"
+msgid "Домашнее задание"
+msgstr "Homework"
+
+#: apps/prompts/models.py:27
+msgid "Понимание"
+msgstr "Understanding"
+
+#: apps/prompts/models.py:30 apps/prompts/models.py:66
+msgid "Ожидает"
+msgstr "Pending"
+
+#: apps/prompts/models.py:31 apps/prompts/models.py:67
+msgid "Готово"
+msgstr "Done"
+
+#: apps/prompts/models.py:32 apps/prompts/models.py:68
+msgid "Ошибка"
+msgstr "Error"
+
+#: apps/prompts/models.py:60 templates/partials/section.html:9
+msgid "Объяснение"
+msgstr "Explanation"
+
+#: apps/prompts/models.py:61 templates/partials/section.html:18
+msgid "Конспект"
+msgstr "Summary"
+
+#: apps/prompts/models.py:62 templates/pages/home.html:104
+msgid "План"
+msgstr "Plan"
+
+#: apps/prompts/models.py:63
+msgid "Тест"
+msgstr "Quiz"
+
+#: apps/settings_app/views.py:40
+msgid "Настройки сохранены"
+msgstr "Settings saved"
+
+#: apps/subscriptions/context_processors.py:7
+#: apps/subscriptions/context_processors.py:17 apps/subscriptions/views.py:22
+msgid "Guest"
+msgstr "Guest"
+
+#: apps/subscriptions/context_processors.py:8 apps/subscriptions/views.py:24
+msgid "Free"
+msgstr "Free"
+
+#: apps/subscriptions/context_processors.py:9 apps/subscriptions/views.py:26
+msgid "Pro"
+msgstr "Pro"
+
+#: apps/subscriptions/context_processors.py:10
+msgid "Pro+"
+msgstr "Pro+"
+
+#: apps/subscriptions/views.py:28
+msgid "Pro Plus"
+msgstr "Pro Plus"
+
+#: config/settings.py:141
+msgid "German"
+msgstr "German"
+
+#: config/settings.py:143
+msgid "Russian"
+msgstr "Russian"
+
+#: config/settings.py:144
+msgid "French"
+msgstr "French"
+
+#: config/settings.py:145
+msgid "Spanish"
+msgstr "Spanish"
+
+#: templates/auth/login.html:7
+msgid "Вход в StudyAI"
+msgstr "Sign in to StudyAI"
+
+#: templates/auth/login.html:19
+msgid "Имя пользователя"
+msgstr "Username"
+
+#: templates/auth/login.html:28
+msgid "Пароль"
+msgstr "Password"
+
+#: templates/auth/login.html:37 templates/auth/register.html:43
+#: templates/base.html:302
+msgid "Войти"
+msgstr "Login"
+
+#: templates/auth/login.html:41
+msgid "Или войти через"
+msgstr "Or sign in via"
+
+#: templates/auth/login.html:46
+msgid "Нет аккаунта?"
+msgstr "Don't have an account?"
+
+#: templates/auth/login.html:47 templates/auth/register.html:7
+#: templates/partials/upgrade_banner.html:28
+msgid "Регистрация"
+msgstr "Sign Up"
+
+#: templates/auth/magic_link.html:7
+msgid "Вход по ссылке"
+msgstr "Sign in via link"
+
+#: templates/auth/magic_link.html:22
+msgid "Отправить ссылку"
+msgstr "Send Link"
+
+#: templates/auth/register.html:38 templates/pages/pricing.html:126
+msgid "Зарегистрироваться"
+msgstr "Sign Up"
+
+#: templates/auth/register.html:42
+#: templates/partials/rate_limit_exceeded.html:25
+msgid "Уже есть аккаунт?"
+msgstr "Already have an account?"
+
+#: templates/base.html:8
+msgid "StudyAI - Твой учебный помощник"
+msgstr "StudyAI - Your Study Assistant"
+
+#: templates/base.html:165
+msgid "История"
+msgstr "History"
+
+#: templates/base.html:184 templates/base.html:271
+msgid "Язык"
+msgstr "Language"
+
+#: templates/base.html:231 templates/pages/account.html:3
+#: templates/pages/account.html:10
+msgid "Мой аккаунт"
+msgstr "My Account"
+
+#: templates/base.html:236 templates/base.html:295
+#: templates/pages/settings.html:3 templates/pages/settings.html:8
+msgid "Параметры помощника"
+msgstr "Assistant Settings"
+
+#: templates/base.html:241
+msgid "Моя подписка"
+msgstr "My Subscription"
+
+#: templates/base.html:251
+msgid "Выйти"
+msgstr "Logout"
+
+#: templates/base.html:317
+msgid "Все права защищены. Копирование материалов запрещено."
+msgstr "All rights reserved. Copying of materials is prohibited."
+
+#: templates/base.html:321
+msgid "Возможности"
+msgstr "Features"
+
+#: templates/base.html:322 templates/pages/agreement.html:51
+msgid "Контакты"
+msgstr "Contacts"
+
+#: templates/base.html:323
+msgid "Соглашение"
+msgstr "Agreement"
+
+#: templates/base.html:344
+msgid "История запросов"
+msgstr "Request History"
+
+#: templates/base.html:356
+msgid "Поиск по истории..."
+msgstr "Search history..."
+
+#: templates/base.html:386
+msgid "Очистить историю?"
+msgstr "Clear history?"
+
+#: templates/base.html:387
+#, fuzzy
+#| msgid ""
+#| "Это действие удалит весь список ваших запросов. Отменить это действие "
+#| "нельзя."
+msgid ""
+"Это действие удалит весь список ваших запросов. Это действие нельзя отменить."
+msgstr ""
+"This will delete your entire request history. This action cannot be undone."
+
+#: templates/base.html:390
+msgid "Отмена"
+msgstr "Cancel"
+
+#: templates/base.html:395
+msgid "Удалить"
+msgstr "Delete"
+
+#: templates/pages/account.html:11
+msgid "Управление личными данными и безопасностью"
+msgstr "Manage your personal data and security"
+
+#: templates/pages/account.html:18
+msgid "Личные данные"
+msgstr "Personal Information"
+
+#: templates/pages/account.html:39
+msgid "Сохранить изменения"
+msgstr "Save Changes"
+
+#: templates/pages/account.html:48
+msgid "Безопасность"
+msgstr "Security"
+
+#: templates/pages/account.html:87
+msgid "Сменить пароль"
+msgstr "Change Password"
+
+#: templates/pages/account.html:96
+msgid "Подписка"
+msgstr "Subscription"
+
+#: templates/pages/account.html:103 templates/pages/pricing.html:106
+msgid "Текущий план"
+msgstr "Current Plan"
+
+#: templates/pages/account.html:107
+msgid "Активна"
+msgstr "Active"
+
+#: templates/pages/account.html:107
+msgid "Неактивна"
+msgstr "Inactive"
+
+#: templates/pages/account.html:113
+msgid "Цена"
+msgstr "Price"
+
+#: templates/pages/account.html:115 templates/pages/pricing.html:60
+#: templates/pages/pricing.html:72
+msgid "месяц"
+msgstr "month"
+
+#: templates/pages/account.html:118
+msgid "Лимит"
+msgstr "Limit"
+
+#: templates/pages/account.html:122 templates/pages/pricing.html:70
+#: templates/partials/rate_limit_exceeded.html:44
+msgid "день"
+msgstr "day"
+
+#: templates/pages/account.html:129
+msgid "Сменить план"
+msgstr "Change Plan"
+
+#: templates/pages/account.html:133
+msgid "Отменить подписку"
+msgstr "Cancel Subscription"
+
+#: templates/pages/account.html:142
+msgid "У вас бесплатный план"
+msgstr "You have a free plan"
+
+#: templates/pages/account.html:145
+msgid "Улучшить план"
+msgstr "Upgrade Plan"
+
+#: templates/pages/account.html:162
+msgid "Отменить подписку?"
+msgstr "Cancel Subscription?"
+
+#: templates/pages/account.html:164
+msgid ""
+"Вы уверены, что хотите отменить подписку? Ваш доступ сохранится до конца "
+"оплаченного периода."
+msgstr ""
+"Are you sure you want to cancel your subscription? Your access will remain "
+"until the end of the paid period."
+
+#: templates/pages/account.html:169
+msgid "Оставить"
+msgstr "Keep"
+
+#: templates/pages/account.html:175
+msgid "Отменить"
+msgstr "Cancel"
+
+#: templates/pages/agreement.html:4
+msgid "StudyAI - Пользовательское соглашение"
+msgstr "StudyAI - User Agreement"
+
+#: templates/pages/agreement.html:11
+msgid "Пользовательское соглашение"
+msgstr "User Agreement"
+
+#: templates/pages/agreement.html:14
+msgid "Последнее обновление: 10 февраля 2026 года"
+msgstr "Last updated: February 10, 2026"
+
+#: templates/pages/agreement.html:20
+msgid "Общие положения"
+msgstr "General Provisions"
+
+#: templates/pages/agreement.html:22
+msgid ""
+"Настоящее Пользовательское соглашение (далее — «Соглашение») регулирует "
+"отношения между StudyAI Inc. (далее — «Компания») и пользователем сети "
+"Интернет (далее — «Пользователь»), возникающие при использовании интернет-"
+"сервиса StudyAI (далее — «Сервис»)."
+msgstr ""
+"This User Agreement (hereinafter referred to as the \"Agreement\") governs "
+"the relationship between StudyAI Inc. (hereinafter referred to as the "
+"\"Company\") and the Internet user (hereinafter referred to as the \"User\") "
+"arising from the use of the StudyAI Internet service (hereinafter referred "
+"to as the \"Service\")."
+
+#: templates/pages/agreement.html:25
+msgid ""
+"Используя Сервис, Пользователь подтверждает, что прочитал, понял и принял "
+"условия настоящего Соглашения в полном объеме. В случае несогласия с "
+"условиями, Пользователь обязан прекратить использование Сервиса."
+msgstr ""
+"By using the Service, the User confirms that they have read, understood, and "
+"accepted the terms of this Agreement in full. In case of disagreement with "
+"the terms, the User is obliged to stop using the Service."
+
+#: templates/pages/agreement.html:28
+msgid "Использование Сервиса"
+msgstr "Use of the Service"
+
+#: templates/pages/agreement.html:30
+msgid ""
+"Пользователь обязуется использовать Сервис только в законных целях и не "
+"нарушать права третьих лиц. Запрещается использовать Сервис для "
+"распространения вредоносного ПО, спама или контента, нарушающего "
+"законодательство."
+msgstr ""
+"The User agrees to use the Service only for lawful purposes and not to "
+"violate the rights of third parties. It is prohibited to use the Service for "
+"distributing malware, spam, or content that violates the law."
+
+#: templates/pages/agreement.html:33
+msgid ""
+"Для доступа к некоторым функциям Сервиса может потребоваться регистрация. "
+"Пользователь несет ответственность за безопасность своих учетных данных."
+msgstr ""
+"Registration may be required to access certain functions of the Service. The "
+"User is responsible for the security of their credentials."
+
+#: templates/pages/agreement.html:36
+msgid "Интеллектуальная собственность"
+msgstr "Intellectual Property"
+
+#: templates/pages/agreement.html:38
+msgid ""
+"Все материалы, представленные в Сервисе, включая тексты, изображения, "
+"логотипы и программный код, являются собственностью Компании или "
+"используются с разрешения правообладателей. Копирование материалов без "
+"разрешения запрещено."
+msgstr ""
+"All materials presented in the Service, including texts, images, logos, and "
+"software code, are the property of the Company or are used with the "
+"permission of the copyright holders. Copying materials without permission is "
+"prohibited."
+
+#: templates/pages/agreement.html:41
+msgid "Ограничение ответственности"
+msgstr "Limitation of Liability"
+
+#: templates/pages/agreement.html:43
+msgid ""
+"Сервис предоставляется «как есть». Компания не гарантирует, что Сервис будет "
+"работать без ошибок или перебоев. Компания не несет ответственности за любые "
+"убытки, возникшие в результате использования или невозможности использования "
+"Сервиса."
+msgstr ""
+"The Service is provided \"as is\". The Company does not guarantee that the "
+"Service will operate without errors or interruptions. The Company is not "
+"liable for any losses arising from the use or inability to use the Service."
+
+#: templates/pages/agreement.html:46
+msgid "Изменения условий"
+msgstr "Changes to Terms"
+
+#: templates/pages/agreement.html:48
+msgid ""
+"Компания оставляет за собой право вносить изменения в настоящее Соглашение в "
+"любое время. Изменения вступают в силу с момента их публикации на этой "
+"странице. Продолжение использования Сервиса означает согласие с новыми "
+"условиями."
+msgstr ""
+"The Company reserves the right to make changes to this Agreement at any "
+"time. Changes come into force from the moment they are published on this "
+"page. Continued use of the Service means acceptance of the new terms."
+
+#: templates/pages/agreement.html:53
+msgid ""
+"Если у вас есть вопросы по поводу настоящего Соглашения, пожалуйста, "
+"свяжитесь с нами по адресу:"
+msgstr "If you have questions regarding this Agreement, please contact us at:"
+
+#: templates/pages/checkout_cancel.html:4
+#: templates/pages/checkout_cancel.html:16
+#, fuzzy
+#| msgid "Оплата успешна"
+msgid "Оплата отменена"
+msgstr "Payment Successful"
+
+#: templates/pages/checkout_cancel.html:20
+msgid ""
+"Вы отменили процесс оплаты. Если у вас возникли вопросы или проблемы, мы "
+"готовы помочь."
+msgstr ""
+
+#: templates/pages/checkout_cancel.html:26
+#, fuzzy
+#| msgid "← Вернуться ко входу"
+msgid "Вернуться к тарифам"
+msgstr "← Back to login"
+
+#: templates/pages/checkout_cancel.html:30
+msgid "На главную"
+msgstr ""
+
+#: templates/pages/checkout_success.html:4
+msgid "Оплата успешна"
+msgstr "Payment Successful"
+
+#: templates/pages/checkout_success.html:16
+msgid "Спасибо за подписку!"
+msgstr "Thanks for subscribing!"
+
+#: templates/pages/checkout_success.html:20
+msgid ""
+"Ваша подписка успешно активирована. Наслаждайтесь всеми преимуществами "
+"вашего нового плана!"
+msgstr ""
+"Your subscription has been successfully activated. Enjoy all the benefits of "
+"your new plan!"
+
+#: templates/pages/checkout_success.html:26
+msgid "Начать использовать"
+msgstr "Start Using"
+
+#: templates/pages/checkout_success.html:30
+msgid "Управление подпиской"
+msgstr "Manage Subscription"
+
+#: templates/pages/contacts.html:4
+msgid "StudyAI - Контакты"
+msgstr "StudyAI - Contacts"
+
+#: templates/pages/contacts.html:11
+msgid "Мы всегда на"
+msgstr "We are always in"
+
+#: templates/pages/contacts.html:11
+msgid "связи"
+msgstr "touch"
+
+#: templates/pages/contacts.html:14
+msgid ""
+"Есть вопросы или предложения? Напишите нам, и мы ответим в ближайшее время."
+msgstr ""
+"Have questions or suggestions? Write to us, and we will answer shortly."
+
+#: templates/pages/contacts.html:27
+msgid "Написать письмо"
+msgstr "Write an email"
+
+#: templates/pages/contacts.html:37
+msgid "Написать в Telegram"
+msgstr "Write in Telegram"
+
+#: templates/pages/contacts.html:46
+msgid "Отслеживайте обновления"
+msgstr "Track updates"
+
+#: templates/pages/contacts.html:47
+msgid "Перейти на GitHub"
+msgstr "Go to GitHub"
+
+#: templates/pages/contacts.html:53
+msgid "Часто задаваемые вопросы"
+msgstr "Frequently Asked Questions"
+
+#: templates/pages/contacts.html:55
+msgid "Возможно, ответ на ваш вопрос уже есть в нашей базе знаний."
+msgstr "Perhaps the answer to your question is already in our knowledge base."
+
+#: templates/pages/contacts.html:58
+msgid "Перейти в FAQ"
+msgstr "Go to FAQ"
+
+#: templates/pages/features.html:4
+msgid "StudyAI - Возможности"
+msgstr "StudyAI - Features"
+
+#: templates/pages/features.html:11
+msgid "Раскрой свой потенциал с"
+msgstr "Unlock your potential with"
+
+#: templates/pages/features.html:14
+msgid ""
+"Твой персональный AI-репетитор, который всегда под рукой. Учись умнее, "
+"быстрее и эффективнее."
+msgstr ""
+"Your personal AI tutor, always at hand. Learn smarter, faster, and more "
+"effectively."
+
+#: templates/pages/features.html:18
+msgid "Начать бесплатно"
+msgstr "Start for free"
+
+#: templates/pages/features.html:21
+msgid "Узнать больше"
+msgstr "Learn more"
+
+#: templates/pages/features.html:33
+msgid "Мгновенные ответы"
+msgstr "Instant Answers"
+
+#: templates/pages/features.html:35
+msgid ""
+"Получай четкие и понятные ответы на любые учебные вопросы за секунды. Без "
+"лишней воды."
+msgstr ""
+"Get clear and understandable answers to any study questions in seconds. No "
+"fluff."
+
+#: templates/pages/features.html:44
+msgid "Умные планы обучения"
+msgstr "Smart Study Plans"
+
+#: templates/pages/features.html:46
+msgid ""
+"Создавай персонализированные расписания, адаптированные под твои цели и "
+"свободное время."
+msgstr "Create personalized schedules adapted to your goals and free time."
+
+#: templates/pages/features.html:55
+msgid "Генератор конспектов"
+msgstr "Summary Generator"
+
+#: templates/pages/features.html:57
+msgid ""
+"Превращай длинные тексты и лекции в краткие, структурированные конспекты для "
+"быстрого повторения."
+msgstr ""
+"Turn long texts and lectures into short, structured notes for quick revision."
+
+#: templates/pages/features.html:66
+msgid "Проверочные тесты"
+msgstr "Practice Tests"
+
+#: templates/pages/features.html:68
+msgid ""
+"Закрепляй знания с помощью AI-генерируемых тестов и викторин по любой теме."
+msgstr "Reinforce knowledge with AI-generated tests and quizzes on any topic."
+
+#: templates/pages/features.html:77
+msgid "Мультиязычность"
+msgstr "Multilingual"
+
+#: templates/pages/features.html:79
+msgid ""
+"Учись на русском, английском, немецком, французском или испанском языках. AI "
+"понимает всё."
+msgstr ""
+"Study in Russian, English, German, French, or Spanish. AI understands "
+"everything."
+
+#: templates/pages/features.html:88
+msgid "История и прогресс"
+msgstr "History & Progress"
+
+#: templates/pages/features.html:90
+msgid ""
+"Никогда не теряй свои исследования. Вся история запросов сохраняется и "
+"доступна в любой момент."
+msgstr ""
+"Never lose your research. Your entire request history is saved and available "
+"at any time."
+
+#: templates/pages/features.html:99
+msgid "Готов учиться эффективнее?"
+msgstr "Ready to learn more effectively?"
+
+#: templates/pages/features.html:101
+msgid ""
+"Присоединяйся к тысячам студентов, которые уже используют StudyAI для "
+"достижения своих целей."
+msgstr ""
+"Join thousands of students who are already using StudyAI to achieve their "
+"goals."
+
+#: templates/pages/features.html:104
+msgid "Создать аккаунт бесплатно"
+msgstr "Create free account"
+
+#: templates/pages/home.html:21
+msgid "Твой персональный репетитор 24/7"
+msgstr "Your personal tutor 24/7"
+
+#: templates/pages/home.html:29
+msgid "Твой учебный"
+msgstr "Your study"
+
+#: templates/pages/home.html:29
+msgid "AI-помощник"
+msgstr "AI assistant"
+
+#: templates/pages/home.html:31
+msgid ""
+"Вставь задание или тему — получишь объяснение, конспект и план подготовки за "
+"считанные секунды."
+msgstr ""
+"Enter a topic or assignment — get explanations, notes, and a study plan in "
+"seconds."
+
+#: templates/pages/home.html:38 templates/pages/home.html:120
+msgid "Символов"
+msgstr "Characters"
+
+#: templates/pages/home.html:39
+msgid "Сделай шпаргалку по SQL JOIN"
+msgstr "Create a cheat sheet for SQL JOIN"
+
+#: templates/pages/home.html:40
+msgid "Подготовь к тесту по физике: волны"
+msgstr "Prepare for physics test: waves"
+
+#: templates/pages/home.html:41
+msgid "Разбей задание на шаги"
+msgstr "Break the task into steps"
+
+#: templates/pages/home.html:68
+msgid "Настройте своего ассистента!"
+msgstr "Customize your assistant!"
+
+#: templates/pages/home.html:69
+msgid "Выберите язык и стиль ответов для лучших результатов."
+msgstr "Choose language and tone for better results."
+
+#: templates/pages/home.html:74
+msgid "Настроить"
+msgstr "Customize"
+
+#: templates/pages/home.html:93
+msgid "Например: «Объясни законы Ньютона и сделай план подготовки на 60 минут»"
+msgstr "For example: 'Explain Newton's laws and create a 60-minute study plan'"
+
+#: templates/pages/home.html:102
+msgid "Физика"
+msgstr "Physics"
+
+#: templates/pages/home.html:109
+msgid "Очистить"
+msgstr "Clear"
+
+#: templates/pages/home.html:112
+msgid "Помоги"
+msgstr "Help me"
+
+#: templates/pages/pricing.html:4
+msgid "Тарифы"
+msgstr "Pricing"
+
+#: templates/pages/pricing.html:9
+msgid "Выберите свой план"
+msgstr "Choose your plan"
+
+#: templates/pages/pricing.html:11
+msgid "Начните бесплатно, обновитесь когда будете готовы"
+msgstr "Start for free, upgrade when you're ready"
+
+#: templates/pages/pricing.html:28
+msgid "Популярный"
+msgstr "Popular"
+
+#: templates/pages/pricing.html:36
+msgid "Текущий"
+msgstr "Current"
+
+#: templates/pages/pricing.html:57
+msgid "Бесплатно"
+msgstr "Free"
+
+#: templates/pages/pricing.html:69
+msgid "запросов"
+msgstr "requests"
+
+#: templates/pages/pricing.html:71
+msgid "неделю"
+msgstr "week"
+
+#: templates/pages/pricing.html:75
+msgid "Безлимитные запросы"
+msgstr "Unlimited requests"
+
+#: templates/pages/pricing.html:81
+msgid "Все типы ответов"
+msgstr "All response types"
+
+#: templates/pages/pricing.html:87
+msgid "Приоритетная генерация"
+msgstr "Priority generation"
+
+#: templates/pages/pricing.html:91
+msgid "Email поддержка"
+msgstr "Email support"
+
+#: templates/pages/pricing.html:98
+msgid "Ранний доступ к функциям"
+msgstr "Early access to features"
+
+#: templates/pages/pricing.html:111
+msgid "Только для гостей"
+msgstr "Guests only"
+
+#: templates/pages/pricing.html:115
+msgid "Ваш текущий режим"
+msgstr "Your current mode"
+
+#: templates/pages/pricing.html:121
+msgid "Недоступно для апгрейда"
+msgstr "Not available for upgrade"
+
+#: templates/pages/pricing.html:135
+msgid "Выбрать план"
+msgstr "Select Plan"
+
+#: templates/pages/pricing.html:141
+msgid "Войти для покупки"
+msgstr "Login to purchase"
+
+#: templates/pages/pricing.html:153
+msgid "Все планы включают полный доступ к AI-помощнику"
+msgstr "All plans include full access to AI Assistant"
+
+#: templates/pages/settings.html:9
+msgid "Настройте, как ИИ будет отвечать на ваши вопросы"
+msgstr "Customize how AI will respond to your questions"
+
+#: templates/pages/settings.html:15
+msgid "Внимание: Временные настройки"
+msgstr "Warning: Temporary Settings"
+
+#: templates/pages/settings.html:16
+msgid ""
+"Вы используете гостевой режим. Ваши настройки сохраняются только в этом "
+"браузере пока вы не очистите историю. Чтобы сохранить их навсегда, войдите в "
+"аккаунт."
+msgstr ""
+"You are in guest mode. Your settings are saved only in this browser until "
+"you clear history. To save them permanently, please log in."
+
+#: templates/pages/settings.html:17
+msgid "Войти или создать аккаунт"
+msgstr "Log in or create account"
+
+#: templates/partials/history_list.html:34
+msgid "Очистить историю"
+msgstr "Clear History"
+
+#: templates/partials/rate_limit_exceeded.html:9
+msgid "Лимит запросов исчерпан"
+msgstr "Request limit reached"
+
+#: templates/partials/rate_limit_exceeded.html:14
+msgid "Вы использовали все 5 бесплатных запросов."
+msgstr "You have used all 5 free requests."
+
+#: templates/partials/rate_limit_exceeded.html:15
+msgid "Зарегистрируйтесь, чтобы получить 10 запросов в неделю!"
+msgstr "Sign up to get 10 requests per week!"
+
+#: templates/partials/rate_limit_exceeded.html:21
+#, fuzzy
+#| msgid "Уже есть аккаунт?"
+msgid "Создать аккаунт"
+msgstr "Create Account"
+
+#: templates/partials/rate_limit_exceeded.html:31
+msgid "Вы достигли лимита на вашем плане."
+msgstr "You have reached your plan limit."
+
+#: templates/partials/rate_limit_exceeded.html:32
+msgid "Обновите подписку для большего количества запросов!"
+msgstr "Upgrade to get more requests!"
+
+#: templates/partials/rate_limit_exceeded.html:38
+#: templates/partials/usage_widget.html:23
+msgid "Ваш план"
+msgstr "Your Plan"
+
+#: templates/partials/rate_limit_exceeded.html:52
+msgid "Посмотреть тарифы"
+msgstr "View Pricing"
+
+#: templates/partials/rate_limit_exceeded.html:58
+msgid "Лимит обновится завтра"
+msgstr "Limit resets tomorrow"
+
+#: templates/partials/rate_limit_exceeded.html:60
+msgid "Лимит обновится в понедельник"
+msgstr "Limit resets on Monday"
+
+#: templates/partials/rate_limit_exceeded.html:62
+msgid "Лимит обновится 1 числа"
+msgstr "Limit resets on the 1st"
+
+#: templates/partials/result.html:12 templates/partials/skeleton.html:9
+msgid "Обработка..."
+msgstr "Processing..."
+
+#: templates/partials/result.html:13 templates/partials/skeleton.html:10
+msgid "ИИ анализирует ваш запрос"
+msgstr "AI is analyzing your request"
+
+#: templates/partials/result.html:27
+msgid "Произошла ошибка при генерации. Пожалуйста, попробуйте еще раз."
+msgstr "An error occurred during generation. Please try again."
+
+#: templates/partials/result.html:41
+msgid "Спросить что-то другое"
+msgstr "Ask something else"
+
+#: templates/partials/section.html:12
+msgid "План изучения"
+msgstr "Study Plan"
+
+#: templates/partials/section.html:15
+msgid "Самопроверка"
+msgstr "Self-check"
+
+#: templates/partials/section.html:32
+msgid "Копировать"
+msgstr "Copy"
+
+#: templates/partials/section.html:41
+msgid "Действия"
+msgstr "Actions"
+
+#: templates/partials/section.html:83
+msgid "Обновляем..."
+msgstr "Updating..."
+
+#: templates/partials/settings_form.html:15
+msgid "Язык ответов"
+msgstr "Response Language"
+
+#: templates/partials/settings_form.html:42
+msgid "Английский"
+msgstr "English"
+
+#: templates/partials/settings_form.html:56
+msgid "Немецкий"
+msgstr "German"
+
+#: templates/partials/settings_form.html:66
+msgid "Тон повествования"
+msgstr "Tone of Voice"
+
+#: templates/partials/settings_form.html:82
+msgid "Понятный и легкий"
+msgstr "Easy and clear"
+
+#: templates/partials/settings_form.html:98
+msgid "Академический"
+msgstr "Academic"
+
+#: templates/partials/settings_form.html:99
+msgid "Точный и строгий"
+msgstr "Precise and formal"
+
+#: templates/partials/settings_form.html:109
+msgid "Глубина ответа"
+msgstr "Response Depth"
+
+#: templates/partials/settings_form.html:122
+msgid "Только суть"
+msgstr "Just the essentials"
+
+#: templates/partials/settings_form.html:136
+msgid "С примерами и объяснениями"
+msgstr "With examples and explanations"
+
+#: templates/partials/settings_form.html:145
+msgid "Сохранить настройки"
+msgstr "Save Settings"
+
+#: templates/partials/upgrade_banner.html:13
+msgid "Лимит исчерпан!"
+msgstr "Request limit reached!"
+
+#: templates/partials/upgrade_banner.html:15
+msgid "запросов осталось"
+msgstr "requests left"
+
+#: templates/partials/upgrade_banner.html:20
+msgid "Зарегистрируйтесь для 10 запросов в неделю"
+msgstr "Sign up for 10 requests/week"
+
+#: templates/partials/upgrade_banner.html:22
+msgid "Обновитесь до Pro для 50 запросов в день"
+msgstr "Upgrade to Pro for 50 requests/day"
+
+#: templates/partials/upgrade_banner.html:30
+#, fuzzy
+#| msgid "Подробно"
+msgid "Подробнее"
+msgstr "Detailed"
+
+#: templates/partials/usage_widget.html:13
+msgid "Безлимит"
+msgstr "Unlimited"
+
+#: templates/partials/usage_widget.html:32
+msgid "Использовано"
+msgstr "Used"
+
+#: templates/partials/usage_widget.html:45
+msgid "Сбрасывается ежедневно"
+msgstr "Resets daily"
+
+#: templates/partials/usage_widget.html:47
+msgid "Сбрасывается еженедельно"
+msgstr "Resets weekly"
+
+#: templates/partials/usage_widget.html:49
+msgid "Сбрасывается ежемесячно"
+msgstr "Resets monthly"
+
+#: templates/partials/usage_widget.html:57
+msgid "Обновить план"
+msgstr "Upgrade Plan"
+
+#~ msgid "StudyAI"
+#~ msgstr "StudyAI"
+
+#~ msgid "Сделано для студентов"
+#~ msgstr "Made for students"
+
+#~ msgid "Ваш текущий план"
+#~ msgstr "Your current plan"
+
+#~ msgid "Оформите подписку, чтобы получить больше возможностей"
+#~ msgstr "Subscribe to get more features"
+
+#~ msgid "Вы уверены, что хотите отменить подписку?"
+#~ msgstr "Are you sure you want to cancel your subscription?"
+
+#~ msgid "У вас нет активной подписки"
+#~ msgstr "You have no active subscription"
+
+
+msgid "Откройте все возможности!"
+msgstr "Discover all features!"
+
+msgid "Попробуйте нашего AI-репетитора бесплатно прямо сейчас."
+msgstr "Try our AI tutor for free right now."
+
+msgid "Попробовать"
+msgstr "Try it"
+
+msgid "Мы отправим вам одноразовую ссылку для входа на почту."
+msgstr "We will send you a one-time link to log in to your email."
+
+msgid "← Вернуться ко входу"
+msgstr "← Back to login"

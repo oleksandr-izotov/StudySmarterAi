@@ -1,0 +1,67 @@
+# =============================================================================
+# Docker Ignore - Study Smart
+# =============================================================================
+
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+.eggs/
+*.egg-info/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-*
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local environment
+.env
+.env.local
+.env.*.local
+
+# Database
+db.sqlite3
+*.sqlite3
+
+# Django generated
+staticfiles/
+mediafiles/
+*.pot
+
+# Docker
+docker-compose*.yml
+.docker/
+
+# Docs and tests (optional - can include if needed)
+*.md
+docs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+*.tmp
+*.temp
+*.bak
+
+# Node
+node_modules/

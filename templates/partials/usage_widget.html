@@ -1,0 +1,61 @@
+{% load i18n %}
+
+<div id="usage-widget" class="relative" x-data="{ usageOpen: false }"
+    hx-get="{% url 'subscriptions:usage_widget' %}"
+    hx-trigger="usage-updated from:body"
+    hx-swap="outerHTML">
+    <button @click="usageOpen = !usageOpen" @click.outside="usageOpen = false"
+        class="flex items-center gap-2 px-3 py-1.5 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors border border-gray-200">
+        <i data-lucide="zap"
+            class="w-4 h-4 text-{% if usage_stats.color == 'green' %}green{% elif usage_stats.color == 'yellow' %}amber{% else %}red{% endif %}-500"></i>
+
+        {% if usage_stats.is_unlimited %}
+        <span class="text-sm font-medium text-gray-700">{% trans "Безлимит" %}</span>
+        {% else %}
+        <span class="text-sm font-medium text-gray-700">{{ usage_stats.remaining }}/{{ usage_stats.limit }}</span>
+        {% endif %}
+    </button>
+
+    <div x-show="usageOpen" x-transition.origin.top.right x-cloak
+        class="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 p-4 z-40">
+
+        <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-bold text-gray-400 uppercase">{% trans "Ваш план" %}</span>
+            <span class="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs font-bold rounded-full">
+                {{ usage_stats.plan_name }}
+            </span>
+        </div>
+
+        {% if not usage_stats.is_unlimited %}
+        <div class="mb-3">
+            <div class="flex justify-between text-sm mb-1">
+                <span class="text-gray-600">{% trans "Использовано" %}</span>
+                <span class="font-medium text-gray-900">{{ usage_stats.used }} / {{ usage_stats.limit }}</span>
+            </div>
+            <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                <div class="h-full rounded-full transition-all duration-300
+                    {% if usage_stats.color == 'green' %}bg-green-500
+                    {% elif usage_stats.color == 'yellow' %}bg-amber-500
+                    {% else %}bg-red-500{% endif %}" style="width: {{ usage_stats.percent }}%"></div>
+            </div>
+        </div>
+
+        <p class="text-xs text-gray-500 mb-3">
+            {% if usage_stats.period == 'day' %}
+            {% trans "Сбрасывается ежедневно" %}
+            {% elif usage_stats.period == 'week' %}
+            {% trans "Сбрасывается еженедельно" %}
+            {% else %}
+            {% trans "Сбрасывается ежемесячно" %}
+            {% endif %}
+        </p>
+        {% endif %}
+
+        {% if usage_stats.is_guest or usage_stats.plan.name == 'free' %}
+        <a href="{% url 'subscriptions:pricing' %}"
+            class="block w-full text-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-xl transition-colors">
+            {% trans "Обновить план" %} →
+        </a>
+        {% endif %}
+    </div>
+</div>

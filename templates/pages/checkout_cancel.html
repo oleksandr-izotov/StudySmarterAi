@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Оплата отменена" %} — StudyAI{% endblock %}
+
+{% block content %}
+<div class="min-h-[60vh] flex items-center justify-center">
+    <div class="text-center max-w-md mx-auto">
+        <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </div>
+        
+        <h1 class="text-3xl font-bold text-gray-900 mb-4">
+            {% trans "Оплата отменена" %}
+        </h1>
+        
+        <p class="text-gray-600 mb-8">
+            {% trans "Вы отменили процесс оплаты. Если у вас возникли вопросы или проблемы, мы готовы помочь." %}
+        </p>
+        
+        <div class="space-y-3">
+            <a href="{% url 'subscriptions:pricing' %}" 
+               class="block w-full py-3 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors">
+                {% trans "Вернуться к тарифам" %}
+            </a>
+            <a href="{% url 'home' %}" 
+               class="block w-full py-3 px-6 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-xl transition-colors">
+                {% trans "На главную" %}
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

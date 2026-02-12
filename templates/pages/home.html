@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block content %}
+<div x-data="{ hasResults: false }" @show-results.window="hasResults = true">
+    <!-- Hero Section -->
+    <section id="hero-section" x-show="!hasResults" x-transition:leave="transition ease-in duration-300"
+        x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95"
+        class="text-center mb-12">
+        <div
+            class="relative w-full max-w-4xl mx-auto h-[200px] md:h-[300px] rounded-3xl overflow-hidden mb-12 shadow-2xl animate-fade-in">
+            <img src="https://images.unsplash.com/photo-1760236963218-424a715d1816?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwd29ya3NwYWNlJTIwc3R1ZGVudCUyMGxhcHRvcHxlbnwxfHx8fDE3NzA0MDgzNzF8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                alt="Student workspace" class="w-full h-full object-cover transition-opacity duration-300"
+                onerror="this.parentElement.style.backgroundColor = '#f3f4f6'; this.style.display = 'none';">
+            <div
+                class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-8">
+                <div class="text-left">
+                    <span
+                        class="px-3 py-1 bg-indigo-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full mb-3 inline-block">Study
+                        Smart</span>
+                    <h2 class="text-2xl md:text-3xl font-bold text-white">{% trans "Твой персональный репетитор 24/7" %}
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight animate-slide-up"
+            style="animation-delay: 0.1s;">
+            {% trans "Твой учебный" %} <span class="text-indigo-600">{% trans "AI-помощник" %}</span>
+        </h1>
+        <p class="text-lg text-gray-500 max-w-2xl mx-auto animate-slide-up" style="animation-delay: 0.2s;">{% trans "Вставь задание или тему — получишь объяснение, конспект и план подготовки за считанные секунды." %}</p>
+    </section>
+
+    {% include 'partials/upgrade_banner.html' %}
+
+    <!-- Input Card -->
+    <section id="input-section" class="max-w-3xl mx-auto transition-all duration-500"
+        :class="hasResults ? 'mb-8' : 'mb-20'" data-chars-label="{% trans 'Символов' %}"
+        data-chip-sql="{% trans 'Сделай шпаргалку по SQL JOIN' %}"
+        data-chip-physics="{% trans 'Подготовь к тесту по физике: волны' %}"
+        data-chip-plan="{% trans 'Разбей задание на шаги' %}" x-data="{ 
+            input: '', 
+            updateCharCount() { 
+                const label = $el.dataset.charsLabel;
+                $refs.charCount.textContent = `${label}: ${this.input.length}/2000`; 
+            },
+            clearInput() {
+                this.input = '';
+                this.updateCharCount();
+                document.getElementById('results-section').innerHTML = '';
+                hasResults = false;
+            },
+            setChip(text) {
+                this.input = text;
+                this.updateCharCount();
+            }
+         }">
+        
+        {% if not user.is_authenticated %}
+        <!-- Guest Settings Notification -->
+        <div x-data="{ show: true }" x-show="show" x-transition.opacity 
+             class="mb-6 p-4 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center justify-between gap-4 relative overflow-hidden">
+            <div class="flex items-center gap-3 z-10 relative">
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-indigo-600">
+                    <i data-lucide="sliders-horizontal" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-indigo-900 text-sm">{% trans "Настройте своего ассистента!" %}</h3>
+                    <p class="text-indigo-700 text-sm">{% trans "Выберите язык и стиль ответов для лучших результатов." %}</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 z-10 relative">
+                <a href="{% url 'settings:index' %}" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-lg transition-colors shadow-sm">
+                    {% trans "Настроить" %}
+                </a>
+                <button @click="show = false" class="text-indigo-400 hover:text-indigo-600 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <!-- Decoration -->
+            <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-indigo-100 rounded-full blur-2xl opacity-50"></div>
+        </div>
+        {% endif %}
+
+        <!-- Main Form -->
+        <form id="prompt-form" hx-post="{% url 'prompt_create' %}" hx-target="#results-section"
+            hx-swap="innerHTML" @submit="hasResults = true"
+            class="bg-white rounded-2xl border border-gray-200 shadow-sm p-2 focus-within:ring-2 focus-within:ring-indigo-100 focus-within:border-indigo-200 transition-all">
+
+            {% csrf_token %}
+            <textarea name="text" x-model="input" @input="updateCharCount()"
+                placeholder="{% trans 'Например: «Объясни законы Ньютона и сделай план подготовки на 60 минут»' %}"
+                class="w-full px-4 pt-4 pb-2 text-lg resize-none border-none outline-none placeholder:text-gray-400 min-h-[120px] md:min-h-[160px]"></textarea>
+
+            <div class="flex flex-wrap items-center justify-between p-2 gap-3 border-t border-gray-50 mt-2">
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" @click="setChip($el.closest('section').dataset.chipSql)"
+                        class="px-3 py-1.5 bg-gray-50 hover:bg-gray-100 text-gray-600 text-xs font-medium rounded-full transition-colors border border-gray-100">SQL
+                        JOIN</button>
+                    <button type="button" @click="setChip($el.closest('section').dataset.chipPhysics)"
+                        class="px-3 py-1.5 bg-gray-50 hover:bg-gray-100 text-gray-600 text-xs font-medium rounded-full transition-colors border border-gray-100">{% trans "Физика" %}</button>
+                    <button type="button" @click="setChip($el.closest('section').dataset.chipPlan)"
+                        class="px-3 py-1.5 bg-gray-50 hover:bg-gray-100 text-gray-600 text-xs font-medium rounded-full transition-colors border border-gray-100">{% trans "План" %}</button>
+                </div>
+
+                <div class="flex items-center gap-2 ml-auto">
+                    <button type="button" @click="clearInput()"
+                        class="px-4 py-2.5 text-gray-500 hover:text-gray-700 font-medium text-sm rounded-xl transition-colors">{% trans "Очистить" %}</button>
+                    <button type="submit" :disabled="!input.trim()"
+                        class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-semibold text-sm rounded-xl transition-all shadow-sm flex items-center gap-2">
+                        <span>{% trans "Помоги" %}</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="flex justify-between px-2 mt-2">
+            <span x-ref="charCount" class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">{% trans "Символов" %}: 0/2000</span>
+        </div>
+    </section>
+
+
+
+    <!-- Results Section -->
+    <section id="results-section" class="mt-8">
+        <!-- Results will be injected here via HTMX -->
+    </section>
+</div>
+{% endblock %}

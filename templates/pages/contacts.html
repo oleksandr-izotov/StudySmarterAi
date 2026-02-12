@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+{% block title %}{% trans "StudyAI - Контакты" %}{% endblock %}
+
+{% block content %}
+<div class="space-y-24">
+    <!-- Header Section -->
+    <section class="text-center space-y-6 max-w-4xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
+            {% trans "Мы всегда на" %} <span class="text-indigo-600">{% trans "связи" %}</span>
+        </h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+            {% trans "Есть вопросы или предложения? Напишите нам, и мы ответим в ближайшее время." %}
+        </p>
+    </section>
+
+    <!-- Contact Cards -->
+    <section class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <!-- Email -->
+        <a href="mailto:support@studyai.com" class="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 text-center group">
+            <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform">
+                <i data-lucide="mail" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Email</h3>
+            <p class="text-gray-500">support@studyai.com</p>
+            <p class="text-indigo-600 font-medium mt-4 text-sm">{% trans "Написать письмо" %} &rarr;</p>
+        </a>
+
+        <!-- Telegram -->
+        <a href="https://t.me/StudyAI_Support" target="_blank" rel="noopener noreferrer" class="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 text-center group">
+            <div class="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform">
+                <i data-lucide="message-circle" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Telegram</h3>
+            <p class="text-gray-500">@StudyAI_Support</p>
+            <p class="text-blue-500 font-medium mt-4 text-sm">{% trans "Написать в Telegram" %} &rarr;</p>
+        </a>
+
+        <!-- GitHub -->
+        <a href="https://github.com/oleksandr-izotov" target="_blank" rel="noopener noreferrer" class="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 text-center group">
+            <div class="w-16 h-16 bg-gray-50 text-gray-700 rounded-2xl flex items-center justify-center mb-6 mx-auto group-hover:scale-110 transition-transform">
+                <i data-lucide="github" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">GitHub</h3>
+            <p class="text-gray-500">{% trans "Отслеживайте обновления" %}</p>
+            <p class="text-gray-700 font-medium mt-4 text-sm">{% trans "Перейти на GitHub" %} &rarr;</p>
+        </a>
+    </section>
+
+    <!-- FAQ Teaser -->
+    <section class="max-w-3xl mx-auto bg-gray-50 rounded-3xl p-8 md:p-12 text-center">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">{% trans "Часто задаваемые вопросы" %}</h2>
+        <p class="text-gray-600 mb-8">
+            {% trans "Возможно, ответ на ваш вопрос уже есть в нашей базе знаний." %}
+        </p>
+        <button class="px-8 py-3 bg-white border border-gray-200 text-gray-900 font-medium rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-colors">
+            {% trans "Перейти в FAQ" %}
+        </button>
+    </section>
+</div>
+{% endblock %}

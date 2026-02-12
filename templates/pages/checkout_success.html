@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Оплата успешна" %} — StudyAI{% endblock %}
+
+{% block content %}
+<div class="min-h-[60vh] flex items-center justify-center">
+    <div class="text-center max-w-md mx-auto">
+        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        
+        <h1 class="text-3xl font-bold text-gray-900 mb-4">
+            {% trans "Спасибо за подписку!" %}
+        </h1>
+        
+        <p class="text-gray-600 mb-8">
+            {% trans "Ваша подписка успешно активирована. Наслаждайтесь всеми преимуществами вашего нового плана!" %}
+        </p>
+        
+        <div class="space-y-3">
+            <a href="{% url 'home' %}" 
+               class="block w-full py-3 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors">
+                {% trans "Начать использовать" %}
+            </a>
+            <a href="{% url 'account' %}" 
+               class="block w-full py-3 px-6 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-xl transition-colors">
+                {% trans "Управление подпиской" %}
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes confetti-fall {
+    0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: 0;
+    animation: confetti-fall 3s ease-out forwards;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const colors = ['#6366f1', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6'];
+    for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 2 + 's';
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 5000);
+    }
+});
+</script>
+{% endblock %}

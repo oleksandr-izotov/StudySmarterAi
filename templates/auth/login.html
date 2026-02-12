@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+    <div class="p-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">{% trans "Вход в StudyAI" %}</h2>
+
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="bg-red-50 text-red-600 p-3 rounded-xl text-sm mb-4">
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{% trans "Имя пользователя" %}</label>
+                <input type="text" name="username"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition-all">
+                {% if form.username.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.username.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">{% trans "Пароль" %}</label>
+                <input type="password" name="password"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition-all">
+                {% if form.password.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ form.password.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+            <button type="submit"
+                class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-all shadow-md mt-6">{% trans "Войти" %}</button>
+        </form>
+
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-500">{% trans "Или войти через" %} <a href="{% url 'magic_link_request' %}"
+                    class="text-indigo-600 font-semibold hover:underline">Magic Link</a></p>
+        </div>
+
+        <div class="mt-6 pt-6 border-t border-gray-100 text-center">
+            <p class="text-sm text-gray-500">{% trans "Нет аккаунта?" %} <a href="{% url 'register' %}"
+                    class="text-indigo-600 font-semibold hover:underline">{% trans "Регистрация" %}</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

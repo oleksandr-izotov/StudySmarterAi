@@ -1,0 +1,155 @@
+{% load settings_filters i18n %}
+
+<form method="post" action="{% url 'settings:index' %}" class="space-y-6" hx-post="{% url 'settings:index' %}"
+    hx-swap="outerHTML" x-data="{ 
+        language: '{{ settings.language|default:'ru' }}', 
+        tone: '{{ settings.tone|default:'friendly' }}', 
+        depth: '{{ settings.depth|default:'detailed' }}' 
+    }" x-init="lucide.createIcons()">
+    {% csrf_token %}
+
+    <!-- Language -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <i data-lucide="languages" class="w-5 h-5 text-indigo-600"></i>
+            {% trans "Язык ответов" %}
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <!-- RU -->
+            <label class="cursor-pointer relative">
+                <input type="radio" name="language" value="ru" class="sr-only" x-model="language">
+                <div class="p-4 rounded-xl border-2 transition-all text-center relative overflow-hidden"
+                    :class="language === 'ru' ? 'border-indigo-600 bg-indigo-50' : 'border-gray-100 hover:border-indigo-100'">
+                    <div class="absolute top-2 right-2 transition-opacity duration-200"
+                        :class="language === 'ru' ? 'opacity-100' : 'opacity-0'">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-indigo-600 fill-indigo-100"></i>
+                    </div>
+                    <span class="block font-medium text-gray-900">{% trans "Русский" %}</span>
+                    <span class="text-xs text-gray-500">Russian</span>
+                </div>
+            </label>
+
+            <!-- EN -->
+            <label class="cursor-pointer relative">
+                <input type="radio" name="language" value="en" class="sr-only" x-model="language">
+                <div class="p-4 rounded-xl border-2 transition-all text-center relative overflow-hidden"
+                    :class="language === 'en' ? 'border-indigo-600 bg-indigo-50' : 'border-gray-100 hover:border-indigo-100'">
+                    <div class="absolute top-2 right-2 transition-opacity duration-200"
+                        :class="language === 'en' ? 'opacity-100' : 'opacity-0'">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-indigo-600 fill-indigo-100"></i>
+                    </div>
+                    <span class="block font-medium text-gray-900">English</span>
+                    <span class="text-xs text-gray-500">{% trans "Английский" %}</span>
+                </div>
+            </label>
+
+            <!-- DE -->
+            <label class="cursor-pointer relative">
+                <input type="radio" name="language" value="de" class="sr-only" x-model="language">
+                <div class="p-4 rounded-xl border-2 transition-all text-center relative overflow-hidden"
+                    :class="language === 'de' ? 'border-indigo-600 bg-indigo-50' : 'border-gray-100 hover:border-indigo-100'">
+                    <div class="absolute top-2 right-2 transition-opacity duration-200"
+                        :class="language === 'de' ? 'opacity-100' : 'opacity-0'">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-indigo-600 fill-indigo-100"></i>
+                    </div>
+                    <span class="block font-medium text-gray-900">Deutsch</span>
+                    <span class="text-xs text-gray-500">{% trans "Немецкий" %}</span>
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <!-- Tone -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <i data-lucide="music" class="w-5 h-5 text-indigo-600"></i>
+            {% trans "Тон повествования" %}
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Friendly -->
+            <label class="cursor-pointer relative">
+                <input type="radio" name="tone" value="friendly" class="sr-only" x-model="tone">
+                <div class="p-4 rounded-xl border-2 transition-all text-center relative overflow-hidden"
+                    :class="tone === 'friendly' ? 'border-indigo-600 bg-indigo-50' : 'border-gray-100 hover:border-indigo-100'">
+                    <div class="absolute top-2 right-2 transition-opacity duration-200"
+                        :class="tone === 'friendly' ? 'opacity-100' : 'opacity-0'">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-indigo-600 fill-indigo-100"></i>
+                    </div>
+                    <div
+                        class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl">
+                        😊</div>
+                    <span class="block font-medium text-gray-900">{% trans "Дружелюбный" %}</span>
+                    <span class="text-xs text-gray-500">{% trans "Понятный и легкий" %}</span>
+                </div>
+            </label>
+
+            <!-- Strict -->
+            <label class="cursor-pointer relative">
+                <input type="radio" name="tone" value="strict" class="sr-only" x-model="tone">
+                <div class="p-4 rounded-xl border-2 transition-all text-center relative overflow-hidden"
+                    :class="tone === 'strict' ? 'border-indigo-600 bg-indigo-50' : 'border-gray-100 hover:border-indigo-100'">
+                    <div class="absolute top-2 right-2 transition-opacity duration-200"
+                        :class="tone === 'strict' ? 'opacity-100' : 'opacity-0'">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-indigo-600 fill-indigo-100"></i>
+                    </div>
+                    <div
+                        class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl">
+                        🧐</div>
+                    <span class="block font-medium text-gray-900">{% trans "Академический" %}</span>
+                    <span class="text-xs text-gray-500">{% trans "Точный и строгий" %}</span>
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <!-- Depth -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <i data-lucide="layers" class="w-5 h-5 text-indigo-600"></i>
+            {% trans "Глубина ответа" %}
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Short -->
+            <label class="cursor-pointer relative">
+                <input type="radio" name="depth" value="short" class="sr-only" x-model="depth">
+                <div class="p-4 rounded-xl border-2 transition-all text-center relative overflow-hidden"
+                    :class="depth === 'short' ? 'border-indigo-600 bg-indigo-50' : 'border-gray-100 hover:border-indigo-100'">
+                    <div class="absolute top-2 right-2 transition-opacity duration-200"
+                        :class="depth === 'short' ? 'opacity-100' : 'opacity-0'">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-indigo-600 fill-indigo-100"></i>
+                    </div>
+                    <span class="block font-medium text-gray-900">{% trans "Кратко" %}</span>
+                    <span class="text-xs text-gray-500">{% trans "Только суть" %}</span>
+                </div>
+            </label>
+
+            <!-- Detailed -->
+            <label class="cursor-pointer relative">
+                <input type="radio" name="depth" value="detailed" class="sr-only" x-model="depth">
+                <div class="p-4 rounded-xl border-2 transition-all text-center relative overflow-hidden"
+                    :class="depth === 'detailed' ? 'border-indigo-600 bg-indigo-50' : 'border-gray-100 hover:border-indigo-100'">
+                    <div class="absolute top-2 right-2 transition-opacity duration-200"
+                        :class="depth === 'detailed' ? 'opacity-100' : 'opacity-0'">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-indigo-600 fill-indigo-100"></i>
+                    </div>
+                    <span class="block font-medium text-gray-900">{% trans "Подробно" %}</span>
+                    <span class="text-xs text-gray-500">{% trans "С примерами и объяснениями" %}</span>
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <!-- Save Button -->
+    <div class="flex justify-end pt-4">
+        <button type="submit"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-0.5">{% trans "Сохранить настройки" %}</button>
+    </div>
+
+    {% if messages %}
+    <div x-data
+        x-init="{% for message in messages %}appData().showToast('{{ message }}', '{{ message.tags }}');{% endfor %}">
+    </div>
+    {% endif %}
+
+</form>
+

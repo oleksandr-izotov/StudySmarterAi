@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Мой аккаунт" %} - StudyAI{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto space-y-8">
+
+    <!-- Header -->
+    <div>
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">{% trans "Мой аккаунт" %}</h1>
+        <p class="text-gray-500">{% trans "Управление личными данными и безопасностью" %}</p>
+    </div>
+
+    <!-- User Info Form -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+        <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <i data-lucide="user" class="w-5 h-5 text-indigo-600"></i>
+            {% trans "Личные данные" %}
+        </h2>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+
+            {% for field in user_form %}
+            <div>
+                <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ field.label }}
+                </label>
+                <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" id="{{ field.id_for_label }}"
+                    value="{{ field.value|default:'' }}"
+                    class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 outline-none transition-all">
+                {% if field.errors %}
+                <p class="text-red-500 text-xs mt-1">{{ field.errors.0 }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <div class="flex justify-end pt-2">
+                <button type="submit" name="update_info"
+                    class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-all shadow-md shadow-indigo-100">{% trans "Сохранить изменения" %}</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Password Change Form -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+        <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <i data-lucide="lock" class="w-5 h-5 text-indigo-600"></i>
+            {% trans "Безопасность" %}
+        </h2>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <input type="hidden" name="change_password" value="1">
+
+            {% for field in password_form %}
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">
+                        {{ field.label }}
+                    </label>
+                    {% if field.help_text %}
+                    <div class="relative group">
+                        <svg class="w-4 h-4 text-gray-400 cursor-help hover:text-indigo-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16v-4m0-4h.01"/>
+                        </svg>
+                        <div class="absolute left-0 top-full mt-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64 z-50">
+                            <div class="text-left leading-relaxed">{{ field.help_text|safe }}</div>
+                            <div class="absolute left-3 bottom-full w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-900"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <input type="password" name="{{ field.name }}" id="{{ field.id_for_label }}"
+                    class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 outline-none transition-all">
+                {% if field.errors %}
+                <ul class="text-red-500 text-xs mt-1 list-disc pl-4">
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <div class="flex justify-end pt-2">
+                <button type="submit"
+                    class="px-6 py-2 bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 font-medium rounded-xl transition-all">{% trans "Сменить пароль" %}</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Subscription Management Section -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+        <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+            <i data-lucide="credit-card" class="w-5 h-5 text-indigo-600"></i>
+            {% trans "Подписка" %}
+        </h2>
+        
+        {% if user.subscription and user.subscription.plan.is_paid %}
+        <div class="space-y-4">
+            <div class="flex items-center justify-between p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl">
+                <div>
+                    <p class="text-sm text-gray-500">{% trans "Текущий план" %}</p>
+                    <p class="text-xl font-bold text-gray-900">{{ user.subscription.plan.display_name }}</p>
+                </div>
+                <span class="px-3 py-1 bg-green-100 text-green-700 text-sm font-semibold rounded-full">
+                    {% if user.subscription.is_active %}{% trans "Активна" %}{% else %}{% trans "Неактивна" %}{% endif %}
+                </span>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 bg-gray-50 rounded-xl text-center">
+                    <p class="text-sm text-gray-500">{% trans "Цена" %}</p>
+                    <p class="text-2xl font-bold text-gray-900">€{{ user.subscription.plan.monthly_price }}</p>
+                    <p class="text-xs text-gray-400">/{% trans "месяц" %}</p>
+                </div>
+                <div class="p-4 bg-gray-50 rounded-xl text-center">
+                    <p class="text-sm text-gray-500">{% trans "Лимит" %}</p>
+                    <p class="text-2xl font-bold text-gray-900">
+                        {% if user.subscription.plan.is_unlimited %}∞{% else %}{{ user.subscription.plan.limit_count }}{% endif %}
+                    </p>
+                    <p class="text-xs text-gray-400">/{% trans "день" %}</p>
+                </div>
+            </div>
+            
+            <div class="flex gap-3 pt-2">
+                <a href="{% url 'subscriptions:pricing' %}" 
+                   class="flex-1 py-3 text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors">
+                    {% trans "Сменить план" %}
+                </a>
+                <button type="button" onclick="openCancelModal()"
+                        class="flex-1 py-3 text-center bg-red-50 hover:bg-red-100 text-red-600 font-semibold rounded-xl transition-colors">
+                    {% trans "Отменить подписку" %}
+                </button>
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center py-6">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="sparkles" class="w-8 h-8 text-gray-400"></i>
+            </div>
+            <p class="text-gray-500 mb-4">{% trans "У вас бесплатный план" %}</p>
+            <a href="{% url 'subscriptions:pricing' %}" 
+               class="inline-block px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors">
+                {% trans "Улучшить план" %}
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- Cancel Subscription Modal -->
+<div id="cancelModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeCancelModal()"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 transform transition-all scale-95 opacity-0" id="modalContent">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="alert-triangle" class="w-8 h-8 text-red-600"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">{% trans "Отменить подписку?" %}</h3>
+                <p class="text-gray-500 mb-6">
+                    {% trans "Вы уверены, что хотите отменить подписку? Ваш доступ сохранится до конца оплаченного периода." %}
+                </p>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeCancelModal()"
+                            class="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold rounded-xl transition-colors">
+                        {% trans "Оставить" %}
+                    </button>
+                    <form method="POST" action="{% url 'subscriptions:cancel_subscription' %}" class="flex-1">
+                        {% csrf_token %}
+                        <button type="submit"
+                                class="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-xl transition-colors">
+                            {% trans "Отменить" %}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function openCancelModal() {
+    const modal = document.getElementById('cancelModal');
+    const content = document.getElementById('modalContent');
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        content.classList.remove('scale-95', 'opacity-0');
+        content.classList.add('scale-100', 'opacity-100');
+    }, 10);
+}
+
+function closeCancelModal() {
+    const modal = document.getElementById('cancelModal');
+    const content = document.getElementById('modalContent');
+    content.classList.remove('scale-100', 'opacity-100');
+    content.classList.add('scale-95', 'opacity-0');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+    }, 200);
+}
+</script>
+{% endblock %}
+

@@ -1,0 +1,45 @@
+# Core
+Django==6.0.2
+asgiref==3.11.1
+sqlparse==0.5.5
+tzdata==2025.3
+
+# Configuration
+python-decouple
+
+# Database
+psycopg2-binary
+
+# Media
+Pillow
+
+# AI
+google-generativeai
+openai>=1.0.0
+
+# Markdown rendering
+markdown
+bleach==6.1.0
+
+# Production server
+gunicorn
+
+# Rate limiting
+django-ratelimit
+
+# Payments
+stripe>=7.0.0
+
+# Testing
+pytest>=8.0.0
+pytest-django>=4.8.0
+factory-boy>=3.3.0
+faker>=24.0.0
+pytest-cov>=4.1.0
+
+# Async Tasks
+celery>=5.3.0
+redis>=5.0.0
+
+# Monitoring
+sentry-sdk>=1.40.0

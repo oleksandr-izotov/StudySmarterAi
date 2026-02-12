@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Тарифы" %} — StudyAI{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-4">{% trans "Выберите свой план" %}</h1>
+        <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+            {% trans "Начните бесплатно, обновитесь когда будете готовы" %}
+        </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-{% if user.is_authenticated %}3{% else %}4{% endif %} gap-6">
+        {% for plan in plans %}
+        {% if plan.name == 'guest' and user.is_authenticated %}
+            {% comment %}Skip guest plan for authenticated users{% endcomment %}
+        {% else %}
+        <div
+            class="relative bg-white rounded-2xl border-2 transition-all duration-300 hover:shadow-xl
+            {% if plan.is_current %}border-indigo-500 shadow-lg{% else %}border-gray-200 hover:border-indigo-200{% endif %}">
+
+            {% if plan.name == 'pro' %}
+            <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span class="px-3 py-1 bg-indigo-600 text-white text-xs font-bold rounded-full uppercase tracking-wide">
+                    {% trans "Популярный" %}
+                </span>
+            </div>
+            {% endif %}
+
+            {% if plan.is_current %}
+            <div class="absolute -top-3 right-4">
+                <span class="px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full">
+                    {% trans "Текущий" %}
+                </span>
+            </div>
+            {% endif %}
+
+            <div class="p-6">
+                <div class="flex items-center gap-2 mb-4">
+                    {% if plan.name == 'guest' %}
+                    <span class="text-2xl">🧪</span>
+                    {% elif plan.name == 'free' %}
+                    <span class="text-2xl">🆓</span>
+                    {% elif plan.name == 'pro' %}
+                    <span class="text-2xl">⭐</span>
+                    {% else %}
+                    <span class="text-2xl">🚀</span>
+                    {% endif %}
+                    <h3 class="text-xl font-bold text-gray-900">{{ plan.display_name }}</h3>
+                </div>
+
+                <div class="mb-6">
+                    {% if plan.monthly_price == 0 %}
+                    <span class="text-4xl font-extrabold text-gray-900">{% trans "Бесплатно" %}</span>
+                    {% else %}
+                    <span class="text-4xl font-extrabold text-gray-900">€{{ plan.monthly_price }}</span>
+                    <span class="text-gray-500">/{% trans "месяц" %}</span>
+                    {% endif %}
+                </div>
+
+                <div class="space-y-3 mb-6">
+                    <div class="flex items-center gap-2 text-gray-700">
+                        <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                        {% if plan.limit_count %}
+                        <span>
+                            <strong>{{ plan.limit_count }}</strong> {% trans "запросов" %} /
+                            {% if plan.limit_period == 'day' %}{% trans "день" %}
+                            {% elif plan.limit_period == 'week' %}{% trans "неделю" %}
+                            {% else %}{% trans "месяц" %}{% endif %}
+                        </span>
+                        {% else %}
+                        <span>{% trans "Безлимитные запросы" %}</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="flex items-center gap-2 text-gray-700">
+                        <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                        <span>{% trans "Все типы ответов" %}</span>
+                    </div>
+
+                    {% if plan.is_paid %}
+                    <div class="flex items-center gap-2 text-gray-700">
+                        <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                        <span>{% trans "Приоритетная генерация" %}</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-gray-700">
+                        <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                        <span>{% trans "Email поддержка" %}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if plan.name == 'pro_plus' %}
+                    <div class="flex items-center gap-2 text-gray-700">
+                        <i data-lucide="check" class="w-5 h-5 text-green-500"></i>
+                        <span>{% trans "Ранний доступ к функциям" %}</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                {% if plan.is_current %}
+                <button disabled
+                    class="w-full py-3 bg-gray-100 text-gray-500 font-semibold rounded-xl cursor-not-allowed">
+                    {% trans "Текущий план" %}
+                </button>
+                {% elif plan.name == 'guest' %}
+                    {% if user.is_authenticated %}
+                    <span class="block w-full py-3 text-center text-gray-400 text-sm">
+                        {% trans "Только для гостей" %}
+                    </span>
+                    {% else %}
+                    <span class="block w-full py-3 text-center text-gray-400 text-sm">
+                        {% trans "Ваш текущий режим" %}
+                    </span>
+                    {% endif %}
+                {% elif plan.name == 'free' %}
+                    {% if user.is_authenticated %}
+                    <span class="block w-full py-3 text-center text-gray-400 text-sm">
+                        {% trans "Недоступно для апгрейда" %}
+                    </span>
+                    {% else %}
+                    <a href="{% url 'register' %}"
+                        class="block w-full py-3 text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-xl transition-colors">
+                        {% trans "Зарегистрироваться" %}
+                    </a>
+                    {% endif %}
+                {% else %}
+                {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'subscriptions:checkout' plan.name %}">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors shadow-lg shadow-indigo-200">
+                        {% trans "Выбрать план" %}
+                    </button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}?next={% url 'subscriptions:pricing' %}"
+                    class="block w-full py-3 text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors shadow-lg shadow-indigo-200">
+                    {% trans "Войти для покупки" %}
+                </a>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="mt-12 text-center">
+        <p class="text-gray-500 text-sm">
+            {% trans "Все планы включают полный доступ к AI-помощнику" %}
+        </p>
+    </div>
+</div>
+{% endblock %}
