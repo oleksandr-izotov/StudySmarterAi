@@ -2,9 +2,15 @@
 
 **AI-powered personal tutor available 24/7.**
 
-Study Smart is a modern web application that helps students master any topic. Simply enter a topic or assignment, and the AI will generate structured explanations, cheat sheets, study plans, and self-check quizzes. Video - https://youtu.be/j5qqtsdnQ_g
+Study Smart is a modern web application that helps students master any topic. Simply enter a topic or assignment, and the AI returns a structured **explanation, study plan, self-check quiz, and summary** in seconds. Video — https://youtu.be/j5qqtsdnQ_g
 
-![Study Smart Dashboard](docs/dashboard-preview.png)
+### Screenshots
+
+| Landing | App (prompt composer) |
+| --- | --- |
+| ![Landing page](docs/screenshots/landing.png) | ![App](docs/screenshots/app.png) |
+
+> Dark **"ACID"** theme · Unbounded / Manrope / JetBrains Mono · EN/RU UI.
 
 ---
 
