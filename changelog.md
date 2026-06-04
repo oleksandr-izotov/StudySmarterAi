@@ -2,6 +2,25 @@
 
 ## [Unreleased]
 
+### 2026-06-04: "ACID" Redesign & Production Hardening
+
+- **Redesign**: New dark "ACID" theme (lime accent, Unbounded/Manrope/JetBrains Mono)
+  ported across all templates via a plain-CSS design system; HTMX/Alpine/i18n preserved.
+- **Security**: Env-driven `CSRF_TRUSTED_ORIGINS`; `SECURE_SSL_REDIRECT` + HSTS + secure
+  cookies; `X_FRAME_OPTIONS=DENY`; hardened `sanitize_html` (URL-scheme allowlist, no `target`);
+  required `DATABASE_PASSWORD`/`EMAIL_HOST`; request/upload size limits.
+- **Payments**: Atomic, idempotent Stripe webhook (retry on failure); `past_due` grace +
+  downgrade on terminal statuses; `invoice.payment_failed` handling.
+- **Quota/AI/Auth**: Atomic usage consume (advisory lock) closing the limit race; AI provider
+  timeouts + Celery `soft_time_limit`/retry; migrated `google-generativeai` → `google-genai`;
+  atomic single-use magic link resolving accounts by email; login/registration throttling.
+- **Static/Perf**: WhiteNoise compressed + hashed static (cache-busting); pinned CDN versions;
+  optimized logo assets; meta description + favicon; fixed a console JS error.
+- **Infra/Quality**: Pinned dependencies + prod/dev split; GitHub Actions CI; env-gated Redis
+  cache; `LOGGING` config; Sentry sample rates from env; DB indexes on `Prompt`; removed dead
+  files; `DEPLOYMENT.md` runbook. Test suite expanded to 89 tests.
+- **i18n**: Launch on RU + EN (DE/FR/ES hidden until translated); dynamic `<html lang>`.
+
 ### 2026-02-09: Guest Experience & Localization
 
 - **Guest Access**: Enabled settings configuration for unregistered users (stored in session).

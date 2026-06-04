@@ -13,10 +13,10 @@ Study Smart is a modern web application that helps students master any topic. Si
 - **🧠 AI-Powered Content**: Instantly generates explanations, summaries, and step-by-step study plans using Gemini/Qwen models.
 - **⚡ Reactive UI**: Single-Page Application (SPA) feel using **HTMX** and **Alpine.js** without the complexity of React/Vue.
 - **🎨 Modern Design**: Beautiful, responsive interface built with **Tailwind CSS**.
-- **🌍 Internationalization**: Full support for **English, Russian, German, French, and Spanish**.
+- **🌍 Internationalization**: Built with i18n for EN/RU/DE/FR/ES; **launches on English + Russian** (DE/FR/ES translations are in progress).
 - **🔐 Secure Authentication**: Email/Password login + **Magic Link** (passwordless) authentication.
-- **💳 Subscriptions**: Integrated **Stripe** payments for Tiered plans (Guest, Free, Pro).
-- **🛡️ Security**: XSS protection (Bleach), CSRF tokens, and rate limiting.
+- **💳 Subscriptions**: Integrated **Stripe** payments for tiered plans (Guest, Free, Pro, Pro+).
+- **🛡️ Security**: XSS protection (Bleach), CSRF, HSTS/HTTPS enforcement, rate limiting, idempotent Stripe webhooks.
 
 ## 🛠️ Tech Stack
 
@@ -73,20 +73,28 @@ The project follows a **Service-Oriented Architecture** within Django (Django Se
     ```
 
 4.  **Access the App**
-    Open [http://localhost:8000](http://localhost:8000) in your browser.
-    - **Admin Panel**: [http://localhost:8000/admin](http://localhost:8000/admin)
+    The app is served by nginx on [http://localhost:8080](http://localhost:8080).
+    - **Admin Panel**: [http://localhost:8080/admin](http://localhost:8080/admin)
     - _To create a superuser:_
       ```bash
       docker compose exec web python manage.py createsuperuser
       ```
 
+> **Deploying to production?** See **[DEPLOYMENT.md](DEPLOYMENT.md)** for the full
+> runbook (required env vars, Stripe webhook setup, HSTS ramp-up, backups).
+
 ### 🧪 Running Tests
 
-The project includes a comprehensive test suite (pytest).
+The project includes a test suite (pytest). Test tooling lives in
+`requirements-dev.txt`, so run it via the dedicated `test` service (the
+production `web` image ships prod dependencies only):
 
 ```bash
-docker compose exec web pytest tests/ -v
+docker compose --profile test run --rm test
 ```
+
+CI (GitHub Actions, `.github/workflows/ci.yml`) runs the same suite, the Django
+system check, and a migration check on every push and pull request.
 
 ## 📂 Project Structure
 
