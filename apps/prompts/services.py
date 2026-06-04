@@ -5,7 +5,8 @@ import logging
 import json
 import time
 from abc import ABC, abstractmethod
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 from openai import OpenAI
 
 logger = logging.getLogger(__name__)
@@ -17,10 +18,17 @@ class AIProvider(ABC):
 
 class GeminiProvider(AIProvider):
     def generate_content(self, system_instruction):
-        genai.configure(api_key=settings.GEMINI_API_KEY)
-        model = genai.GenerativeModel('gemini-flash-latest')
+        # New google-genai SDK (the old google-generativeai is end-of-life).
+        # Timeout is in milliseconds on the client's http_options.
+        client = genai.Client(
+            api_key=settings.GEMINI_API_KEY,
+            http_options=types.HttpOptions(timeout=settings.AI_REQUEST_TIMEOUT * 1000),
+        )
         try:
-            response = model.generate_content(system_instruction)
+            response = client.models.generate_content(
+                model=settings.GEMINI_MODEL,
+                contents=system_instruction,
+            )
             logger.info("Successfully generated content using GeminiProvider")
             return response.text
         except Exception as e:
@@ -31,7 +39,8 @@ class QwenProvider(AIProvider):
     def __init__(self):
         self.client = OpenAI(
             api_key=settings.QWEN_API_KEY,
-            base_url=settings.QWEN_BASE_URL
+            base_url=settings.QWEN_BASE_URL,
+            timeout=settings.AI_REQUEST_TIMEOUT,
         )
 
     def generate_content(self, system_instruction):
@@ -41,7 +50,8 @@ class QwenProvider(AIProvider):
                 messages=[
                     {'role': 'system', 'content': 'You are a helpful study assistant.'},
                     {'role': 'user', 'content': system_instruction}
-                ]
+                ],
+                timeout=settings.AI_REQUEST_TIMEOUT,
             )
             logger.info("Successfully generated content using QwenProvider")
             return response.choices[0].message.content
@@ -150,43 +160,55 @@ def generate_content_with_providers(prompt):
     Ensure the content is formatted nicely with Tailwind CSS classes where appropriate (e.g., class="mb-4", class="text-indigo-600").
     """
     
+    # Provider call: let network/timeout/all-providers-failed errors PROPAGATE
+    # so the Celery task can retry them. We only swallow (→ []) the case where
+    # we got a response but couldn't parse it as JSON (not worth retrying).
+    response_text = service.generate(system_instruction)
+
+    # Strip markdown code blocks if present
+    if response_text.startswith("```json"):
+        response_text = response_text[7:]
+    if response_text.startswith("```"):
+        response_text = response_text[3:]
+    if response_text.endswith("```"):
+        response_text = response_text[:-3]
+
+    response_text = response_text.strip()
+
+    # Try to parse JSON
     try:
-        response_text = service.generate(system_instruction)
-        
-        # Strip markdown code blocks if present
-        if response_text.startswith("```json"):
-            response_text = response_text[7:]
-        if response_text.startswith("```"):
-            response_text = response_text[3:]
-        if response_text.endswith("```"):
-            response_text = response_text[:-3]
-        
-        response_text = response_text.strip()
-        
-        # Try to parse JSON
+        data = json.loads(response_text)
+    except json.JSONDecodeError as json_err:
+        import re
+        fixed_text = re.sub(r'(?<!\\)\\(?!["\\/bfnrtu])', r'\\\\', response_text)
         try:
-            data = json.loads(response_text)
-        except json.JSONDecodeError as json_err:
-            import re
-            fixed_text = re.sub(r'(?<!\\)\\(?!["\\/bfnrtu])', r'\\\\', response_text)
-            try:
-                data = json.loads(fixed_text)
-            except json.JSONDecodeError:
-                logger.error(f"Failed to parse AI response: {json_err}")
-                return []
-        
-        return data
-    except Exception as e:
-        logger.error(f"AI Service Error: {e}")
-        return []
+            data = json.loads(fixed_text)
+        except json.JSONDecodeError:
+            logger.error(f"Failed to parse AI response: {json_err}")
+            return []
+
+    return data
 
 from celery import shared_task
+from celery.exceptions import MaxRetriesExceededError
 
-@shared_task
-def generate_sections_task(prompt_id: str) -> list[str]:
+
+@shared_task(
+    bind=True,
+    max_retries=2,
+    default_retry_delay=15,
+    # Bounds: a stalled provider can't pin a worker forever. soft_time_limit
+    # raises SoftTimeLimitExceeded (catchable) before the hard time_limit kills
+    # the worker. Comfortably covers both providers' AI_REQUEST_TIMEOUT (30s).
+    soft_time_limit=120,
+    time_limit=150,
+    acks_late=True,
+)
+def generate_sections_task(self, prompt_id: str) -> list[str]:
     """
     Celery task to generate sections asynchronously.
-    Returns list of section types created.
+    Returns list of section types created. Retries on timeout/transient error,
+    then marks the prompt 'failed' so the UI stops polling.
     """
     try:
         prompt = Prompt.objects.get(id=prompt_id)
@@ -194,19 +216,24 @@ def generate_sections_task(prompt_id: str) -> list[str]:
         logger.error(f"Prompt {prompt_id} not found in task")
         return []
 
-    # Call AI
+    # Call AI — retry a couple of times on timeout/transient failure.
+    # (SoftTimeLimitExceeded is an Exception subclass, so it's covered here too.)
     try:
         sections_data = generate_content_with_providers(prompt)
     except Exception as e:
-        logger.error(f"Critical error in generate_sections_task: {e}")
-        prompt.status = 'failed'
-        prompt.save()
-        return []
+        logger.error(f"Error in generate_sections_task for {prompt_id}: {e}")
+        try:
+            raise self.retry(exc=e, countdown=15)
+        except MaxRetriesExceededError:
+            logger.error(f"Giving up on prompt {prompt_id} after retries")
+            prompt.status = 'failed'
+            prompt.save(update_fields=['status'])
+            return []
 
-    # If AI failed
+    # If AI returned nothing usable
     if not sections_data:
          prompt.status = 'failed'
-         prompt.save()
+         prompt.save(update_fields=['status'])
          return []
 
     created_types = []

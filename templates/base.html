@@ -1,144 +1,50 @@
 <!DOCTYPE html>
-<html lang="ru">
 {% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{% block meta_description %}{% trans 'StudyAI — ИИ-репетитор: вставь тему или задание и получи объяснение, план изучения, самопроверку и конспект за секунды.' %}{% endblock %}">
     <title>{% block title %}{% trans "StudyAI - Твой учебный помощник" %}{% endblock %}</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'img/logo-icon.png' %}">
 
-    <!-- Tailwind CSS (Local Build) -->
+    <!-- Tailwind CSS (Local Build — still used by not-yet-ported pages) -->
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- ACID design system: tokens + fonts (Unbounded / Manrope / JetBrains Mono) -->
+    <link rel="stylesheet" href="{% static 'css/colors_and_type.css' %}">
+    <link rel="stylesheet" href="{% static 'css/studyai.css' %}">
+    <link rel="stylesheet" href="{% static 'css/django.css' %}">
+
+    <!-- Lucide Icons (pinned — avoid silent breakage from a floating @latest) -->
+    <script defer src="https://unpkg.com/lucide@1.17.0/dist/umd/lucide.min.js"></script>
 
     <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.15.12/dist/cdn.min.js"></script>
 
     <!-- HTMX -->
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        gray: {
-                            50: '#f9fafb',
-                            100: '#f3f4f6',
-                            200: '#e5e7eb',
-                            300: '#d1d5db',
-                            400: '#9ca3af',
-                            500: '#6b7280',
-                            600: '#4b5563',
-                            700: '#374151',
-                            800: '#1f2937',
-                            900: '#111827',
-                        },
-                        indigo: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            200: '#c7d2fe',
-                            300: '#a5b4fc',
-                            400: '#818cf8',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            800: '#3730a3',
-                            900: '#312e81',
-                        }
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.3s ease-out forwards',
-                        'slide-up': 'slideUp 0.4s ease-out forwards',
-                        'slide-in-right': 'slideInRight 0.3s ease-out forwards',
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        slideInRight: {
-                            '0%': { transform: 'translateX(100%)' },
-                            '100%': { transform: 'translateX(0)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <script defer src="https://unpkg.com/htmx.org@1.9.10"></script>
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    {% comment %}MathJax (LaTeX) + highlight.js (code) are heavy and only needed where AI results render. Result pages pull them in via this block.{% endcomment %}
+    {% block result_libs %}{% endblock %}
 
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-    <!-- HTMX -->
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-
-    <!-- MathJax for LaTeX formulas -->
-    <script>
-        MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']]
-            },
-            startup: {
-                ready: function() {
-                    MathJax.startup.defaultReady();
-                    // Re-typeset on HTMX swaps
-                    document.body.addEventListener('htmx:afterSwap', function() {
-                        if (typeof MathJax !== 'undefined') {
-                            MathJax.typesetPromise();
-                        }
-                    });
-                }
-            }
-        };
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
-
-    <!-- Highlight.js for code syntax highlighting -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            hljs.highlightAll();
-        });
-        document.body.addEventListener('htmx:afterSwap', function(evt) {
-            hljs.highlightAll();
-        });
-    </script>
-
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <style>
-        .htmx-indicator {
-            display: none;
-        }
-
+        .htmx-indicator { display: none; }
         .htmx-request .htmx-indicator,
-        .htmx-request.htmx-indicator {
-            display: block;
-        }
+        .htmx-request.htmx-indicator { display: block; }
     </style>
     {% block extra_head %}{% endblock %}
 </head>
 
-<body class="min-h-screen selection:bg-indigo-100 selection:text-indigo-900" x-data="appData()"
-    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<body class="ds" x-data="appData()" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+
+    <!-- Background treatment: technical grid + acid halo -->
+    <div class="bg-grid"></div>
+    <div class="bg-halo"></div>
 
     <!-- Toast Container -->
     <div id="toast-container" class="toast-container">
@@ -146,9 +52,9 @@
         {% for message in messages %}
         <div class="toast" x-init="setTimeout(() => $el.remove(), 3000)">
             {% if message.tags == 'success' %}
-            <i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>
+            <i data-lucide="check-circle" class="w-5 h-5" style="color: var(--success)"></i>
             {% else %}
-            <i data-lucide="alert-circle" class="w-5 h-5 text-red-500"></i>
+            <i data-lucide="alert-circle" class="w-5 h-5" style="color: var(--danger)"></i>
             {% endif %}
             <span>{{ message }}</span>
         </div>
@@ -157,21 +63,18 @@
     </div>
 
     <!-- Header -->
-    <header class="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-gray-100">
-        <div class="max-w-[1200px] mx-auto px-4 h-16 flex items-center justify-between">
-            <a href="{% url 'home' %}" class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
-                    <i data-lucide="sparkles" class="w-[18px] h-[18px]"></i>
-                </div>
-                <span class="font-bold text-xl tracking-tight hidden sm:block">StudyAI</span>
+    <header class="hdr">
+        <div class="wrap hdr-inner">
+            <a href="{% url 'home' %}" class="logo">
+                <img class="logo-mark-img" src="{% static 'img/logo-icon.png' %}" alt="StudyAI">
+                <img class="logo-word-img" src="{% static 'img/logo-wordmark.png' %}" alt="StudyAI">
             </a>
 
-            <div class="flex items-center gap-2">
+            <div class="hdr-actions">
                 {% if user.is_authenticated %}
-                <button @click="toggleHistory()"
-                    class="p-2 text-gray-500 hover:bg-gray-100 rounded-xl transition-colors flex items-center gap-2">
-                    <i data-lucide="history" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium hidden md:block">{% trans "История" %}</span>
+                <button @click="toggleHistory()" class="iconbtn">
+                    <i data-lucide="history" class="w-[18px] h-[18px]"></i>
+                    <span class="hide-sm" style="font-weight: 500">{% trans "История" %}</span>
                 </button>
 
                 {% include 'partials/usage_widget.html' %}
@@ -180,29 +83,24 @@
                 {% get_current_language as LANG_CODE %}
                 {% get_available_languages as LANGUAGES %}
                 {% get_language_info_list for LANGUAGES as languages %}
-                <div class="relative" x-data="{ langMenuOpen: false }">
-                    <button @click="langMenuOpen = !langMenuOpen" @click.outside="langMenuOpen = false"
-                        class="p-2 text-gray-500 hover:bg-gray-100 rounded-xl transition-colors flex items-center gap-1">
-                        <i data-lucide="globe" class="w-5 h-5"></i>
-                        <span class="text-xs font-medium uppercase hidden sm:block">{{ LANG_CODE }}</span>
+                <div class="lang-hide" style="position: relative" x-data="{ langMenuOpen: false }">
+                    <button @click="langMenuOpen = !langMenuOpen" @click.outside="langMenuOpen = false" class="iconbtn">
+                        <i data-lucide="globe" class="w-[18px] h-[18px]"></i>
+                        <span class="mono" style="font-size: 12px; font-weight: 500; text-transform: uppercase">{{ LANG_CODE }}</span>
                     </button>
 
-                    <!-- Language Dropdown -->
-                    <div x-show="langMenuOpen" x-transition.origin.top.right x-cloak
-                        class="absolute right-0 top-full mt-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-40">
-                        <p class="px-4 py-1 text-xs text-gray-400 uppercase font-bold">{% trans "Язык" %}</p>
+                    <div x-show="langMenuOpen" x-transition.origin.top.right x-cloak class="menu fade-in" style="width: 168px">
+                        <p class="menu-label kicker">{% trans "Язык" %}</p>
                         {% for language in languages %}
                         <form action="{% url 'set_language' %}" method="post" class="contents">
                             {% csrf_token %}
                             <input name="next" type="hidden" value="{{ request.path }}">
                             <input name="language" type="hidden" value="{{ language.code }}">
-                            <button type="submit"
-                                class="w-full flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-50 transition-colors text-left {% if language.code == LANG_CODE %}text-indigo-600 font-medium bg-indigo-50{% else %}text-gray-700{% endif %}">
-                                {% if language.code == LANG_CODE %}
-                                <i data-lucide="check" class="w-4 h-4"></i>
-                                {% else %}
-                                <span class="w-4"></span>
-                                {% endif %}
+                            <button type="submit" class="menu-item"
+                                {% if language.code == LANG_CODE %}style="color: var(--accent-text); background: var(--accent-wash)"{% endif %}>
+                                <span class="icon" style="width: 16px">
+                                    {% if language.code == LANG_CODE %}<i data-lucide="check" class="w-4 h-4"></i>{% endif %}
+                                </span>
                                 {{ language.name_local }}
                             </button>
                         </form>
@@ -210,54 +108,33 @@
                     </div>
                 </div>
 
-                <div class="h-6 w-[1px] bg-gray-200 mx-2"></div>
+                <div class="hdr-divider"></div>
 
                 <!-- User Dropdown -->
-                <div class="relative" x-data="{ userMenuOpen: false }">
+                <div style="position: relative" x-data="{ userMenuOpen: false }">
                     <button @click="userMenuOpen = !userMenuOpen" @click.outside="userMenuOpen = false"
-                        class="flex items-center gap-2 p-1 pr-3 hover:bg-gray-50 rounded-xl transition-colors border border-transparent hover:border-gray-200">
-                        <div
-                            class="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center font-bold">
-                            {{ user.username|make_list|first|upper }}
-                        </div>
-                        <span class="text-sm font-medium hidden md:block text-gray-700">{{ user.username }}</span>
-                        <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400 transition-transform"
-                            :class="userMenuOpen ? 'rotate-180' : ''"></i>
+                        style="display: flex; align-items: center; gap: 9px; padding: 4px 12px 4px 4px; border-radius: var(--r-md); border: 1px solid var(--line); background: var(--surface); cursor: pointer; transition: border-color var(--dur-fast) var(--ease)">
+                        <span style="width: 30px; height: 30px; border-radius: 8px; background: var(--accent-wash); color: var(--accent-text); display: grid; place-items: center; font-family: var(--font-display); font-weight: 600; font-size: 15px">{{ user.username|make_list|first|upper }}</span>
+                        <span class="user-name-hide" style="font-size: 14px; font-weight: 600; color: var(--text)">{{ user.username }}</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4" style="color: var(--text-3); transition: transform var(--dur-fast) var(--ease)" :style="userMenuOpen ? 'transform: rotate(180deg)' : ''"></i>
                     </button>
 
-                    <!-- Dropdown Menu -->
-                    <div x-show="userMenuOpen" x-transition.origin.top.right x-cloak
-                        class="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-40">
-
-                        <div class="px-4 py-3 border-b border-gray-100 mb-2">
-                            <p class="text-sm font-bold text-gray-900 truncate">{{ user.username }}</p>
-                            <p class="text-xs text-gray-500 truncate">{{ user.email }}</p>
+                    <div x-show="userMenuOpen" x-transition.origin.top.right x-cloak class="menu fade-in" style="width: 232px">
+                        <div style="padding: 8px 12px 12px; border-bottom: 1px solid var(--line-soft); margin-bottom: 6px">
+                            <p style="margin: 0; font-weight: 600; font-size: 14px; color: var(--text)" class="truncate">{{ user.username }}</p>
+                            <p class="mono truncate" style="margin: 2px 0 0; font-size: 11px; color: var(--text-3)">{{ user.email }}</p>
                         </div>
 
-                        <a href="{% url 'account' %}"
-                            class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors">
-                            <i data-lucide="user" class="w-4 h-4"></i>
-                            {% trans "Мой аккаунт" %}
-                        </a>
-                        <a href="{% url 'settings:index' %}"
-                            class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors">
-                            <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
-                            {% trans "Параметры помощника" %}
-                        </a>
-                        <a href="{% url 'subscriptions:pricing' %}"
-                            class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors">
-                            <i data-lucide="crown" class="w-4 h-4"></i>
-                            {% trans "Моя подписка" %}
-                        </a>
+                        <a href="{% url 'account' %}" class="menu-item"><i data-lucide="user" class="w-4 h-4"></i>{% trans "Мой аккаунт" %}</a>
+                        <a href="{% url 'settings:index' %}" class="menu-item"><i data-lucide="sliders-horizontal" class="w-4 h-4"></i>{% trans "Параметры помощника" %}</a>
+                        <a href="{% url 'subscriptions:pricing' %}" class="menu-item"><i data-lucide="crown" class="w-4 h-4"></i>{% trans "Моя подписка" %}</a>
 
-                        <div class="h-[1px] bg-gray-100 my-2"></div>
+                        <div style="height: 1px; background: var(--line-soft); margin: 6px 0"></div>
 
                         <form action="{% url 'logout' %}" method="post" class="contents">
                             {% csrf_token %}
-                            <button type="submit"
-                                class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors text-left">
-                                <i data-lucide="log-out" class="w-4 h-4"></i>
-                                {% trans "Выйти" %}
+                            <button type="submit" class="menu-item" style="color: var(--danger)">
+                                <i data-lucide="log-out" class="w-4 h-4"></i>{% trans "Выйти" %}
                             </button>
                         </form>
                     </div>
@@ -267,29 +144,24 @@
                 {% get_current_language as LANG_CODE %}
                 {% get_available_languages as LANGUAGES %}
                 {% get_language_info_list for LANGUAGES as languages %}
-                <div class="relative" x-data="{ langMenuOpen: false }">
-                    <button @click="langMenuOpen = !langMenuOpen" @click.outside="langMenuOpen = false"
-                        class="p-2 text-gray-500 hover:bg-gray-100 rounded-xl transition-colors flex items-center gap-1">
-                        <i data-lucide="globe" class="w-5 h-5"></i>
-                        <span class="text-xs font-medium uppercase hidden sm:block">{{ LANG_CODE }}</span>
+                <div class="lang-hide" style="position: relative" x-data="{ langMenuOpen: false }">
+                    <button @click="langMenuOpen = !langMenuOpen" @click.outside="langMenuOpen = false" class="iconbtn">
+                        <i data-lucide="globe" class="w-[18px] h-[18px]"></i>
+                        <span class="mono" style="font-size: 12px; font-weight: 500; text-transform: uppercase">{{ LANG_CODE }}</span>
                     </button>
 
-                    <!-- Language Dropdown -->
-                    <div x-show="langMenuOpen" x-transition.origin.top.right x-cloak
-                        class="absolute right-0 top-full mt-2 w-40 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-40">
-                        <p class="px-4 py-1 text-xs text-gray-400 uppercase font-bold">{% trans "Язык" %}</p>
+                    <div x-show="langMenuOpen" x-transition.origin.top.right x-cloak class="menu fade-in" style="width: 168px">
+                        <p class="menu-label kicker">{% trans "Язык" %}</p>
                         {% for language in languages %}
                         <form action="{% url 'set_language' %}" method="post" class="contents">
                             {% csrf_token %}
                             <input name="next" type="hidden" value="{{ request.path }}">
                             <input name="language" type="hidden" value="{{ language.code }}">
-                            <button type="submit"
-                                class="w-full flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-50 transition-colors text-left {% if language.code == LANG_CODE %}text-indigo-600 font-medium bg-indigo-50{% else %}text-gray-700{% endif %}">
-                                {% if language.code == LANG_CODE %}
-                                <i data-lucide="check" class="w-4 h-4"></i>
-                                {% else %}
-                                <span class="w-4"></span>
-                                {% endif %}
+                            <button type="submit" class="menu-item"
+                                {% if language.code == LANG_CODE %}style="color: var(--accent-text); background: var(--accent-wash)"{% endif %}>
+                                <span class="icon" style="width: 16px">
+                                    {% if language.code == LANG_CODE %}<i data-lucide="check" class="w-4 h-4"></i>{% endif %}
+                                </span>
                                 {{ language.name_local }}
                             </button>
                         </form>
@@ -299,39 +171,35 @@
 
                 {% include 'partials/usage_widget.html' %}
 
-                <a href="{% url 'settings:index' %}"
-                    class="p-2 text-gray-500 hover:bg-gray-100 rounded-xl transition-colors flex items-center gap-2"
-                    title="{% trans 'Параметры помощника' %}">
-                    <i data-lucide="sliders-horizontal" class="w-5 h-5"></i>
+                <a href="{% url 'settings:index' %}" class="iconbtn" title="{% trans 'Параметры помощника' %}">
+                    <i data-lucide="sliders-horizontal" class="w-[18px] h-[18px]"></i>
                 </a>
 
-                <a href="{% url 'login' %}"
-                    class="flex items-center gap-2 px-3 py-1.5 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors border border-gray-200">
-                    <i data-lucide="user" class="w-[18px] h-[18px] text-gray-500"></i>
-                    <span class="text-sm font-medium">{% trans "Войти" %}</span>
+                <a href="{% url 'login' %}" class="btn btn-secondary btn-sm">
+                    <i data-lucide="user" class="w-[18px] h-[18px]"></i>
+                    <span>{% trans "Войти" %}</span>
                 </a>
                 {% endif %}
             </div>
         </div>
     </header>
 
-    <main class="max-w-[1200px] mx-auto px-4 py-8 md:py-16">
+    <main class="app-main">
         {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
-    <footer class="mt-20 border-t border-gray-100 py-12 bg-white">
-        <div class="max-w-[1200px] mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="text-gray-400 text-sm">
+    <footer style="border-top: 1px solid var(--line); margin-top: 40px; padding: 40px 0">
+        <div class="wrap" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px">
+            <div class="mono" style="color: var(--text-3); font-size: 12px; letter-spacing: 0.02em">
                 &copy; 2026 StudyAI Inc. {% trans "Все права защищены. Копирование материалов запрещено." %}
             </div>
 
-            <div class="flex items-center gap-6">
-                <a href="{% url 'features' %}" class="text-gray-500 hover:text-gray-900 text-sm font-medium transition-colors">{% trans "Возможности" %}</a>
-                <a href="{% url 'contacts' %}" class="text-gray-500 hover:text-gray-900 text-sm font-medium transition-colors">{% trans "Контакты" %}</a>
-                <a href="{% url 'agreement' %}" class="text-gray-500 hover:text-gray-900 text-sm font-medium transition-colors">{% trans "Соглашение" %}</a>
-                
-                <a href="https://github.com/oleksandr-izotov" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-gray-900 transition-colors">
+            <div style="display: flex; align-items: center; gap: 24px">
+                <a href="{% url 'features' %}" style="color: var(--text-2); font-size: 14px; font-weight: 500">{% trans "Возможности" %}</a>
+                <a href="{% url 'contacts' %}" style="color: var(--text-2); font-size: 14px; font-weight: 500">{% trans "Контакты" %}</a>
+                <a href="{% url 'agreement' %}" style="color: var(--text-2); font-size: 14px; font-weight: 500">{% trans "Соглашение" %}</a>
+                <a href="https://github.com/oleksandr-izotov" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub" style="color: var(--text-3); display: inline-flex">
                     <i data-lucide="github" class="w-5 h-5"></i>
                 </a>
             </div>
@@ -339,79 +207,62 @@
     </footer>
 
     <!-- History Drawer -->
-    <div x-show="historyOpen" x-cloak class="relative z-50">
-        <div x-show="historyOpen" x-transition.opacity @click="toggleHistory()"
-            class="fixed inset-0 bg-black/20 backdrop-blur-sm"></div>
+    <div x-show="historyOpen" x-cloak style="position: relative; z-index: 50">
+        <div x-show="historyOpen" x-transition.opacity @click="toggleHistory()" class="scrim"></div>
         <div x-show="historyOpen" x-transition:enter="transition-transform duration-300"
             x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
             x-transition:leave="transition-transform duration-300" x-transition:leave-start="translate-x-0"
-            x-transition:leave-end="translate-x-full"
-            class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl p-6 flex flex-col">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-xl font-bold flex items-center gap-2">
-                    <i data-lucide="history" class="w-[22px] h-[22px] text-indigo-600"></i>
+            x-transition:leave-end="translate-x-full" class="drawer">
+            <div class="drawer-head">
+                <h2 style="display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; color: var(--text); margin: 0">
+                    <i data-lucide="history" class="w-[20px] h-[20px]" style="color: var(--accent-text)"></i>
                     {% trans "История запросов" %}
                 </h2>
-                <button @click="toggleHistory()" class="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
+                <button @click="toggleHistory()" class="sa-btn" aria-label="{% trans 'Закрыть' %}" title="{% trans 'Закрыть' %}"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
 
-            <div class="relative mb-6">
-                <i data-lucide="search"
-                    class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-[18px] h-[18px]"></i>
-                <input type="text"
-                    name="q"
-                    placeholder="{% trans 'Поиск по истории...' %}"
-                    class="w-full pl-10 pr-4 py-2 bg-gray-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/20 text-gray-800 placeholder-gray-400"
+            <div class="search">
+                <span class="icon"><i data-lucide="search" class="w-[18px] h-[18px]"></i></span>
+                <input type="text" name="q" placeholder="{% trans 'Поиск по истории...' %}"
                     hx-get="{% url 'history:search' %}"
                     hx-trigger="keyup changed delay:500ms, search"
                     hx-target="#history-list">
             </div>
 
-            <div id="history-list" class="flex-1 overflow-y-auto space-y-3" hx-get="{% url 'history:list' %}"
+            <div id="history-list" style="flex: 1; overflow-y: auto" hx-get="{% url 'history:list' %}"
                 hx-trigger="load, historyUpdated from:body">
-                <div class="flex justify-center py-10">
-                    <i data-lucide="loader-2" class="w-6 h-6 animate-spin text-gray-300"></i>
+                <div style="display: flex; justify-content: center; padding: 40px 0">
+                    <i data-lucide="loader-2" class="w-6 h-6 spin" style="color: var(--text-3)"></i>
                 </div>
             </div>
         </div>
-        <!-- Delete Confirmation Modal -->
-        <div x-show="deleteModalOpen" x-cloak class="relative z-[60]">
-            <div x-show="deleteModalOpen" x-transition.opacity class="fixed inset-0 bg-black/20 backdrop-blur-sm"></div>
 
+        <!-- Delete Confirmation Modal -->
+        <div x-show="deleteModalOpen" x-cloak style="position: relative; z-index: 60">
+            <div x-show="deleteModalOpen" x-transition.opacity class="scrim" style="z-index: 60"></div>
             <div x-show="deleteModalOpen" x-transition:enter="transition ease-out duration-300"
                 x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                 x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
                 x-transition:leave-end="opacity-0 scale-95"
-                class="fixed inset-0 z-10 flex items-center justify-center p-4">
-
-                <div class="bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 text-center transform transition-all"
-                    @click.away="deleteModalOpen = false">
-                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i data-lucide="trash-2" class="w-6 h-6 text-red-600"></i>
+                style="position: fixed; inset: 0; z-index: 61; display: flex; align-items: center; justify-content: center; padding: 16px">
+                <div @click.away="deleteModalOpen = false"
+                    style="background: var(--surface); border: 1px solid var(--line-2); border-radius: var(--r-xl); box-shadow: var(--shadow-lg); max-width: 380px; width: 100%; padding: 26px; text-align: center">
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--danger-wash); border: 1px solid var(--danger); display: grid; place-items: center; margin: 0 auto 16px; color: var(--danger-text)">
+                        <i data-lucide="trash-2" class="w-6 h-6"></i>
                     </div>
-
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">{% trans "Очистить историю?" %}</h3>
-            <p class="text-gray-500 mb-6">{% trans "Это действие удалит весь список ваших запросов. Это действие нельзя отменить." %}</p>
-            <div class="flex gap-3">
-                <button @click="deleteModalOpen = false" class="flex-1 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 font-semibold rounded-xl transition-colors">
-                    {% trans "Отмена" %}
-                </button>
-                <button @click="clearHistory()" hx-post="{% url 'history:clear' %}"
-                            hx-target="#history-list"
-                            class="flex-1 py-3 text-white bg-red-500 hover:bg-red-600 font-semibold rounded-xl transition-colors">
-                            {% trans "Удалить" %}
-                        </button>
+                    <h3 style="font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; color: var(--text); margin: 0 0 8px">{% trans "Очистить историю?" %}</h3>
+                    <p style="color: var(--text-2); font-size: 14px; margin: 0 0 22px">{% trans "Это действие удалит весь список ваших запросов. Это действие нельзя отменить." %}</p>
+                    <div style="display: flex; gap: 12px">
+                        <button @click="deleteModalOpen = false" class="btn btn-secondary" style="flex: 1">{% trans "Отмена" %}</button>
+                        <button @click="clearHistory()" hx-post="{% url 'history:clear' %}" hx-target="#history-list"
+                            class="btn" style="flex: 1; background: var(--danger); color: #fff">{% trans "Удалить" %}</button>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <script src="{% static 'js/main.js' %}"></script>
-    <!-- force reload -->
     {% block scripts %}{% endblock %}
 </body>
 

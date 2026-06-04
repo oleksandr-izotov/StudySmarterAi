@@ -1,96 +1,65 @@
 {% load i18n core_extras %}
-<div
-  class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6"
-  id="section-{{ section.type }}"
-  x-data="{ copied: false }"
->
+<div class="section fade-up" id="section-{{ section.type }}" x-data="{ copied: false, menuOpen: false }">
   <!-- Section Header -->
-  <div
-    class="px-6 py-4 bg-gray-50/50 border-b border-gray-100 flex items-center justify-between"
-  >
-    <h3 class="font-semibold text-gray-800 flex items-center gap-2">
+  <div class="section-head">
+    <div class="section-title">
       {% if section.type == 'explanation' %}
-      <i data-lucide="book-open" class="w-5 h-5 text-indigo-500"></i>
-      {% trans "Объяснение" %} {% elif section.type == 'plan' %}
-      <i data-lucide="list-checks" class="w-5 h-5 text-indigo-500"></i>
-      {% trans "План изучения" %} {% elif section.type == 'quiz' %}
-      <i data-lucide="help-circle" class="w-5 h-5 text-indigo-500"></i>
-      {% trans "Самопроверка" %} {% elif section.type == 'summary' %}
-      <i data-lucide="file-text" class="w-5 h-5 text-indigo-500"></i>
-      {% trans "Конспект" %} {% else %} {{ section.type|title }} {% endif %}
-      {% if section.version > 1 %}
-      <span
-        class="text-xs font-normal text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full"
-        >v{{ section.version }}</span
-      >
+      <span class="section-num">01</span>
+      <span class="section-ic"><i data-lucide="book-open" class="w-[17px] h-[17px]"></i></span>
+      <span class="section-name">{% trans "Объяснение" %}</span>
+      {% elif section.type == 'plan' %}
+      <span class="section-num">02</span>
+      <span class="section-ic"><i data-lucide="list-checks" class="w-[17px] h-[17px]"></i></span>
+      <span class="section-name">{% trans "План изучения" %}</span>
+      {% elif section.type == 'quiz' %}
+      <span class="section-num">03</span>
+      <span class="section-ic"><i data-lucide="help-circle" class="w-[17px] h-[17px]"></i></span>
+      <span class="section-name">{% trans "Самопроверка" %}</span>
+      {% elif section.type == 'summary' %}
+      <span class="section-num">04</span>
+      <span class="section-ic"><i data-lucide="file-text" class="w-[17px] h-[17px]"></i></span>
+      <span class="section-name">{% trans "Конспект" %}</span>
+      {% else %}
+      <span class="section-ic"><i data-lucide="sparkles" class="w-[17px] h-[17px]"></i></span>
+      <span class="section-name">{{ section.type|title }}</span>
       {% endif %}
-    </h3>
-    <div class="flex gap-1">
+      {% if section.version > 1 %}
+      <span class="ver-badge">v{{ section.version }}</span>
+      {% endif %}
+    </div>
+
+    <div class="section-actions">
       <!-- Copy Action -->
-      <button
-        @click="navigator.clipboard.writeText($refs.content.innerText); copied = true; setTimeout(() => copied = false, 2000)"
-        class="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors relative"
-        title="{% trans 'Копировать' %}"
-      >
+      <button class="sa-btn" title="{% trans 'Копировать' %}"
+        @click="navigator.clipboard.writeText($refs.content.innerText); copied = true; setTimeout(() => copied = false, 2000)">
         <i data-lucide="copy" class="w-4 h-4" x-show="!copied"></i>
-        <i
-          data-lucide="check"
-          class="w-4 h-4 text-green-500"
-          x-show="copied"
-          style="display: none"
-        ></i>
+        <i data-lucide="check" class="w-4 h-4" style="display: none; color: var(--success)" x-show="copied"></i>
       </button>
 
       <!-- Actions Dropdown -->
-      <div class="relative" x-data="{ open: false }">
-        <button
-          @click="open = !open"
-          @click.away="open = false"
-          class="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-          title="{% trans 'Действия' %}"
-        >
+      <div style="position: relative" x-data="{ open: false }">
+        <button class="sa-btn" title="{% trans 'Действия' %}" @click="open = !open" @click.away="open = false">
           <i data-lucide="more-vertical" class="w-4 h-4"></i>
         </button>
 
-        <div
-          x-show="open"
-          style="display: none"
-          class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-30 animate-in fade-in zoom-in duration-200"
-        >
-          <button
+        <div x-show="open" x-transition.origin.top.right style="display: none" class="menu fade-in">
+          <button class="menu-item" @click="open = false"
             hx-post="{% url 'section_regenerate' prompt.id section.type %}"
-            hx-target="#section-{{ section.type }}"
-            hx-swap="outerHTML"
-            hx-indicator="#section-{{ section.type }} .htmx-indicator"
-            @click="open = false"
-            class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-          >
-            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-            Regenerate
+            hx-target="#section-{{ section.type }}" hx-swap="outerHTML"
+            hx-indicator="#section-{{ section.type }} .section-loading">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i>{% trans "Перегенерировать" %}
           </button>
-
-          <button
+          <button class="menu-item" @click="open = false"
             hx-post="{% url 'section_regenerate' prompt.id section.type %}?mode=simpler"
-            hx-target="#section-{{ section.type }}"
-            hx-swap="outerHTML"
-            hx-indicator="#section-{{ section.type }} .htmx-indicator"
-            @click="open = false"
-            class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-          >
-            <i data-lucide="arrow-down-narrow-wide" class="w-4 h-4"></i>
-            Simpler
+            hx-target="#section-{{ section.type }}" hx-swap="outerHTML"
+            hx-indicator="#section-{{ section.type }} .section-loading">
+            <i data-lucide="arrow-down-narrow-wide" class="w-4 h-4"></i>{% trans "Проще" %}
           </button>
-
-          <button
+          <button class="menu-item" @click="open = false"
             hx-post="{% url 'section_regenerate' prompt.id section.type %}?mode=detailed"
-            hx-target="#section-{{ section.type }}"
-            hx-swap="outerHTML"
-            hx-indicator="#section-{{ section.type }} .htmx-indicator"
-            @click="open = false"
-            class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-          >
-            <i data-lucide="arrow-up-wide-narrow" class="w-4 h-4"></i>
-            More detailed
+            hx-target="#section-{{ section.type }}" hx-swap="outerHTML"
+            hx-indicator="#section-{{ section.type }} .section-loading">
+            <i data-lucide="arrow-up-wide-narrow" class="w-4 h-4"></i>{% trans "Подробнее" %}
           </button>
         </div>
       </div>
@@ -98,18 +67,12 @@
   </div>
 
   <!-- Section Content -->
-  <div class="p-6 prose prose-indigo max-w-none relative group" x-ref="content">
+  <div class="section-body" x-ref="content">
     <!-- Loading Indicator Overlay -->
-    <div
-      class="htmx-indicator absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-20 transition-opacity duration-200 opacity-0 pointer-events-none"
-    >
-      <div class="flex flex-col items-center gap-3">
-        <div
-          class="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"
-        ></div>
-        <span class="text-sm text-indigo-600 font-medium"
-          >{% trans "Обновляем..." %}</span
-        >
+    <div class="htmx-indicator section-loading">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 12px">
+        <i data-lucide="loader-2" class="w-8 h-8 spin" style="color: var(--accent)"></i>
+        <span class="mono" style="font-size: 12px; color: var(--accent-text); letter-spacing: 0.04em">{% trans "Обновляем..." %}</span>
       </div>
     </div>
 
@@ -117,9 +80,6 @@
   </div>
 
   <script>
-    // Re-initialize icons for this specific section when replaced
-    if (typeof lucide !== "undefined") {
-      lucide.createIcons();
-    }
+    if (typeof lucide !== "undefined") { lucide.createIcons(); }
   </script>
 </div>

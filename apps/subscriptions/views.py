@@ -145,25 +145,13 @@ def stripe_webhook(request):
     except stripe.error.SignatureVerificationError:
         return HttpResponse('Invalid signature', status=400)
 
-    event_id = event['id']
-    event_type = event['type']
+    # Atomic, idempotent processing. Only acknowledge (200) when the event was
+    # handled, already handled, or has no handler. On handler failure return
+    # 500 so Stripe retries instead of us silently dropping a paid upgrade.
+    status = StripeService.process_event(event)
 
-    if StripeService.is_event_processed(event_id):
-        return HttpResponse('Already processed', status=200)
-
-    if event_type == 'checkout.session.completed':
-        session = event['data']['object']
-        StripeService.handle_checkout_completed(session)
-
-    elif event_type == 'customer.subscription.updated':
-        subscription = event['data']['object']
-        StripeService.handle_subscription_updated(subscription)
-
-    elif event_type == 'customer.subscription.deleted':
-        subscription = event['data']['object']
-        StripeService.handle_subscription_deleted(subscription)
-
-    StripeService.mark_event_processed(event_id, event_type, event['data']['object'])
+    if status == 'failed':
+        return HttpResponse('Handler failed, will retry', status=500)
 
     return HttpResponse('OK', status=200)
 

@@ -4,127 +4,73 @@
 {% block title %}{% trans "StudyAI - Возможности" %}{% endblock %}
 
 {% block content %}
-<div class="space-y-24">
+<div class="fade-up" style="display: flex; flex-direction: column; gap: 56px">
+
     <!-- Features Notification Banner -->
-    <div x-data="{ show: true }" x-show="show" x-transition.opacity 
-         class="mb-6 p-4 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center justify-between gap-4 relative overflow-hidden">
-        <div class="flex items-center gap-3 z-10 relative">
-            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm text-indigo-600">
-                <i data-lucide="sparkles" class="w-5 h-5"></i>
-            </div>
+    <div x-data="{ show: true }" x-show="show" x-transition.opacity class="banner">
+        <div class="banner-l">
+            <div class="banner-ic"><i data-lucide="sparkles" class="w-5 h-5"></i></div>
             <div>
-                <h3 class="font-bold text-indigo-900 text-sm">{% trans "Откройте все возможности!" %}</h3>
-                <p class="text-indigo-700 text-sm">{% trans "Попробуйте нашего AI-репетитора бесплатно прямо сейчас." %}</p>
+                <p style="margin: 0; font-weight: 700; font-size: 14px; color: var(--text)">{% trans "Откройте все возможности!" %}</p>
+                <p style="margin: 2px 0 0; font-size: 13.5px; color: var(--text-2)">{% trans "Попробуйте нашего AI-репетитора бесплатно прямо сейчас." %}</p>
             </div>
         </div>
-        <div class="flex items-center gap-3 z-10 relative">
-            <a href="{% url 'home' %}" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-lg transition-colors shadow-sm">
-                {% trans "Попробовать" %}
-            </a>
-            <button @click="show = false" class="text-indigo-400 hover:text-indigo-600 transition-colors">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
+        <div style="display: flex; align-items: center; gap: 10px">
+            <a href="{% url 'home' %}" class="btn btn-primary btn-sm">{% trans "Попробовать" %}</a>
+            <button @click="show = false" class="sa-btn" aria-label="{% trans 'Закрыть' %}"><i data-lucide="x" class="w-[17px] h-[17px]"></i></button>
         </div>
     </div>
-    <!-- Hero Section -->
-    <section class="text-center space-y-6 max-w-4xl mx-auto">
-        <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
-            {% trans "Раскрой свой потенциал с" %} <span class="text-indigo-600">StudyAI</span>
-        </h1>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-            {% trans "Твой персональный AI-репетитор, который всегда под рукой. Учись умнее, быстрее и эффективнее." %}
-        </p>
-        <div class="flex justify-center gap-4">
-            <a href="{% url 'register' %}" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl transition-all shadow-lg hover:shadow-indigo-500/30 text-lg">
-                {% trans "Начать бесплатно" %}
-            </a>
-            <a href="#features" class="px-8 py-4 bg-gray-100 hover:bg-gray-200 text-gray-900 font-bold rounded-2xl transition-all text-lg">
-                {% trans "Узнать больше" %}
-            </a>
+
+    <!-- Hero -->
+    <section class="page-head" style="margin: 0 auto">
+        <div class="kicker kicker-ox">{% trans "Возможности" %}</div>
+        <h2>{% trans "Раскрой свой потенциал с" %} <em>StudyAI</em></h2>
+        <p class="lead">{% trans "Твой персональный AI-репетитор, который всегда под рукой. Учись умнее, быстрее и эффективнее." %}</p>
+        <div style="display: flex; justify-content: center; gap: 12px; margin-top: 24px">
+            <a href="{% url 'register' %}" class="btn btn-primary">{% trans "Начать бесплатно" %}</a>
+            <a href="#features" class="btn btn-secondary">{% trans "Узнать больше" %}</a>
         </div>
     </section>
 
     <!-- Features Grid -->
-    <section id="features" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Feature 1 -->
-        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300">
-            <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-6">
-                <i data-lucide="zap" class="w-7 h-7"></i>
-            </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Мгновенные ответы" %}</h3>
-            <p class="text-gray-500 leading-relaxed">
-                {% trans "Получай четкие и понятные ответы на любые учебные вопросы за секунды. Без лишней воды." %}
-            </p>
+    <section id="features" class="mk-grid mk-grid-3">
+        <div class="mk-card">
+            <div class="mk-ic"><i data-lucide="zap" class="w-6 h-6"></i></div>
+            <h3>{% trans "Мгновенные ответы" %}</h3>
+            <p>{% trans "Получай четкие и понятные ответы на любые учебные вопросы за секунды. Без лишней воды." %}</p>
         </div>
-
-        <!-- Feature 2 -->
-        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300">
-            <div class="w-14 h-14 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-6">
-                <i data-lucide="calendar" class="w-7 h-7"></i>
-            </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Умные планы обучения" %}</h3>
-            <p class="text-gray-500 leading-relaxed">
-                {% trans "Создавай персонализированные расписания, адаптированные под твои цели и свободное время." %}
-            </p>
+        <div class="mk-card">
+            <div class="mk-ic"><i data-lucide="calendar" class="w-6 h-6"></i></div>
+            <h3>{% trans "Умные планы обучения" %}</h3>
+            <p>{% trans "Создавай персонализированные расписания, адаптированные под твои цели и свободное время." %}</p>
         </div>
-
-        <!-- Feature 3 -->
-        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300">
-            <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
-                <i data-lucide="file-text" class="w-7 h-7"></i>
-            </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Генератор конспектов" %}</h3>
-            <p class="text-gray-500 leading-relaxed">
-                {% trans "Превращай длинные тексты и лекции в краткие, структурированные конспекты для быстрого повторения." %}
-            </p>
+        <div class="mk-card">
+            <div class="mk-ic"><i data-lucide="file-text" class="w-6 h-6"></i></div>
+            <h3>{% trans "Генератор конспектов" %}</h3>
+            <p>{% trans "Превращай длинные тексты и лекции в краткие, структурированные конспекты для быстрого повторения." %}</p>
         </div>
-
-        <!-- Feature 4 -->
-        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300">
-            <div class="w-14 h-14 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center mb-6">
-                <i data-lucide="check-circle" class="w-7 h-7"></i>
-            </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Проверочные тесты" %}</h3>
-            <p class="text-gray-500 leading-relaxed">
-                {% trans "Закрепляй знания с помощью AI-генерируемых тестов и викторин по любой теме." %}
-            </p>
+        <div class="mk-card">
+            <div class="mk-ic"><i data-lucide="check-circle" class="w-6 h-6"></i></div>
+            <h3>{% trans "Проверочные тесты" %}</h3>
+            <p>{% trans "Закрепляй знания с помощью AI-генерируемых тестов и викторин по любой теме." %}</p>
         </div>
-
-        <!-- Feature 5 -->
-        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300">
-            <div class="w-14 h-14 bg-pink-100 text-pink-600 rounded-2xl flex items-center justify-center mb-6">
-                <i data-lucide="globe" class="w-7 h-7"></i>
-            </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "Мультиязычность" %}</h3>
-            <p class="text-gray-500 leading-relaxed">
-                {% trans "Учись на русском, английском, немецком, французском или испанском языках. AI понимает всё." %}
-            </p>
+        <div class="mk-card">
+            <div class="mk-ic"><i data-lucide="globe" class="w-6 h-6"></i></div>
+            <h3>{% trans "Мультиязычность" %}</h3>
+            <p>{% trans "Учись на русском, английском, немецком, французском или испанском языках. AI понимает всё." %}</p>
         </div>
-
-        <!-- Feature 6 -->
-        <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300">
-            <div class="w-14 h-14 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mb-6">
-                <i data-lucide="history" class="w-7 h-7"></i>
-            </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-3">{% trans "История и прогресс" %}</h3>
-            <p class="text-gray-500 leading-relaxed">
-                {% trans "Никогда не теряй свои исследования. Вся история запросов сохраняется и доступна в любой момент." %}
-            </p>
+        <div class="mk-card">
+            <div class="mk-ic"><i data-lucide="history" class="w-6 h-6"></i></div>
+            <h3>{% trans "История и прогресс" %}</h3>
+            <p>{% trans "Никогда не теряй свои исследования. Вся история запросов сохраняется и доступна в любой момент." %}</p>
         </div>
     </section>
 
     <!-- Call to Action -->
-    <section class="bg-indigo-600 rounded-3xl p-12 text-center text-white space-y-6 relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150"></div>
-        <div class="relative z-10 space-y-6">
-            <h2 class="text-3xl md:text-5xl font-bold">{% trans "Готов учиться эффективнее?" %}</h2>
-            <p class="text-indigo-100 text-xl max-w-2xl mx-auto">
-                {% trans "Присоединяйся к тысячам студентов, которые уже используют StudyAI для достижения своих целей." %}
-            </p>
-            <a href="{% url 'register' %}" class="inline-block px-8 py-4 bg-white text-indigo-600 font-bold rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 text-lg">
-                {% trans "Создать аккаунт бесплатно" %}
-            </a>
-        </div>
+    <section class="cta-band">
+        <h2 style="font-family: var(--font-display); font-weight: 700; font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--text); margin: 0 0 14px">{% trans "Готов учиться эффективнее?" %}</h2>
+        <p style="color: var(--text-2); font-size: var(--text-body-lg); max-width: 560px; margin: 0 auto 24px">{% trans "Присоединяйся к тысячам студентов, которые уже используют StudyAI для достижения своих целей." %}</p>
+        <a href="{% url 'register' %}" class="btn btn-primary">{% trans "Создать аккаунт бесплатно" %}</a>
     </section>
 </div>
 {% endblock %}

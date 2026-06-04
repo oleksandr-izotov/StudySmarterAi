@@ -26,10 +26,10 @@ function appData() {
             toast.className = 'toast';
 
             const iconName = type === 'success' ? 'check-circle' : 'alert-circle';
-            const iconColor = type === 'success' ? 'text-green-500' : 'text-red-500';
+            const iconColor = type === 'success' ? 'var(--success)' : 'var(--danger)';
 
             toast.innerHTML = `
-                <i data-lucide="${iconName}" class="w-5 h-5 ${iconColor}"></i>
+                <i data-lucide="${iconName}" class="w-5 h-5" style="color: ${iconColor}"></i>
                 <span>${message}</span>
             `;
 

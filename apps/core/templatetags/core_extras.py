@@ -26,10 +26,11 @@ def sanitize_html(value):
         'sup', 'sub',
     ]
 
-    # Allowed attributes
+    # Allowed attributes. 'target' is intentionally NOT allowed on <a>: it
+    # would enable reverse-tabnabbing (window.opener) on AI-generated links.
     allowed_attributes = {
         '*': ['class', 'title', 'id'], # Global attributes (removed style for safety)
-        'a': ['href', 'target', 'rel'],
+        'a': ['href', 'rel'],
         'img': ['src', 'alt', 'title', 'width', 'height'],
         'code': ['class'], # For syntax highlighting
         'pre': ['class'],
@@ -37,11 +38,16 @@ def sanitize_html(value):
         'td': ['colspan', 'rowspan'],
     }
 
+    # Restrict URL schemes so AI output can't smuggle javascript:/data: URIs
+    # into href or img src.
+    allowed_protocols = ['http', 'https', 'mailto']
+
     # Clean the HTML
     cleaned_html = bleach.clean(
         value,
         tags=allowed_tags,
         attributes=allowed_attributes,
+        protocols=allowed_protocols,
         strip=True, # Strip disallowed tags instead of escaping them (cleaner output)
         strip_comments=True
     )

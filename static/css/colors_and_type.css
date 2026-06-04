@@ -1,0 +1,191 @@
+/* ============================================================
+   StudyAI — Design System Foundations  ·  "ACID" (dark)
+   Near-black surfaces, toxic chartreuse/lime accent, mono details.
+   Type: Unbounded (display), Manrope (UI/body), JetBrains Mono.
+   All three carry full Cyrillic — the product UI is Russian.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  /* ---------- Surfaces (near-black, faint cool-green undertone) ---------- */
+  --bg:        #0A0C0A;  /* page background */
+  --bg-deep:   #060706;  /* deepest layer / behind */
+  --surface:   #111410;  /* raised card */
+  --surface-2: #181C16;  /* highest: inputs, popovers, wells */
+  --surface-3: #222720;  /* hover / pressed surface */
+
+  /* ---------- Text (near-white, slight warm-green tint) ---------- */
+  --text:      #EAF0E2;  /* primary */
+  --text-2:    #9BA493;  /* secondary */
+  --text-3:    #69705F;  /* muted: captions, placeholders, meta */
+  --text-inv:  #0A0C0A;  /* on acid fills — near black */
+
+  /* ---------- Hairlines (low-opacity light, never solid grey) ---------- */
+  --line:      rgba(234,240,226,0.09);
+  --line-2:    rgba(234,240,226,0.17);
+  --line-soft: rgba(234,240,226,0.05);
+
+  /* ---------- ACID — primary accent (toxic chartreuse / lime) ---------- */
+  --accent:        #C2F24E;
+  --accent-press:  #A6D636;  /* darker — pressed */
+  --accent-bright: #E2FF7A;  /* brighter — hover / highlight */
+  --accent-glow:   rgba(194,242,78,0.45);  /* for box-shadow halos */
+  --accent-wash:   rgba(194,242,78,0.13);  /* icon chips, selection, active row */
+  --accent-line:   rgba(194,242,78,0.34);  /* borders on accent elements */
+  --accent-text:   #D4F77A;  /* accent used as TEXT on dark (lifted for contrast) */
+
+  /* ---------- Secondary accent — electric mint (sparing) ---------- */
+  --accent-2:      #3DF2A0;
+  --accent-2-deep: #21C97D;
+  --accent-2-wash: rgba(61,242,160,0.12);
+
+  /* ---------- Semantic (neon-on-dark, used as washes) ---------- */
+  --success: #3DF2A0;  --success-wash: rgba(61,242,160,0.12);  --success-text: #6CF7B8;
+  --warning: #F2C84E;  --warning-wash: rgba(242,200,78,0.13);  --warning-text: #F5D578;
+  --danger:  #FF6B5E;  --danger-wash:  rgba(255,107,94,0.13);  --danger-text:  #FF8B80;
+  --info:    #5EC8F2;  --info-wash:    rgba(94,200,242,0.12);
+
+  /* ---------- Typography families ---------- */
+  --font-display: 'Unbounded', system-ui, sans-serif;
+  --font-sans:    'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* ---------- Type scale ---------- */
+  --text-hero:    clamp(2.6rem, 5.4vw, 4.5rem);   /* 42 → 72 */
+  --text-h1:      clamp(2rem, 3.6vw, 2.9rem);
+  --text-h2:      1.75rem;
+  --text-h3:      1.25rem;
+  --text-h4:      1.0625rem;
+  --text-body-lg: 1.1875rem;
+  --text-body:    1rem;
+  --text-sm:      0.875rem;
+  --text-xs:      0.75rem;
+  --text-label:   0.6875rem;
+
+  --leading-tight: 1.04;
+  --leading-snug:  1.3;
+  --leading-body:  1.62;
+
+  /* ---------- Radii (sharp & technical, not pillowy) ---------- */
+  --r-xs: 3px;
+  --r-sm: 6px;
+  --r-md: 9px;    /* buttons, inputs */
+  --r-lg: 13px;   /* cards */
+  --r-xl: 18px;   /* hero panels, composer */
+  --r-pill: 999px;
+
+  /* ---------- Shadows / glows ---------- */
+  --shadow-sm: 0 2px 10px -4px rgba(0,0,0,0.6);
+  --shadow-md: 0 14px 36px -16px rgba(0,0,0,0.7);
+  --shadow-lg: 0 28px 70px -24px rgba(0,0,0,0.8);
+  --glow:      0 0 24px -4px var(--accent-glow);
+  --glow-sm:   0 0 14px -4px var(--accent-glow);
+  --shadow-focus: 0 0 0 3px var(--accent-wash), 0 0 18px -4px var(--accent-glow);
+
+  /* ---------- Spacing (4px base) ---------- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+  --sp-12: 48px; --sp-16: 64px; --sp-20: 80px; --sp-24: 96px;
+
+  /* ---------- Motion ---------- */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
+  --dur-fast: 130ms;
+  --dur: 220ms;
+  --dur-slow: 420ms;
+
+  --maxw: 1200px;
+
+  /* ============================================================
+     BACK-COMPAT ALIASES — older files/components reference the
+     previous "warm" token names. Repointed to the ACID system so
+     everything keeps working. Prefer the semantic names above.
+     ============================================================ */
+  --paper:          var(--bg);
+  --paper-deep:     var(--surface-2);
+  --ink:            var(--text);
+  --ink-2:          var(--text-2);
+  --ink-3:          var(--text-3);
+  --ink-inv:        var(--text-inv);
+  --line-strong:    var(--line-2);
+  --oxblood:        var(--accent);
+  --oxblood-deep:   var(--accent-press);
+  --oxblood-bright: var(--accent-bright);
+  --oxblood-tint:   var(--accent-wash);
+  --oxblood-tint-2: var(--accent-line);
+  --gold:           var(--accent-2);
+  --gold-deep:      var(--accent-2-deep);
+  --gold-tint:      var(--accent-2-wash);
+}
+
+/* ============================================================
+   Base element styling — add class="ds" to <body> or a wrapper.
+   ============================================================ */
+.ds, body.ds {
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.ds ::selection { background: var(--accent); color: var(--text-inv); }
+
+/* ---- Headings: Unbounded display ---- */
+.ds h1, .h1, .ds h2, .h2, .ds h3, .h3, .ds h4, .h4 {
+  font-family: var(--font-display);
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.ds-hero, .hero-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-hero);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.ds h1, .h1 { font-size: var(--text-h1); line-height: 1.08; }
+.ds h2, .h2 { font-size: var(--text-h2); line-height: 1.14; font-weight: 600; }
+.ds h3, .h3 { font-size: var(--text-h3); line-height: 1.24; font-weight: 600; letter-spacing: -0.01em; }
+.ds h4, .h4 { font-size: var(--text-h4); line-height: 1.3; font-weight: 600; }
+
+/* ---- Body ---- */
+.ds p, .body { font-size: var(--text-body); line-height: var(--leading-body); color: var(--text-2); }
+.body-lg, .lead { font-size: var(--text-body-lg); line-height: 1.55; color: var(--text-2); }
+.body-sm, .small { font-size: var(--text-sm); line-height: 1.5; }
+.muted { color: var(--text-3); }
+
+/* ---- Label / eyebrow: tracked mono uppercase (the techno signal) ---- */
+.label, .eyebrow, .kicker {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--text-3);
+}
+.eyebrow-accent, .kicker-ox { color: var(--accent-text); }
+
+/* ---- Mono utility ---- */
+.mono { font-family: var(--font-mono); font-feature-settings: 'tnum' 1; }
+
+/* ---- Links ---- */
+.ds a { color: var(--accent-text); text-decoration: none; }
+.ds a:hover { color: var(--accent-bright); }
+
+/* ---- Inline code ---- */
+.ds code, .code-inline {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xs);
+  padding: 0.08em 0.36em;
+  color: var(--accent-text);
+}

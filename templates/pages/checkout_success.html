@@ -4,31 +4,16 @@
 {% block title %}{% trans "Оплата успешна" %} — StudyAI{% endblock %}
 
 {% block content %}
-<div class="min-h-[60vh] flex items-center justify-center">
-    <div class="text-center max-w-md mx-auto">
-        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
+<div class="fade-in" style="min-height: 56vh; display: flex; align-items: center; justify-content: center">
+    <div style="text-align: center; max-width: 420px; margin: 0 auto">
+        <div style="width: 76px; height: 76px; border-radius: 20px; background: var(--accent-wash); border: 1px solid var(--accent-line); display: grid; place-items: center; margin: 0 auto 22px; color: var(--accent-text); box-shadow: var(--glow)">
+            <i data-lucide="check" class="w-9 h-9"></i>
         </div>
-        
-        <h1 class="text-3xl font-bold text-gray-900 mb-4">
-            {% trans "Спасибо за подписку!" %}
-        </h1>
-        
-        <p class="text-gray-600 mb-8">
-            {% trans "Ваша подписка успешно активирована. Наслаждайтесь всеми преимуществами вашего нового плана!" %}
-        </p>
-        
-        <div class="space-y-3">
-            <a href="{% url 'home' %}" 
-               class="block w-full py-3 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors">
-                {% trans "Начать использовать" %}
-            </a>
-            <a href="{% url 'account' %}" 
-               class="block w-full py-3 px-6 bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold rounded-xl transition-colors">
-                {% trans "Управление подпиской" %}
-            </a>
+        <h1 style="font-family: var(--font-display); font-weight: 700; font-size: 2rem; color: var(--text); margin: 0 0 14px">{% trans "Спасибо за подписку!" %}</h1>
+        <p style="color: var(--text-2); margin: 0 0 28px">{% trans "Ваша подписка успешно активирована. Наслаждайтесь всеми преимуществами вашего нового плана!" %}</p>
+        <div style="display: flex; flex-direction: column; gap: 12px">
+            <a href="{% url 'home' %}" class="btn btn-primary" style="width: 100%">{% trans "Начать использовать" %}</a>
+            <a href="{% url 'account' %}" class="btn btn-secondary" style="width: 100%">{% trans "Управление подпиской" %}</a>
         </div>
     </div>
 </div>
@@ -38,18 +23,12 @@
     0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
     100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
 }
-.confetti {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    top: 0;
-    animation: confetti-fall 3s ease-out forwards;
-}
+.confetti { position: fixed; width: 10px; height: 10px; top: 0; z-index: 9000; animation: confetti-fall 3s ease-out forwards; }
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const colors = ['#6366f1', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6'];
+    const colors = ['#C2F24E', '#3DF2A0', '#E2FF7A', '#5EC8F2', '#A6D636'];
     for (let i = 0; i < 50; i++) {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';

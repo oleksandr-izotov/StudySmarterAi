@@ -48,6 +48,32 @@ class TestSanitizeHtml:
         sanitized = sanitize_html(html)
         assert 'class="text-red-500 p-4"' in sanitized
 
+    def test_javascript_href_scheme_removed(self):
+        """javascript: URLs must be stripped from links (protocol allowlist)."""
+        html = '<a href="javascript:alert(1)">Click</a>'
+        sanitized = sanitize_html(html)
+        assert 'javascript:' not in sanitized
+        assert 'Click' in sanitized
+
+    def test_data_uri_image_removed(self):
+        """data: URIs must be stripped from img src (protocol allowlist)."""
+        html = '<img src="data:text/html;base64,PHNjcmlwdD4=" alt="x">'
+        sanitized = sanitize_html(html)
+        assert 'data:' not in sanitized
+
+    def test_link_target_blank_removed(self):
+        """target is not allowed on <a> (reverse-tabnabbing protection)."""
+        html = '<a href="https://example.com" target="_blank">Ext</a>'
+        sanitized = sanitize_html(html)
+        assert 'target' not in sanitized
+        assert 'href="https://example.com"' in sanitized
+
+    def test_safe_link_scheme_preserved(self):
+        """http/https/mailto links survive."""
+        for href in ['https://example.com', 'http://example.com', 'mailto:a@b.com']:
+            sanitized = sanitize_html(f'<a href="{href}">x</a>')
+            assert href in sanitized
+
     def test_complex_nesting(self):
         """Test complex nested structures."""
         html = '''

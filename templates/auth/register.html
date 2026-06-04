@@ -1,47 +1,46 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load static i18n %}
 
 {% block content %}
-<div class="max-w-md mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
-    <div class="p-8">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">{% trans "Регистрация" %}</h2>
+<div class="fade-in" style="display: flex; flex-direction: column; align-items: center; padding: 24px 0">
+    <div class="auth-card">
+        <div class="auth-top">
+            <a href="{% url 'home' %}"><img class="m" src="{% static 'img/logo-icon.png' %}" alt="StudyAI"></a>
+        </div>
 
-        <form method="post" class="space-y-4">
+        <h2 class="auth-h">{% trans "Создать аккаунт" %}</h2>
+        <p class="auth-sub" style="margin-bottom: 22px">{% trans "Бесплатно. Без карты." %}</p>
+
+        <form method="post">
             {% csrf_token %}
 
+            {% if form.non_field_errors %}
+            <div style="background: var(--danger-wash); border: 1px solid var(--danger); color: var(--danger-text); padding: 11px 14px; border-radius: var(--r-md); font-size: 13px; margin-bottom: 14px">
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+
             {% for field in form %}
-            <div>
-                <div class="flex items-center gap-2 mb-1">
-                    <label class="block text-sm font-medium text-gray-700">{{ field.label }}</label>
+            <div class="field">
+                <label style="display: flex; align-items: center; gap: 6px">
+                    {{ field.label }}
                     {% if field.help_text %}
-                    <div class="relative group">
-                        <svg class="w-4 h-4 text-gray-400 cursor-help hover:text-indigo-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="10" stroke-width="2"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16v-4m0-4h.01"/>
-                        </svg>
-                        <div class="absolute left-0 top-full mt-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 w-64 z-50">
-                            <div class="text-left leading-relaxed">{{ field.help_text|safe }}</div>
-                            <div class="absolute left-3 bottom-full w-0 h-0 border-l-4 border-r-4 border-b-4 border-transparent border-b-gray-900"></div>
-                        </div>
-                    </div>
+                    <span title="{{ field.help_text|striptags }}" style="cursor: help; color: var(--text-3); display: inline-flex">
+                        <i data-lucide="info" class="w-[14px] h-[14px]"></i>
+                    </span>
                     {% endif %}
-                </div>
-                <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 outline-none transition-all">
-                {% if field.errors %}
-                <p class="text-red-500 text-xs mt-1">{{ field.errors.0 }}</p>
-                {% endif %}
+                </label>
+                <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}">
+                {% if field.errors %}<p style="color: var(--danger-text); font-size: 12px; margin: 6px 0 0">{{ field.errors.0 }}</p>{% endif %}
             </div>
             {% endfor %}
 
-            <button type="submit"
-                class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-all shadow-md mt-6">{% trans "Зарегистрироваться" %}</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 6px">{% trans "Зарегистрироваться" %}</button>
         </form>
 
-        <div class="mt-6 pt-6 border-t border-gray-100 text-center">
-            <p class="text-sm text-gray-500">{% trans "Уже есть аккаунт?" %} <a href="{% url 'login' %}"
-                    class="text-indigo-600 font-semibold hover:underline">{% trans "Войти" %}</a></p>
-        </div>
+        <div class="auth-foot">{% trans "Уже есть аккаунт?" %} <a href="{% url 'login' %}" class="auth-link">{% trans "Войти" %}</a></div>
     </div>
+
+    <a href="{% url 'login' %}" class="iconbtn auth-back"><i data-lucide="arrow-left" class="w-4 h-4"></i>{% trans "Вернуться ко входу" %}</a>
 </div>
 {% endblock %}

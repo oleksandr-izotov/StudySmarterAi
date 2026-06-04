@@ -6,7 +6,7 @@ from .models import Prompt
 from . import services
 from apps.core.utils import ensure_session, get_owner_filter, check_ownership, get_user_settings
 from apps.subscriptions.decorators import check_rate_limit
-from apps.subscriptions.services import UsageService
+from apps.subscriptions.services import UsageService, SubscriptionService
 
 
 
@@ -27,23 +27,33 @@ def prompt_create_view(request: HttpRequest) -> HttpResponse:
         }
         
         ensure_session(request)
-            
+
         prompt = services.create_prompt(
             user=request.user,
             session_key=request.session.session_key,
             text=text,
             settings=settings
         )
-        
-        # Async generation
+
+        # Authoritative, atomic quota check+record. The @check_rate_limit
+        # decorator is a fast pre-check, but it and the recording were a
+        # separate (racy) read/write — under concurrency a user could slip
+        # past it. try_consume closes that race; if we lost it, undo the
+        # just-created prompt and return the rate-limit screen.
+        if not UsageService.try_consume(request.user, request.session.session_key, prompt):
+            prompt.delete()
+            stats = UsageService.get_usage_stats(request.user, request.session.session_key)
+            plan = SubscriptionService.get_user_plan(request.user, request.session.session_key)
+            html = render_to_string('partials/rate_limit_exceeded.html', {
+                'is_guest': not request.user.is_authenticated,
+                'plan': plan,
+                'stats': stats,
+            }, request=request)
+            return HttpResponse(html, status=429)
+
+        # Async generation (only after the request is paid for)
         services.generate_sections_task.delay(prompt.id)
-        
-        UsageService.record_usage(
-            request.user,
-            request.session.session_key,
-            prompt
-        )
-        
+
         # Return polling UI
         detail_url = reverse('prompt_detail', args=[prompt.id])
         

@@ -78,3 +78,10 @@ Thumbs.db
 REVIEW.md
 PROJECT_REPORT.md
 tech.md
+PORTFOLIO_DRAFT.md
+
+# Design-system source kit (kept locally, not part of the app)
+nfaidsi/
+
+# Claude Code agent state / memory (local only)
+.claude/

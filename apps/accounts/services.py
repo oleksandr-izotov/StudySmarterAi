@@ -34,23 +34,40 @@ def send_magic_link_email(token_obj, request):
         print(f"\n\n--- MAGIC LINK ---\n{full_link}\n------------------\n\n")
 
 def get_user_from_token(token_str):
-    try:
-        token_obj = MagicLinkToken.objects.get(token=token_str)
-    except MagicLinkToken.DoesNotExist:
-        return None, "Invalid token"
+    now = timezone.now()
 
-    if not token_obj.is_valid():
+    # Atomically claim the token: a single UPDATE flips is_used False->True only
+    # if it's still unused and unexpired. Exactly one concurrent request gets
+    # rowcount==1, so a link can never be redeemed twice (the previous
+    # check-then-save was a race).
+    claimed = MagicLinkToken.objects.filter(
+        token=token_str, is_used=False, expires_at__gt=now
+    ).update(is_used=True)
+
+    if not claimed:
+        if not MagicLinkToken.objects.filter(token=token_str).exists():
+            return None, "Invalid token"
         return None, "Token expired or already used"
 
-    # Mark as used
-    token_obj.is_used = True
-    token_obj.save()
+    token_obj = MagicLinkToken.objects.get(token=token_str)
+    email = token_obj.email
 
-    # Get or create user
-    user, created = User.objects.get_or_create(username=token_obj.email, defaults={'email': token_obj.email})
-    
-    if created:
+    # A magic link proves control of the inbox, so it should log into the
+    # EXISTING account for that email (incl. password accounts), not spawn a
+    # parallel account keyed on username==email. Match by email first.
+    user = User.objects.filter(email__iexact=email).order_by('id').first()
+
+    if user is None:
         from .models import UserProfile
+        # New magic-link-only account. Prefer email as username, but never
+        # collide with an existing username.
+        username = email
+        if User.objects.filter(username=username).exists():
+            base, suffix = email, 1
+            while User.objects.filter(username=username).exists():
+                username = f"{base}+{suffix}"
+                suffix += 1
+        user = User.objects.create_user(username=username, email=email)
         UserProfile.objects.create(user=user)
 
     return user, None

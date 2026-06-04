@@ -65,3 +65,6 @@ Thumbs.db
 
 # Node
 node_modules/
+
+# Design-system source kit — not used by the running app (~32MB of assets)
+nfaidsi/

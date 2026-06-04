@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.urls import reverse
 from django.views import View
 from django.utils.decorators import method_decorator
+from django_ratelimit.decorators import ratelimit
 
 from .forms import UserRegistrationForm, LoginForm, MagicLinkRequestForm, ProfileSettingsForm
 from .services import create_magic_link, send_magic_link_email, get_user_from_token
@@ -15,6 +16,7 @@ class RegisterView(View):
         form = UserRegistrationForm()
         return render(request, 'auth/register.html', {'form': form})
 
+    @method_decorator(ratelimit(key='ip', rate='10/h', block=True))
     def post(self, request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -29,6 +31,7 @@ class LoginView(View):
         form = LoginForm()
         return render(request, 'auth/login.html', {'form': form})
 
+    @method_decorator(ratelimit(key='ip', rate='10/m', block=True))
     def post(self, request):
         form = LoginForm(data=request.POST)
         if form.is_valid():
@@ -41,8 +44,6 @@ class LogoutView(View):
     def post(self, request):
         logout(request)
         return redirect('login')
-
-from django_ratelimit.decorators import ratelimit
 
 class MagicLinkRequestView(View):
     def get(self, request):

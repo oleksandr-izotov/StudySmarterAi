@@ -31,17 +31,18 @@ class AIServiceTests(TestCase):
 
     @patch('apps.prompts.services.genai')
     def test_gemini_provider_success(self, mock_genai):
-        # Setup mock response
-        mock_model = MagicMock()
+        # New google-genai SDK: genai.Client(...).models.generate_content(...)
+        mock_client = MagicMock()
         mock_response = MagicMock()
         mock_response.text = "Gemini Response"
-        mock_model.generate_content.return_value = mock_response
-        mock_genai.GenerativeModel.return_value = mock_model
+        mock_client.models.generate_content.return_value = mock_response
+        mock_genai.Client.return_value = mock_client
 
         provider = GeminiProvider()
         response = provider.generate_content("test")
-        
+
         self.assertEqual(response, "Gemini Response")
+        mock_client.models.generate_content.assert_called_once()
 
     @patch('apps.prompts.services.QwenProvider')
     @patch('apps.prompts.services.GeminiProvider')

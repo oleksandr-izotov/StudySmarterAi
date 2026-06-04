@@ -1,4 +1,6 @@
+import hashlib
 from django.utils import timezone
+from django.db import connection, transaction
 from django.db.models import Sum
 from decimal import Decimal
 from .models import SubscriptionPlan, UserSubscription, UsageLog
@@ -156,6 +158,35 @@ class UsageService:
             action_type=action_type,
             cost=cost
         )
+
+    @staticmethod
+    def _owner_lock_key(user, session_key):
+        """Stable 63-bit int identifying the quota owner, for advisory locking."""
+        base = f'user:{user.id}' if (user and user.is_authenticated) else f'sess:{session_key}'
+        digest = hashlib.sha256(base.encode()).hexdigest()
+        return int(digest, 16) % (2 ** 63)
+
+    @classmethod
+    def try_consume(cls, user, session_key, prompt=None, action_type='prompt', cost=Decimal('1.0')):
+        """Atomically check the quota AND record usage in one transaction.
+
+        Returns True if the request was within the limit and recorded, False if
+        the user is over quota. The check+write is serialised per-owner with a
+        Postgres transaction-scoped advisory lock, so two concurrent requests
+        can't both pass the check before either records (the TOCTOU race that
+        let users exceed their limit). On non-Postgres backends (sqlite in
+        tests) writes are already globally serialised, so the lock is skipped.
+        """
+        with transaction.atomic():
+            if connection.vendor == 'postgresql':
+                with connection.cursor() as cursor:
+                    cursor.execute('SELECT pg_advisory_xact_lock(%s)', [cls._owner_lock_key(user, session_key)])
+
+            if not cls.can_make_request(user, session_key, cost=cost):
+                return False
+
+            cls.record_usage(user, session_key, prompt, action_type=action_type, cost=cost)
+            return True
 
     @classmethod
     def record_regeneration(cls, user, session_key, prompt=None):

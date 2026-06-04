@@ -1,59 +1,52 @@
 {% load i18n %}
 
-<div class="max-w-lg mx-auto text-center py-12 px-6">
-    <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <i data-lucide="alert-triangle" class="w-8 h-8 text-amber-600"></i>
+<div style="max-width: 520px; margin: 0 auto; text-align: center; padding: 48px 24px">
+    <div style="width: 64px; height: 64px; border-radius: 16px; background: var(--warning-wash); border: 1px solid var(--warning); display: grid; place-items: center; margin: 0 auto 22px; color: var(--warning-text)">
+        <i data-lucide="alert-triangle" class="w-8 h-8"></i>
     </div>
 
-    <h2 class="text-2xl font-bold text-gray-900 mb-3">
+    <h2 style="font-family: var(--font-display); font-weight: 700; font-size: 1.75rem; color: var(--text); margin: 0 0 12px">
         {% trans "Лимит запросов исчерпан" %}
     </h2>
 
     {% if is_guest %}
-    <p class="text-gray-600 mb-6">
+    <p style="color: var(--text-2); margin: 0 0 24px">
         {% trans "Вы использовали все 5 бесплатных запросов." %}
         {% trans "Зарегистрируйтесь, чтобы получить 10 запросов в неделю!" %}
     </p>
 
-    <div class="flex flex-col sm:flex-row gap-3 justify-center">
-        <a href="{% url 'register' %}"
-            class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors shadow-lg shadow-indigo-200">
-            {% trans "Создать аккаунт" %}
-        </a>
-        <a href="{% url 'login' %}"
-            class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl transition-colors">
-            {% trans "Уже есть аккаунт?" %}
-        </a>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: center">
+        <a href="{% url 'register' %}" class="btn btn-primary">{% trans "Создать аккаунт" %}</a>
+        <a href="{% url 'login' %}" class="btn btn-secondary">{% trans "Уже есть аккаунт?" %}</a>
     </div>
 
     {% else %}
-    <p class="text-gray-600 mb-6">
+    <p style="color: var(--text-2); margin: 0 0 24px">
         {% trans "Вы достигли лимита на вашем плане." %}
         {% trans "Обновите подписку для большего количества запросов!" %}
     </p>
 
-    <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 mb-6">
-        <div class="flex items-center justify-center gap-6">
-            <div class="text-center">
-                <p class="text-sm text-gray-500 mb-1">{% trans "Ваш план" %}</p>
-                <p class="text-lg font-bold text-gray-900">{{ stats.plan.display_name }}</p>
+    <div class="card" style="padding: 22px; margin-bottom: 24px">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 24px">
+            <div style="text-align: center">
+                <p class="kicker" style="margin: 0 0 4px">{% trans "Ваш план" %}</p>
+                <p style="font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; color: var(--text); margin: 0">{{ stats.plan.display_name }}</p>
             </div>
-            <div class="text-3xl">→</div>
-            <div class="text-center">
-                <p class="text-sm text-gray-500 mb-1">Pro</p>
-                <p class="text-lg font-bold text-indigo-600">50 / {% trans "день" %}</p>
+            <i data-lucide="arrow-right" class="w-6 h-6" style="color: var(--accent)"></i>
+            <div style="text-align: center">
+                <p class="kicker" style="margin: 0 0 4px">Pro</p>
+                <p style="font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; color: var(--accent-text); margin: 0">50 / {% trans "день" %}</p>
             </div>
         </div>
     </div>
 
-    <a href="{% url 'subscriptions:pricing' %}"
-        class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors shadow-lg shadow-indigo-200">
+    <a href="{% url 'subscriptions:pricing' %}" class="btn btn-primary">
         <i data-lucide="crown" class="w-5 h-5"></i>
         {% trans "Посмотреть тарифы" %}
     </a>
     {% endif %}
 
-    <p class="text-xs text-gray-400 mt-6">
+    <p class="mono" style="font-size: 11px; color: var(--text-3); margin-top: 24px; letter-spacing: 0.04em">
         {% if stats.period == 'day' %}
         {% trans "Лимит обновится завтра" %}
         {% elif stats.period == 'week' %}

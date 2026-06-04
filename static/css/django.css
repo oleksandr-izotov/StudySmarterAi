@@ -1,0 +1,133 @@
+/* ============================================================
+   StudyAI — Django-specific glue for the "ACID" design system.
+   Loaded AFTER colors_and_type.css + studyai.css. Holds things the
+   React UI kit handled in JS: toasts, Lucide stroke, responsive
+   show/hide helpers, prose/MathJax tweaks. Keep design-system
+   files (colors_and_type.css, studyai.css) pristine — edit here.
+   ============================================================ */
+
+/* Bump the muted text token from #69705F (3.8:1) to #888F7C so meta labels
+   (kicker, charcount, footer, plan-note…) clear WCAG AA — 5.9:1 on the page
+   bg and 5.2:1 on the surface-2 pill the eyebrow kicker sits on.
+   Keeps the warm-green tint; affects all muted small text site-wide. */
+.ds { --text-3: #888F7C; }
+
+/* Lucide line icons: 1.6px stroke to match the dark UI */
+svg.lucide { stroke-width: 1.6px; }
+
+/* ------------------------------------------------------------
+   Anchors-as-components: `.ds a { color: var(--accent-text) }`
+   (specificity 0,0,1,1) beats single-class component rules, so an
+   <a class="btn-primary"> renders pale-lime text instead of the
+   button's own colour. These higher-specificity rules restore the
+   component colours for links. Applies wherever a button / menu
+   item / chip is an <a> rather than a <button>.
+   ------------------------------------------------------------ */
+.ds a.btn-primary, .ds a.btn-primary:hover { color: var(--text-inv); }
+.ds a.btn-secondary, .ds a.btn-secondary:hover { color: var(--text); }
+.ds a.btn-ghost { color: var(--text-2); }
+.ds a.btn-ghost:hover { color: var(--text); }
+.ds a.menu-item { color: var(--text-2); }
+.ds a.menu-item:hover { color: var(--text); }
+.ds a.metachip { color: var(--text); }
+.ds a.iconbtn { color: var(--text-3); }
+.ds a.iconbtn:hover { color: var(--text); }
+.ds a.chip { color: var(--text-2); }
+.ds a.chip:hover { color: var(--accent-text); }
+
+/* Page scaffold backgrounds (fixed grid + acid halo) live behind everything */
+body.ds { position: relative; min-height: 100vh; }
+
+/* ---------------- Toasts (dark) ---------------- */
+.toast-container {
+  position: fixed; top: 18px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none;
+}
+.toast {
+  display: flex; align-items: center; gap: 9px;
+  background: var(--surface-2); color: var(--text);
+  border: 1px solid var(--line-2); border-radius: var(--r-md);
+  padding: 11px 16px; font-size: 14px; font-weight: 500;
+  box-shadow: var(--shadow-md); pointer-events: auto;
+  animation: slideDownToast 0.3s var(--ease) forwards;
+}
+@keyframes slideDownToast {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------------- Custom scrollbar (dark) ---------------- */
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--line-2); }
+
+/* ---------------- Responsive show/hide helpers (from the kit) ---------------- */
+@media (max-width: 640px) {
+  .hide-sm { display: none !important; }
+  .lang-hide { display: none !important; }
+}
+@media (max-width: 820px) {
+  .user-name-hide { display: none !important; }
+}
+
+/* ---------------- Section regenerate loading overlay ---------------- */
+.section-loading {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: rgba(10,12,10,0.78); backdrop-filter: blur(3px);
+  z-index: 5; border-radius: var(--r-lg);
+}
+.spin { animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------------- MathJax / formula colour inside section body ---------------- */
+.section-body mjx-container { color: var(--text); }
+.section-body pre {
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: var(--r-md); padding: 14px 16px; overflow-x: auto; margin: 0 0 14px;
+}
+.section-body pre code { background: transparent; border: none; padding: 0; color: var(--text); }
+.section-body a { color: var(--accent-text); }
+.section-body a:hover { color: var(--accent-bright); }
+
+/* ---------------- Marketing / info cards (features, contacts) ---------------- */
+.mk-grid { display: grid; gap: 16px; }
+@media (min-width: 760px) { .mk-grid-3 { grid-template-columns: repeat(3, 1fr); } .mk-grid-2 { grid-template-columns: repeat(2, 1fr); } }
+.mk-card {
+  display: block; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: 26px; transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.mk-card:hover { border-color: var(--accent-line); transform: translateY(-4px); }
+.mk-ic {
+  width: 52px; height: 52px; border-radius: 13px; background: var(--accent-wash);
+  border: 1px solid var(--accent-line); color: var(--accent-text);
+  display: grid; place-items: center; margin-bottom: 18px;
+}
+.mk-card h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; color: var(--text); margin: 0 0 8px; letter-spacing: -0.01em; }
+.mk-card p { margin: 0; color: var(--text-2); font-size: 14.5px; line-height: 1.6; }
+
+/* ---------------- CTA band ---------------- */
+.cta-band {
+  text-align: center; border-radius: var(--r-xl); padding: 56px 32px;
+  background: linear-gradient(180deg, var(--accent-wash), transparent 60%), var(--surface);
+  border: 1px solid var(--accent-line); box-shadow: var(--glow);
+}
+
+/* ---------------- Legal / prose article ---------------- */
+.prose-ds { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 36px; }
+.prose-ds h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; color: var(--text); margin: 26px 0 10px; letter-spacing: -0.01em; }
+.prose-ds h3:first-child { margin-top: 0; }
+.prose-ds p { color: var(--text-2); line-height: 1.7; margin: 0 0 14px; }
+.prose-ds a { color: var(--accent-text); }
+
+/* settings option cards are <label>s — make them block + hide the native radio */
+.opt { display: block; }
+.opt input[type="radio"] { width: 0; height: 0; }
+
+/* version badge on a regenerated section */
+.ver-badge {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  color: var(--text-3); background: var(--surface-2);
+  border: 1px solid var(--line); border-radius: var(--r-pill);
+  padding: 1px 8px; letter-spacing: 0.02em;
+}

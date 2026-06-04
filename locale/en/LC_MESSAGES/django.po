@@ -243,7 +243,8 @@ msgstr "Clear history?"
 #| "Это действие удалит весь список ваших запросов. Отменить это действие "
 #| "нельзя."
 msgid ""
-"Это действие удалит весь список ваших запросов. Это действие нельзя отменить."
+"Это действие удалит весь список ваших запросов. Это действие нельзя "
+"отменить."
 msgstr ""
 "This will delete your entire request history. This action cannot be undone."
 
@@ -370,8 +371,8 @@ msgid ""
 msgstr ""
 "This User Agreement (hereinafter referred to as the \"Agreement\") governs "
 "the relationship between StudyAI Inc. (hereinafter referred to as the "
-"\"Company\") and the Internet user (hereinafter referred to as the \"User\") "
-"arising from the use of the StudyAI Internet service (hereinafter referred "
+"\"Company\") and the Internet user (hereinafter referred to as the \"User\")"
+" arising from the use of the StudyAI Internet service (hereinafter referred "
 "to as the \"Service\")."
 
 #: templates/pages/agreement.html:25
@@ -380,8 +381,8 @@ msgid ""
 "условия настоящего Соглашения в полном объеме. В случае несогласия с "
 "условиями, Пользователь обязан прекратить использование Сервиса."
 msgstr ""
-"By using the Service, the User confirms that they have read, understood, and "
-"accepted the terms of this Agreement in full. In case of disagreement with "
+"By using the Service, the User confirms that they have read, understood, and"
+" accepted the terms of this Agreement in full. In case of disagreement with "
 "the terms, the User is obliged to stop using the Service."
 
 #: templates/pages/agreement.html:28
@@ -396,16 +397,16 @@ msgid ""
 "законодательство."
 msgstr ""
 "The User agrees to use the Service only for lawful purposes and not to "
-"violate the rights of third parties. It is prohibited to use the Service for "
-"distributing malware, spam, or content that violates the law."
+"violate the rights of third parties. It is prohibited to use the Service for"
+" distributing malware, spam, or content that violates the law."
 
 #: templates/pages/agreement.html:33
 msgid ""
 "Для доступа к некоторым функциям Сервиса может потребоваться регистрация. "
 "Пользователь несет ответственность за безопасность своих учетных данных."
 msgstr ""
-"Registration may be required to access certain functions of the Service. The "
-"User is responsible for the security of their credentials."
+"Registration may be required to access certain functions of the Service. The"
+" User is responsible for the security of their credentials."
 
 #: templates/pages/agreement.html:36
 msgid "Интеллектуальная собственность"
@@ -420,8 +421,8 @@ msgid ""
 msgstr ""
 "All materials presented in the Service, including texts, images, logos, and "
 "software code, are the property of the Company or are used with the "
-"permission of the copyright holders. Copying materials without permission is "
-"prohibited."
+"permission of the copyright holders. Copying materials without permission is"
+" prohibited."
 
 #: templates/pages/agreement.html:41
 msgid "Ограничение ответственности"
@@ -429,10 +430,10 @@ msgstr "Limitation of Liability"
 
 #: templates/pages/agreement.html:43
 msgid ""
-"Сервис предоставляется «как есть». Компания не гарантирует, что Сервис будет "
-"работать без ошибок или перебоев. Компания не несет ответственности за любые "
-"убытки, возникшие в результате использования или невозможности использования "
-"Сервиса."
+"Сервис предоставляется «как есть». Компания не гарантирует, что Сервис будет"
+" работать без ошибок или перебоев. Компания не несет ответственности за "
+"любые убытки, возникшие в результате использования или невозможности "
+"использования Сервиса."
 msgstr ""
 "The Service is provided \"as is\". The Company does not guarantee that the "
 "Service will operate without errors or interruptions. The Company is not "
@@ -444,8 +445,8 @@ msgstr "Changes to Terms"
 
 #: templates/pages/agreement.html:48
 msgid ""
-"Компания оставляет за собой право вносить изменения в настоящее Соглашение в "
-"любое время. Изменения вступают в силу с момента их публикации на этой "
+"Компания оставляет за собой право вносить изменения в настоящее Соглашение в"
+" любое время. Изменения вступают в силу с момента их публикации на этой "
 "странице. Продолжение использования Сервиса означает согласие с новыми "
 "условиями."
 msgstr ""
@@ -471,6 +472,8 @@ msgid ""
 "Вы отменили процесс оплаты. Если у вас возникли вопросы или проблемы, мы "
 "готовы помочь."
 msgstr ""
+"You cancelled the payment. If you have any questions or problems, we're here"
+" to help."
 
 #: templates/pages/checkout_cancel.html:26
 #, fuzzy
@@ -480,7 +483,7 @@ msgstr "← Back to login"
 
 #: templates/pages/checkout_cancel.html:30
 msgid "На главную"
-msgstr ""
+msgstr "Home"
 
 #: templates/pages/checkout_success.html:4
 msgid "Оплата успешна"
@@ -495,8 +498,8 @@ msgid ""
 "Ваша подписка успешно активирована. Наслаждайтесь всеми преимуществами "
 "вашего нового плана!"
 msgstr ""
-"Your subscription has been successfully activated. Enjoy all the benefits of "
-"your new plan!"
+"Your subscription has been successfully activated. Enjoy all the benefits of"
+" your new plan!"
 
 #: templates/pages/checkout_success.html:26
 msgid "Начать использовать"
@@ -604,10 +607,11 @@ msgstr "Summary Generator"
 
 #: templates/pages/features.html:57
 msgid ""
-"Превращай длинные тексты и лекции в краткие, структурированные конспекты для "
-"быстрого повторения."
+"Превращай длинные тексты и лекции в краткие, структурированные конспекты для"
+" быстрого повторения."
 msgstr ""
-"Turn long texts and lectures into short, structured notes for quick revision."
+"Turn long texts and lectures into short, structured notes for quick "
+"revision."
 
 #: templates/pages/features.html:66
 msgid "Проверочные тесты"
@@ -624,8 +628,8 @@ msgstr "Multilingual"
 
 #: templates/pages/features.html:79
 msgid ""
-"Учись на русском, английском, немецком, французском или испанском языках. AI "
-"понимает всё."
+"Учись на русском, английском, немецком, французском или испанском языках. AI"
+" понимает всё."
 msgstr ""
 "Study in Russian, English, German, French, or Spanish. AI understands "
 "everything."
@@ -639,8 +643,8 @@ msgid ""
 "Никогда не теряй свои исследования. Вся история запросов сохраняется и "
 "доступна в любой момент."
 msgstr ""
-"Never lose your research. Your entire request history is saved and available "
-"at any time."
+"Never lose your research. Your entire request history is saved and available"
+" at any time."
 
 #: templates/pages/features.html:99
 msgid "Готов учиться эффективнее?"
@@ -672,8 +676,8 @@ msgstr "AI assistant"
 
 #: templates/pages/home.html:31
 msgid ""
-"Вставь задание или тему — получишь объяснение, конспект и план подготовки за "
-"считанные секунды."
+"Вставь задание или тему — получишь объяснение, конспект и план подготовки за"
+" считанные секунды."
 msgstr ""
 "Enter a topic or assignment — get explanations, notes, and a study plan in "
 "seconds."
@@ -707,8 +711,10 @@ msgid "Настроить"
 msgstr "Customize"
 
 #: templates/pages/home.html:93
-msgid "Например: «Объясни законы Ньютона и сделай план подготовки на 60 минут»"
-msgstr "For example: 'Explain Newton's laws and create a 60-minute study plan'"
+msgid ""
+"Например: «Объясни законы Ньютона и сделай план подготовки на 60 минут»"
+msgstr ""
+"For example: 'Explain Newton's laws and create a 60-minute study plan'"
 
 #: templates/pages/home.html:102
 msgid "Физика"
@@ -809,8 +815,8 @@ msgstr "Warning: Temporary Settings"
 #: templates/pages/settings.html:16
 msgid ""
 "Вы используете гостевой режим. Ваши настройки сохраняются только в этом "
-"браузере пока вы не очистите историю. Чтобы сохранить их навсегда, войдите в "
-"аккаунт."
+"браузере пока вы не очистите историю. Чтобы сохранить их навсегда, войдите в"
+" аккаунт."
 msgstr ""
 "You are in guest mode. Your settings are saved only in this browser until "
 "you clear history. To save them permanently, please log in."
@@ -996,6 +1002,76 @@ msgstr "Resets monthly"
 msgid "Обновить план"
 msgstr "Upgrade Plan"
 
+msgid "Откройте все возможности!"
+msgstr "Discover all features!"
+
+msgid "Попробуйте нашего AI-репетитора бесплатно прямо сейчас."
+msgstr "Try our AI tutor for free right now."
+
+msgid "Попробовать"
+msgstr "Try it"
+
+msgid "Мы отправим вам одноразовую ссылку для входа на почту."
+msgstr "We will send you a one-time link to log in to your email."
+
+msgid "← Вернуться ко входу"
+msgstr "← Back to login"
+
+msgid ""
+"StudyAI — ИИ-репетитор: вставь тему или задание и получи объяснение, план "
+"изучения, самопроверку и конспект за секунды."
+msgstr ""
+"StudyAI — your AI tutor: enter a topic or assignment and get an explanation,"
+" study plan, self-check quiz and summary in seconds."
+
+msgid "Без карты для старта"
+msgstr "No card to start"
+
+msgid "Бесплатно. Без карты."
+msgstr "Free. No card required."
+
+msgid "Вернуться ко входу"
+msgstr "Back to sign in"
+
+msgid "Войти через Magic Link"
+msgstr "Sign in with Magic Link"
+
+msgid "Закрыть"
+msgstr "Close"
+
+msgid "История пока пуста"
+msgstr "No history yet"
+
+msgid "Новый запрос"
+msgstr "New query"
+
+msgid "Отмена в любой момент"
+msgstr "Cancel anytime"
+
+msgid "Перегенерировать"
+msgstr "Regenerate"
+
+msgid "Профиль"
+msgstr "Profile"
+
+msgid "Проще"
+msgstr "Simpler"
+
+msgid "Результат запроса"
+msgstr "Query result"
+
+msgid "С возвращением — продолжим учиться."
+msgstr "Welcome back — let's keep learning."
+
+msgid "Что входит"
+msgstr "What's included"
+
+msgid "или"
+msgstr "or"
+
+msgid "отправить"
+msgstr "send"
+
 #~ msgid "StudyAI"
 #~ msgstr "StudyAI"
 
@@ -1013,19 +1089,3 @@ msgstr "Upgrade Plan"
 
 #~ msgid "У вас нет активной подписки"
 #~ msgstr "You have no active subscription"
-
-
-msgid "Откройте все возможности!"
-msgstr "Discover all features!"
-
-msgid "Попробуйте нашего AI-репетитора бесплатно прямо сейчас."
-msgstr "Try our AI tutor for free right now."
-
-msgid "Попробовать"
-msgstr "Try it"
-
-msgid "Мы отправим вам одноразовую ссылку для входа на почту."
-msgstr "We will send you a one-time link to log in to your email."
-
-msgid "← Вернуться ко входу"
-msgstr "← Back to login"

@@ -1,3 +1,8 @@
+# =============================================================================
+# Production dependencies — pinned for reproducible builds.
+# Dev/test tooling lives in requirements-dev.txt.
+# =============================================================================
+
 # Core
 Django==6.0.2
 asgiref==3.11.1
@@ -5,41 +10,37 @@ sqlparse==0.5.5
 tzdata==2025.3
 
 # Configuration
-python-decouple
+python-decouple==3.8
 
 # Database
-psycopg2-binary
+psycopg2-binary==2.9.11
 
 # Media
-Pillow
+Pillow==12.1.0
+
+# Static file serving (compressed, hashed, cache-friendly)
+whitenoise==6.12.0
 
 # AI
-google-generativeai
-openai>=1.0.0
+google-genai==2.8.0
+openai==2.17.0
 
 # Markdown rendering
-markdown
-bleach==6.1.0
+markdown==3.10.1
+bleach==6.3.0
 
 # Production server
-gunicorn
+gunicorn==25.0.3
 
 # Rate limiting
-django-ratelimit
+django-ratelimit==4.1.0
 
 # Payments
-stripe>=7.0.0
-
-# Testing
-pytest>=8.0.0
-pytest-django>=4.8.0
-factory-boy>=3.3.0
-faker>=24.0.0
-pytest-cov>=4.1.0
+stripe==14.3.0
 
 # Async Tasks
-celery>=5.3.0
-redis>=5.0.0
+celery==5.6.3
+redis==8.0.0
 
 # Monitoring
-sentry-sdk>=1.40.0
+sentry-sdk==2.61.1

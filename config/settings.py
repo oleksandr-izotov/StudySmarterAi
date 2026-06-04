@@ -26,10 +26,15 @@ SECRET_KEY = config('SECRET_KEY')
 
 # Google Gemini API
 GEMINI_API_KEY = config('GEMINI_API_KEY')
+GEMINI_MODEL = config('GEMINI_MODEL', default='gemini-2.0-flash')
 
 # Qwen API
 QWEN_API_KEY = config('QWEN_API_KEY', default=None)
 QWEN_BASE_URL = config('QWEN_BASE_URL', default='https://dashscope-intl.aliyuncs.com/compatible-mode/v1')
+
+# Per-request timeout (seconds) for AI provider HTTP calls — prevents a stalled
+# provider from hanging a Celery worker indefinitely.
+AI_REQUEST_TIMEOUT = config('AI_REQUEST_TIMEOUT', default=30, cast=int)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
@@ -56,6 +61,11 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # WhiteNoise serves static files directly from the app (compressed + hashed),
+    # so the app is self-sufficient even without nginx in front. Must sit right
+    # after SecurityMiddleware. In the compose stack nginx still intercepts
+    # /static/ first; this is the fallback / non-nginx path.
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -127,7 +137,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = 'de'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
@@ -137,12 +147,11 @@ USE_TZ = True
 
 from django.utils.translation import gettext_lazy as _
 
+# UI languages exposed in the switcher. Launching on RU + EN; de/fr/es stay in
+# the repo (locale/) but are hidden until their translations are completed.
 LANGUAGES = [
-    ('de', _('German')),
-    ('en', _('English')),
     ('ru', _('Russian')),
-    ('fr', _('French')),
-    ('es', _('Spanish')),
+    ('en', _('English')),
 ]
 
 LOCALE_PATHS = [
@@ -160,6 +169,23 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# In production, hash static filenames (cache-busting) so the nginx
+# `Cache-Control: immutable` header is safe — a changed file gets a new URL,
+# so returning users never get stale CSS/JS. Requires `collectstatic` (run in
+# the container entrypoint). Kept off in DEBUG so runserver works without a
+# generated manifest.
+if not DEBUG:
+    STORAGES = {
+        'default': {
+            'BACKEND': 'django.core.files.storage.FileSystemStorage',
+        },
+        # WhiteNoise's storage = ManifestStaticFilesStorage (hashed names for
+        # cache-busting) + pre-compressed .gz/.br copies served on demand.
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        },
+    }
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
@@ -187,12 +213,13 @@ else:
 # =============================================================================
 # CSRF Settings (Required for reverse proxy)
 # =============================================================================
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8080',
-    'http://127.0.0.1:8080',
-    'http://localhost',
-    'http://127.0.0.1',
-]
+# Env-driven. Provide your real https origins in prod, e.g.
+#   CSRF_TRUSTED_ORIGINS=https://studyai.app,https://www.studyai.app
+CSRF_TRUSTED_ORIGINS = config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='http://localhost:8080,http://127.0.0.1:8080,http://localhost,http://127.0.0.1',
+    cast=Csv(),
+)
 
 # =============================================================================
 # Production Security Settings
@@ -200,10 +227,36 @@ CSRF_TRUSTED_ORIGINS = [
 if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    X_FRAME_OPTIONS = 'SAMEORIGIN'
+    X_FRAME_OPTIONS = 'DENY'
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+    # Force HTTPS. Behind a TLS-terminating proxy SECURE_PROXY_SSL_HEADER (above)
+    # lets Django detect the original scheme so this redirect doesn't loop.
+    SECURE_SSL_REDIRECT = config('SECURE_SSL_REDIRECT', default=True, cast=bool)
+
+    # HSTS — opt-in via env so a first deploy on a fresh domain can ramp up
+    # (start at 0, then raise) without permanently pinning browsers to HTTPS.
+    SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=31536000, cast=int)
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = config('SECURE_HSTS_INCLUDE_SUBDOMAINS', default=True, cast=bool)
+    SECURE_HSTS_PRELOAD = config('SECURE_HSTS_PRELOAD', default=True, cast=bool)
+
+# =============================================================================
+# Cache — shared Redis cache in prod so rate limiting (django-ratelimit) and
+# any other cache use is consistent across all gunicorn workers. Falls back to
+# Django's default per-process LocMemCache when REDIS_CACHE_URL isn't set
+# (dev/CI), which keeps tests runnable without a Redis server.
+# =============================================================================
+REDIS_CACHE_URL = config('REDIS_CACHE_URL', default='')
+if REDIS_CACHE_URL:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': REDIS_CACHE_URL,
+        }
+    }
 
 # =============================================================================
 # Stripe Payment Settings
