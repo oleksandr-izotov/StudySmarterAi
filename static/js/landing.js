@@ -84,6 +84,18 @@ function switchLanguage(code) {
     .catch(() => window.location.reload());
 }
 
+/* Demo banner — dismiss + remember (lives outside #page, init once). */
+(function () {
+  const b = document.getElementById('demo-banner');
+  if (!b) return;
+  if (localStorage.getItem('demoDismissed') === '1') { b.style.display = 'none'; }
+  const x = document.getElementById('demo-banner-x');
+  if (x) x.addEventListener('click', () => {
+    b.style.display = 'none';
+    localStorage.setItem('demoDismissed', '1');
+  });
+})();
+
 function initPage() {
   initIcons();
   initReveal();

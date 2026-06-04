@@ -42,6 +42,15 @@
 
 <body class="ds" x-data="appData()" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
 
+    <!-- Demo disclaimer -->
+    <div class="demo-banner" x-data="{ show: true }"
+         x-init="show = localStorage.getItem('demoDismissed') !== '1'" x-show="show" x-cloak>
+        <span>{% trans "Демонстрационный проект (портфолио) — регистрация и оплата тарифов не работают." %}</span>
+        <button class="x" @click="show = false; localStorage.setItem('demoDismissed', '1')" aria-label="{% trans 'Закрыть' %}">
+            <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+    </div>
+
     <!-- Background treatment: technical grid + acid halo -->
     <div class="bg-grid"></div>
     <div class="bg-halo"></div>
