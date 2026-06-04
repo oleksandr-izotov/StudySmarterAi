@@ -14,15 +14,24 @@ from datetime import timedelta
 
 class UserFactory(DjangoModelFactory):
     """Factory for creating User instances."""
-    
+
     class Meta:
         model = User
         skip_postgeneration_save = True
-    
+
     username = factory.Sequence(lambda n: f'testuser{n}')
     email = factory.LazyAttribute(lambda obj: f'{obj.username}@example.com')
-    password = factory.PostGenerationMethodCall('set_password', 'testpass123')
     is_active = True
+
+    @factory.post_generation
+    def password(obj, create, extracted, **kwargs):
+        """Hash and PERSIST the password. (A plain PostGenerationMethodCall
+        wouldn't save under skip_postgeneration_save=True, leaving the DB hash
+        out of sync — which breaks client.login()/force_login session auth.)"""
+        if not create:
+            return
+        obj.set_password(extracted or 'testpass123')
+        obj.save()
 
 
 class UserProfileFactory(DjangoModelFactory):

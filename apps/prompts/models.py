@@ -52,6 +52,14 @@ class Prompt(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        # History views filter by owner (user or guest session_key) and order
+        # by -created_at; these composite indexes cover those access patterns.
+        indexes = [
+            models.Index(fields=['user', '-created_at']),
+            models.Index(fields=['session_key', '-created_at']),
+        ]
+
     def __str__(self):
         return f"Prompt {self.id} ({self.status})"
 

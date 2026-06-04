@@ -1,7 +1,10 @@
+import logging
 from django.http import JsonResponse
 from django.shortcuts import render
 from .models import SubscriptionPlan
 from .services import UsageService, SubscriptionService
+
+logger = logging.getLogger(__name__)
 
 
 def pricing_page_view(request):
@@ -126,8 +129,9 @@ def create_checkout_session(request, plan_name):
             cancel_url=cancel_url
         )
         return redirect(checkout_url)
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=400)
+    except Exception:
+        logger.exception("Stripe checkout creation failed")
+        return JsonResponse({'error': 'Could not start checkout. Please try again.'}, status=400)
 
 
 @csrf_exempt

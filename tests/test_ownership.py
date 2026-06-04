@@ -4,18 +4,7 @@ import pytest
 from django.urls import reverse
 
 from apps.prompts.models import Prompt
-from tests.factories import UserFactory, PromptFactory, SectionFactory
-
-
-def make_user():
-    """UserFactory uses skip_postgeneration_save, so the set_password hash is
-    never persisted — that makes the session auth-hash mismatch on the next
-    request and silently logs the client out. Persist a real password so
-    force_login sticks."""
-    u = UserFactory()
-    u.set_password('testpass123')
-    u.save()
-    return u
+from tests.factories import UserFactory as make_user, PromptFactory, SectionFactory
 
 
 @pytest.mark.django_db

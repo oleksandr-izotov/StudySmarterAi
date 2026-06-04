@@ -1,8 +1,11 @@
+import logging
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseForbidden, HttpRequest
 from django.urls import reverse
 from django.template.loader import render_to_string
 from .models import Prompt
+
+logger = logging.getLogger(__name__)
 from . import services
 from apps.core.utils import ensure_session, get_owner_filter, check_ownership, get_user_settings
 from apps.subscriptions.decorators import check_rate_limit
@@ -165,6 +168,6 @@ def section_regenerate_view(request, id, type):
         })
         response['HX-Trigger'] = 'usage-updated'
         return response
-    except Exception as e:
-        print(f"Error regenerating: {e}")
-        return HttpResponse(f"Error regenerating: {e}", status=500)
+    except Exception:
+        logger.exception("Error regenerating section %s for prompt %s", type, id)
+        return HttpResponse("Не удалось перегенерировать раздел. Попробуйте ещё раз.", status=500)

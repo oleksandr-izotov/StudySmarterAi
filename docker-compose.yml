@@ -20,7 +20,7 @@ services:
     environment:
       POSTGRES_DB: ${DATABASE_NAME:-study_smart}
       POSTGRES_USER: ${DATABASE_USER:-postgres}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?DATABASE_PASSWORD must be set in .env}
     healthcheck:
       test:
         [
@@ -48,9 +48,9 @@ services:
       context: .
       dockerfile: docker/Dockerfile
     restart: unless-stopped
+    # Production runs the built image — no source bind-mount (it would shadow
+    # the image's compiled assets / translations). Only persistent data volumes.
     volumes:
-      - .:/app
-      - /app/venv
       - static_volume:/app/staticfiles
       - media_volume:/app/mediafiles
     environment:
@@ -62,7 +62,7 @@ services:
       - DATABASE_PORT=5432
       - DATABASE_NAME=${DATABASE_NAME:-study_smart}
       - DATABASE_USER=${DATABASE_USER:-postgres}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD:-postgres}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD:?DATABASE_PASSWORD must be set in .env}
     depends_on:
       db:
         condition: service_healthy
@@ -88,9 +88,6 @@ services:
       dockerfile: docker/Dockerfile
     command: celery -A config worker --loglevel=info
     restart: unless-stopped
-    volumes:
-      - .:/app
-      - /app/venv
     environment:
       - SECRET_KEY=${SECRET_KEY}
       - DEBUG=${DEBUG:-False}
@@ -100,7 +97,7 @@ services:
       - DATABASE_PORT=5432
       - DATABASE_NAME=${DATABASE_NAME:-study_smart}
       - DATABASE_USER=${DATABASE_USER:-postgres}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD:-postgres}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD:?DATABASE_PASSWORD must be set in .env}
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
     depends_on:
@@ -144,13 +141,13 @@ services:
       - DATABASE_PORT=5432
       - DATABASE_NAME=${DATABASE_NAME:-study_smart}
       - DATABASE_USER=${DATABASE_USER:-postgres}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD:-postgres}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD:?DATABASE_PASSWORD must be set in .env}
     depends_on:
       db:
         condition: service_healthy
+    # Test runner mounts the working copy so it can run against local changes.
     volumes:
       - .:/app
-      - /app/venv
     profiles:
       - test
     command: pytest tests/ -v --cov=apps --cov-report=term-missing

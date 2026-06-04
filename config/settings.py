@@ -105,7 +105,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('DATABASE_NAME', default='study_smart'),
         'USER': config('DATABASE_USER', default='postgres'),
-        'PASSWORD': config('DATABASE_PASSWORD', default='postgres'),
+        # No default: a missing password must fail loudly, never silently fall
+        # back to a well-known value in production.
+        'PASSWORD': config('DATABASE_PASSWORD'),
         'HOST': config('DATABASE_HOST', default='localhost'),
         'PORT': config('DATABASE_PORT', default='5432'),
     } if not config('USE_SQLITE', default=False, cast=bool) else {
@@ -201,9 +203,10 @@ if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     DEFAULT_FROM_EMAIL = 'Study Smart <noreply@studysmart.local>'
 else:
-    # Placeholder for production SMTP
+    # Production SMTP. EMAIL_HOST has no default so a missing config fails
+    # loudly instead of silently producing a broken (magic-link) mailer.
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = config('EMAIL_HOST', default='smtp.example.com')
+    EMAIL_HOST = config('EMAIL_HOST')
     EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
     EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
     EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
@@ -287,13 +290,59 @@ SENTRY_DSN = config('SENTRY_DSN', default=None)
 if SENTRY_DSN:
     sentry_sdk.init(
         dsn=SENTRY_DSN,
-        # Set traces_sample_rate to 1.0 to capture 100%
-        # of transactions for performance monitoring.
-        traces_sample_rate=1.0,
-        # Set profiles_sample_rate to 1.0 to profile 100%
-        # of sampled transactions.
-        # We recommend adjusting this value in production.
-        profiles_sample_rate=1.0,
+        # Sample a fraction of transactions/profiles — 100% is expensive and
+        # noisy at scale. Tune via env per environment.
+        traces_sample_rate=config('SENTRY_TRACES_SAMPLE_RATE', default=0.1, cast=float),
+        profiles_sample_rate=config('SENTRY_PROFILES_SAMPLE_RATE', default=0.1, cast=float),
+        send_default_pii=False,
     )
+
+
+# =============================================================================
+# Request / upload size limits (defense against oversized request bodies).
+# nginx also caps body size, but Django should be bounded on any path.
+# =============================================================================
+DATA_UPLOAD_MAX_MEMORY_SIZE = config('DATA_UPLOAD_MAX_MEMORY_SIZE', default=5 * 1024 * 1024, cast=int)  # 5 MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = config('FILE_UPLOAD_MAX_MEMORY_SIZE', default=5 * 1024 * 1024, cast=int)  # 5 MB
+DATA_UPLOAD_MAX_NUMBER_FIELDS = config('DATA_UPLOAD_MAX_NUMBER_FIELDS', default=1000, cast=int)
+
+
+# =============================================================================
+# Logging — console handler (captured by gunicorn / Docker stdout). Level via env.
+# =============================================================================
+LOG_LEVEL = config('LOG_LEVEL', default='INFO')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} {levelname} {name}: {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': LOG_LEVEL,
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': LOG_LEVEL,
+            'propagate': False,
+        },
+        'apps': {
+            'handlers': ['console'],
+            'level': LOG_LEVEL,
+            'propagate': False,
+        },
+    },
+}
 
 
