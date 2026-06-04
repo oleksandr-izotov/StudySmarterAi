@@ -77,6 +77,11 @@ function switchLanguage(code) {
       setTimeout(() => {
         page.innerHTML = fresh.innerHTML;
         document.documentElement.setAttribute('lang', doc.documentElement.getAttribute('lang') || code);
+        // The demo banner lives outside #page (to keep its dismissed state), so
+        // its text isn't swapped with the rest — sync it from the fresh doc.
+        const freshBanner = doc.querySelector('#demo-banner span');
+        const curBanner = document.querySelector('#demo-banner span');
+        if (freshBanner && curBanner) curBanner.textContent = freshBanner.textContent;
         initPage();                // re-bind everything on the swapped content
         page.style.opacity = '1';  // scroll position is preserved (same layout)
       }, 180);

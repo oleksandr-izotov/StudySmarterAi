@@ -1290,6 +1290,11 @@ msgstr "more effectively"
 msgid "языков ответа: RU · EN · DE · FR · ES"
 msgstr "answer languages: RU · EN · DE · FR · ES"
 
+msgid ""
+"Демонстрационный проект (портфолио) — регистрация и оплата тарифов не "
+"работают."
+msgstr "Demo project (portfolio) — sign-up and plan payments don't work."
+
 #~ msgid "StudyAI"
 #~ msgstr "StudyAI"
 
