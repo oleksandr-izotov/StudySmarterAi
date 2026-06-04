@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="{% trans 'StudyAI — ИИ-репетитор: вставь тему или задание и получи объяснение, план изучения, самопроверку и конспект за секунды.' %}" />
+<title>{% trans "StudyAI — Учись умнее, а не дольше" %}</title>
+<link rel="stylesheet" href="{% static 'css/colors_and_type.css' %}" />
+<link rel="stylesheet" href="{% static 'css/landing.css' %}" />
+<link rel="stylesheet" href="{% static 'css/django.css' %}" />
+<link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}" />
+<script defer src="https://unpkg.com/lucide@1.17.0/dist/umd/lucide.min.js"></script>
+</head>
+<body class="ds">
+<div class="bg-grid"></div>
+<div class="bg-halo"></div>
+
+<div id="page">
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top">
+      <img class="m" src="{% static 'img/logo-icon.png' %}" alt="StudyAI" />
+      <img class="w" src="{% static 'img/logo-wordmark.png' %}" alt="StudyAI" />
+    </a>
+    <div class="nav-links">
+      <a href="#features">{% trans "Возможности" %}</a>
+      <a href="#how">{% trans "Как работает" %}</a>
+      <a href="#mindset">{% trans "Подход" %}</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-cta">
+      {% get_available_languages as LANGUAGES %}
+      <div class="lang-switch">
+        <span class="lang-slider"></span>
+        {% for code, name in LANGUAGES %}
+        <form action="{% url 'set_language' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          <input type="hidden" name="language" value="{{ code }}">
+          <button type="submit" data-lang="{{ code }}" class="{% if code == LANGUAGE_CODE %}on{% endif %}">{{ code }}</button>
+        </form>
+        {% endfor %}
+      </div>
+      <a class="btn btn-ghost" href="{% url 'login' %}">{% trans "Войти" %}</a>
+      <a class="btn btn-primary" href="{% url 'app' %}">{% trans "Начать бесплатно" %}</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow-pill"><span class="dot"></span><span class="kicker">{% trans "ИИ-репетитор · доступен 24/7" %}</span></span>
+      <h1>{% trans "Учись" %} <em>{% trans "умнее" %}</em>,<br />{% trans "а не дольше" %}</h1>
+      <p class="lead">{% trans "Вставь тему или задание — StudyAI разложит её на объяснение, план подготовки, самопроверку и конспект за считанные секунды." %}</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary btn-lg" href="{% url 'app' %}">{% trans "Начать бесплатно" %} <span class="icon"><i data-lucide="arrow-right"></i></span></a>
+        <a class="btn btn-secondary btn-lg" href="#how">{% trans "Как это работает" %}</a>
+      </div>
+      <div class="hero-note"><span class="icon"><i data-lucide="credit-card"></i></span>{% trans "Без карты · 3 запроса в день бесплатно" %}</div>
+    </div>
+    <div class="hero-visual reveal">
+      <img src="{% static 'img/marketing/m-brain.jpg' %}" alt="{% trans 'ИИ-мозг StudyAI' %}" />
+    </div>
+  </div>
+</header>
+
+<!-- STATS -->
+<section class="stats-sec">
+  <div class="wrap stats">
+    <div class="stat reveal"><div class="n">{% trans "60 сек" %}</div><div class="l">{% trans "от вопроса до готового разбора" %}</div></div>
+    <div class="stat reveal"><div class="n">4</div><div class="l">{% trans "формата: разбор, план, тест, конспект" %}</div></div>
+    <div class="stat reveal"><div class="n">5</div><div class="l">{% trans "языков ответа: RU · EN · DE · FR · ES" %}</div></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker kicker-ac">{% trans "Возможности" %}</span>
+      <h2 class="sec-h">{% trans "Один запрос —" %} <em>{% trans "четыре" %}</em> {% trans "результата" %}</h2>
+      <p class="lead">{% trans "StudyAI не просто отвечает. Он раскладывает материал так, чтобы ты понял и запомнил." %}</p>
+    </div>
+    <div class="feat-grid">
+      <div class="fcard reveal"><span class="num">01</span><div class="fi"><i data-lucide="book-open"></i></div><h3>{% trans "Объяснение" %}</h3><p>{% trans "Чёткий разбор темы простым языком — с формулами, примерами и без лишней воды." %}</p></div>
+      <div class="fcard reveal"><span class="num">02</span><div class="fi"><i data-lucide="list-checks"></i></div><h3>{% trans "План изучения" %}</h3><p>{% trans "Пошаговый план подготовки под твоё время — от 30 минут до экзамена через неделю." %}</p></div>
+      <div class="fcard reveal"><span class="num">03</span><div class="fi"><i data-lucide="help-circle"></i></div><h3>{% trans "Самопроверка" %}</h3><p>{% trans "Вопросы и тесты по теме, чтобы закрепить знания и найти слабые места." %}</p></div>
+      <div class="fcard reveal"><span class="num">04</span><div class="fi"><i data-lucide="file-text"></i></div><h3>{% trans "Конспект" %}</h3><p>{% trans "Сжатая выжимка главного — удобно повторить перед контрольной за пару минут." %}</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="wrap how-grid">
+    <div>
+      <span class="kicker kicker-ac how-kick">{% trans "Как это работает" %}</span>
+      <h2 class="sec-h how-title">{% trans "Три шага до" %} <em>{% trans "понимания" %}</em></h2>
+      <div class="steps">
+        <div class="step reveal"><span class="sn">01</span><div><h3>{% trans "Вставь тему или задание" %}</h3><p>{% trans "«Объясни законы Ньютона», скрин задачи или целая глава — подойдёт что угодно." %}</p></div></div>
+        <div class="step reveal"><span class="sn">02</span><div><h3>{% trans "ИИ всё разложит" %}</h3><p>{% trans "За секунды получишь объяснение, план, тест и конспект — в нужном тебе тоне и глубине." %}</p></div></div>
+        <div class="step reveal"><span class="sn">03</span><div><h3>{% trans "Учись и проверяй себя" %}</h3><p>{% trans "Иди по плану, прогоняй тесты, сохраняй историю. Возвращайся к материалу когда нужно." %}</p></div></div>
+      </div>
+    </div>
+    <div class="how-img reveal"><img src="{% static 'img/marketing/m-writing.jpg' %}" alt="{% trans 'Учёба со StudyAI' %}" /></div>
+  </div>
+</section>
+
+<!-- BAND -->
+<section class="band">
+  <img class="bg" src="{% static 'img/marketing/m-desk.jpg' %}" alt="" />
+  <div class="ov"></div>
+  <div class="wrap">
+    <div class="band-txt reveal">
+      <span class="kicker kicker-ac how-kick">{% trans "Любой предмет" %}</span>
+      <h2>{% trans "От алгебры до программирования" %}</h2>
+      <p class="lead">{% trans "Математика, физика, языки, код — StudyAI помогает разобраться в любой дисциплине. Один помощник вместо десяти учебников." %}</p>
+    </div>
+  </div>
+</section>
+
+<!-- MINDSET -->
+<section id="mindset">
+  <div class="wrap mind-grid">
+    <div class="mind-img reveal"><img src="{% static 'img/marketing/m-poster.jpg' %}" alt="{% trans 'Дисциплина сегодня — успех завтра' %}" /></div>
+    <div>
+      <span class="kicker kicker-ac how-kick">{% trans "Подход" %}</span>
+      <h2 class="sec-h">{% trans "Маленькие шаги каждый день →" %} <em>{% trans "большие результаты" %}</em></h2>
+      <p class="lead mind-lead">{% trans "StudyAI создан не для того, чтобы списать. Он помогает выстроить привычку учиться — стабильно, осознанно и по плану." %}</p>
+      <div class="mind-list">
+        <div class="mind-row reveal"><span class="ic"><i data-lucide="check"></i></span>{% trans "Меньше зубрёжки — больше настоящего понимания" %}</div>
+        <div class="mind-row reveal"><span class="ic"><i data-lucide="check"></i></span>{% trans "Структура вместо хаоса в конспектах" %}</div>
+        <div class="mind-row reveal"><span class="ic"><i data-lucide="check"></i></span>{% trans "Прогресс виден: история и самопроверка всегда под рукой" %}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker kicker-ac">FAQ</span>
+      <h2 class="sec-h">{% trans "Частые вопросы" %}</h2>
+    </div>
+    <div class="faq">
+      <div class="qa reveal"><button class="qa-q">{% trans "Это правда бесплатно?" %} <span class="icon"><i data-lucide="plus"></i></span></button><div class="qa-a"><p>{% trans "Да. Без регистрации доступно 3 запроса в день, на бесплатном плане — 10 в день. Карта не нужна." %}</p></div></div>
+      <div class="qa reveal"><button class="qa-q">{% trans "Чем это лучше обычного чат-бота?" %} <span class="icon"><i data-lucide="plus"></i></span></button><div class="qa-a"><p>{% trans "StudyAI выдаёт не «стену текста», а четыре структурированных формата: объяснение, план изучения, самопроверку и конспект — заточенных под учёбу." %}</p></div></div>
+      <div class="qa reveal"><button class="qa-q">{% trans "На каких языках работает?" %} <span class="icon"><i data-lucide="plus"></i></span></button><div class="qa-a"><p>{% trans "Русский, английский, немецкий, французский и испанский. Язык и стиль ответов настраиваются под тебя." %}</p></div></div>
+      <div class="qa reveal"><button class="qa-q">{% trans "Можно отменить подписку?" %} <span class="icon"><i data-lucide="plus"></i></span></button><div class="qa-a"><p>{% trans "Да, в любой момент в один клик. Действует возврат в течение 14 дней." %}</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="wrap">
+    <div class="final-card reveal">
+      <h2>{% trans "Готов учиться" %} <em>{% trans "эффективнее" %}</em>?</h2>
+      <p class="lead">{% trans "Присоединяйся к студентам, которые уже учатся умнее со StudyAI. Бесплатно, без карты." %}</p>
+      <a class="btn btn-primary btn-lg" href="{% url 'app' %}">{% trans "Начать бесплатно" %} <span class="icon"><i data-lucide="arrow-right"></i></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap foot-in">
+    <a class="brand" href="#top"><img class="m" src="{% static 'img/logo-icon.png' %}" alt="StudyAI" /><img class="w" src="{% static 'img/logo-wordmark.png' %}" alt="StudyAI" /></a>
+    <div class="foot-links">
+      <a href="#features">{% trans "Возможности" %}</a>
+      <a href="#how">{% trans "Как работает" %}</a>
+      <a href="{% url 'subscriptions:pricing' %}">{% trans "Тарифы" %}</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="foot-cr">© 2026 StudyAI Inc.</div>
+  </div>
+</footer>
+
+</div><!-- /#page -->
+
+<script defer src="{% static 'js/landing.js' %}"></script>
+</body>
+</html>

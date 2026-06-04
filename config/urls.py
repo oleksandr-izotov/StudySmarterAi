@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from apps.core.views import health_check
+from apps.core.views import health_check, home, app_composer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,5 +31,6 @@ urlpatterns = [
     path('agreement/', TemplateView.as_view(template_name='pages/agreement.html'), name='agreement'),
     path('contacts/', TemplateView.as_view(template_name='pages/contacts.html'), name='contacts'),
     path('features/', TemplateView.as_view(template_name='pages/features.html'), name='features'),
-    path('', TemplateView.as_view(template_name='pages/home.html'), name='home'),
+    path('start/', app_composer, name='app'),
+    path('', home, name='home'),
 ]

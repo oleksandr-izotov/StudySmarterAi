@@ -1072,6 +1072,224 @@ msgstr "or"
 msgid "отправить"
 msgstr "send"
 
+msgid "60 сек"
+msgstr "60 sec"
+
+msgid ""
+"StudyAI выдаёт не «стену текста», а четыре структурированных формата: "
+"объяснение, план изучения, самопроверку и конспект — заточенных под учёбу."
+msgstr ""
+"StudyAI doesn't give you a wall of text — it gives four structured formats: "
+"explanation, study plan, self-check and summary, all tailored for learning."
+
+msgid ""
+"StudyAI не просто отвечает. Он раскладывает материал так, чтобы ты понял и "
+"запомнил."
+msgstr ""
+"StudyAI doesn't just answer. It lays the material out so you understand and "
+"remember it."
+
+msgid ""
+"StudyAI создан не для того, чтобы списать. Он помогает выстроить привычку "
+"учиться — стабильно, осознанно и по плану."
+msgstr ""
+"StudyAI isn't built for cheating. It helps you build a study habit — steady,"
+" mindful and planned."
+
+msgid "StudyAI — Учись умнее, а не дольше"
+msgstr "StudyAI — Study smarter, not harder"
+
+msgid ""
+"«Объясни законы Ньютона», скрин задачи или целая глава — подойдёт что "
+"угодно."
+msgstr ""
+"\"Explain Newton's laws\", a screenshot of a problem, or a whole chapter — "
+"anything works."
+
+msgid "Без карты · 3 запроса в день бесплатно"
+msgstr "No card · 3 free requests a day"
+
+msgid "Вопросы и тесты по теме, чтобы закрепить знания и найти слабые места."
+msgstr ""
+"Questions and quizzes on the topic to reinforce what you know and find weak "
+"spots."
+
+msgid "Вставь тему или задание"
+msgstr "Paste a topic or assignment"
+
+msgid ""
+"Вставь тему или задание — StudyAI разложит её на объяснение, план "
+"подготовки, самопроверку и конспект за считанные секунды."
+msgstr ""
+"Paste a topic or assignment — StudyAI breaks it down into an explanation, "
+"study plan, self-check and summary in seconds."
+
+msgid "Готов учиться"
+msgstr "Ready to learn"
+
+msgid "Да, в любой момент в один клик. Действует возврат в течение 14 дней."
+msgstr "Yes, anytime in one click. A 14-day refund applies."
+
+msgid ""
+"Да. Без регистрации доступно 3 запроса в день, на бесплатном плане — 10 в "
+"день. Карта не нужна."
+msgstr ""
+"Yes. Without signing up you get 3 requests a day; the free plan gives 10 a "
+"day. No card needed."
+
+msgid "Дисциплина сегодня — успех завтра"
+msgstr "Discipline today — success tomorrow"
+
+msgid ""
+"За секунды получишь объяснение, план, тест и конспект — в нужном тебе тоне и"
+" глубине."
+msgstr ""
+"In seconds you get an explanation, plan, quiz and summary — in the tone and "
+"depth you want."
+
+msgid "ИИ всё разложит"
+msgstr "The AI breaks it all down"
+
+msgid "ИИ-мозг StudyAI"
+msgstr "StudyAI AI brain"
+
+msgid "ИИ-репетитор · доступен 24/7"
+msgstr "AI tutor · available 24/7"
+
+msgid ""
+"Иди по плану, прогоняй тесты, сохраняй историю. Возвращайся к материалу "
+"когда нужно."
+msgstr ""
+"Follow the plan, run the quizzes, save your history. Come back to the "
+"material whenever you need."
+
+msgid "Как работает"
+msgstr "How it works"
+
+msgid "Как это работает"
+msgstr "How it works"
+
+msgid "Любой предмет"
+msgstr "Any subject"
+
+msgid "Маленькие шаги каждый день →"
+msgstr "Small steps every day →"
+
+msgid ""
+"Математика, физика, языки, код — StudyAI помогает разобраться в любой "
+"дисциплине. Один помощник вместо десяти учебников."
+msgstr ""
+"Maths, physics, languages, code — StudyAI helps you make sense of any "
+"subject. One assistant instead of ten textbooks."
+
+msgid "Меньше зубрёжки — больше настоящего понимания"
+msgstr "Less cramming — more real understanding"
+
+msgid "Можно отменить подписку?"
+msgstr "Can I cancel my subscription?"
+
+msgid "На каких языках работает?"
+msgstr "What languages does it support?"
+
+msgid "Один запрос —"
+msgstr "One query —"
+
+msgid "От алгебры до программирования"
+msgstr "From algebra to programming"
+
+msgid "Подход"
+msgstr "Approach"
+
+msgid ""
+"Пошаговый план подготовки под твоё время — от 30 минут до экзамена через "
+"неделю."
+msgstr ""
+"A step-by-step prep plan that fits your schedule — from 30 minutes to an "
+"exam a week away."
+
+msgid ""
+"Присоединяйся к студентам, которые уже учатся умнее со StudyAI. Бесплатно, "
+"без карты."
+msgstr ""
+"Join the students already learning smarter with StudyAI. Free, no card."
+
+msgid "Прогресс виден: история и самопроверка всегда под рукой"
+msgstr "Progress is visible: history and self-check are always at hand"
+
+msgid ""
+"Русский, английский, немецкий, французский и испанский. Язык и стиль ответов"
+" настраиваются под тебя."
+msgstr ""
+"Russian, English, German, French and Spanish. The answer language and style "
+"adapt to you."
+
+msgid ""
+"Сжатая выжимка главного — удобно повторить перед контрольной за пару минут."
+msgstr ""
+"A tight summary of the essentials — easy to review before a test in a couple"
+" of minutes."
+
+msgid "Структура вместо хаоса в конспектах"
+msgstr "Structure instead of chaos in your notes"
+
+msgid "Три шага до"
+msgstr "Three steps to"
+
+msgid "Учись"
+msgstr "Study"
+
+msgid "Учись и проверяй себя"
+msgstr "Learn and test yourself"
+
+msgid "Учёба со StudyAI"
+msgstr "Studying with StudyAI"
+
+msgid "Частые вопросы"
+msgstr "Frequently asked questions"
+
+msgid "Чем это лучше обычного чат-бота?"
+msgstr "How is this better than a regular chatbot?"
+
+msgid ""
+"Чёткий разбор темы простым языком — с формулами, примерами и без лишней "
+"воды."
+msgstr ""
+"A clear breakdown of the topic in plain language — with formulas, examples "
+"and no fluff."
+
+msgid "Это правда бесплатно?"
+msgstr "Is it really free?"
+
+msgid "а не дольше"
+msgstr "not harder"
+
+msgid "большие результаты"
+msgstr "big results"
+
+msgid "от вопроса до готового разбора"
+msgstr "from question to a finished breakdown"
+
+msgid "понимания"
+msgstr "understanding"
+
+msgid "результата"
+msgstr "results"
+
+msgid "умнее"
+msgstr "smarter"
+
+msgid "формата: разбор, план, тест, конспект"
+msgstr "formats: breakdown, plan, quiz, summary"
+
+msgid "четыре"
+msgstr "four"
+
+msgid "эффективнее"
+msgstr "more effectively"
+
+msgid "языков ответа: RU · EN · DE · FR · ES"
+msgstr "answer languages: RU · EN · DE · FR · ES"
+
 #~ msgid "StudyAI"
 #~ msgstr "StudyAI"
 
