@@ -112,8 +112,10 @@ COPY --from=node-builder --chown=appuser:appgroup /app/static/css/output.css /ap
 COPY --chown=appuser:appgroup docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Compile translations
-RUN SECRET_KEY=dummy GEMINI_API_KEY=dummy ALLOWED_HOSTS=localhost python manage.py compilemessages
+# Compile translations. DEBUG=True + USE_SQLITE=True keep settings loadable at
+# build time without real DB/email config (those are required only at runtime).
+RUN DEBUG=True USE_SQLITE=True SECRET_KEY=dummy GEMINI_API_KEY=dummy ALLOWED_HOSTS=localhost \
+    python manage.py compilemessages
 
 # Create directories for static and media files
 RUN mkdir -p /app/staticfiles /app/mediafiles \
